@@ -1,18 +1,20 @@
 import sfml.graphics.*
 import sfml.window.*
+import graphics.ResourceManager
+
 @main def main =
-  scala.util.Using.Manager { use =>
-    val window = use(RenderWindow(VideoMode(1024, 768), "Hello world"))
-    val texture = use(Texture())
-    texture.loadFromFile("cat.png")
-    val sprite = use(Sprite(texture))
-    while window.isOpen() do
-      for event <- window.pollEvent() do
-        event match {
-          case _: Event.Closed => window.closeWindow()
-          case _ => ()
-        }
-      window.clear(Color.Black())
-      window.draw(sprite)
-      window.display()
-  }
+  val window = RenderWindow(VideoMode(1024, 768), "Hello world")
+
+  ResourceManager.load_resource("cat", "cat.png")  
+
+  while window.isOpen() do
+    for event <- window.pollEvent() do
+      event match {
+        case _: Event.Closed => window.closeWindow()
+        case _ => ()
+      }
+    window.clear(Color.Black())
+    window.draw(ResourceManager.get_sprite("cat"))
+    window.display()
+
+  ResourceManager.close()
