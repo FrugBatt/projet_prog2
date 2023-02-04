@@ -15,7 +15,6 @@ object Game {
   def init() : Unit = {
     window = RenderWindow(VideoMode(1024, 768), "Le RTS de Hugo et Simon les bews")
     scene = VoidScene()
-    scene.init()
 
     game_loop()
   }
@@ -24,6 +23,10 @@ object Game {
     while window.isOpen() do
       for event <- window.pollEvent() do
         scene.call_event(event)
+        event match {
+          case _ : Event.Closed => window.closeWindow()
+          case _ => ()
+        }
       window.clear(Color.Black())
       window.draw(scene)
       window.display()

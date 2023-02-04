@@ -16,6 +16,7 @@ class Image(loc : String) extends GameObject {
   def update() : Unit = {}
 
   def draw(target : RenderTarget, states : RenderStates) : Unit = {
+    states.transform *= transform
     ResourceManager.get_sprite(loc).draw(target, states)
   }
 

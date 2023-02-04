@@ -46,5 +46,7 @@ trait Scene extends Transformable with Drawable {
     states.transform *= transform
     objects.foreach(_.draw(target, states))
   }
+
+  init()
   
 }

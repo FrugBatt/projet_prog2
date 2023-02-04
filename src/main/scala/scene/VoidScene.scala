@@ -2,14 +2,12 @@ package prog2
 package scene
 
 import objects.Image
+import sfml.system.Vector2
 
 class VoidScene extends Scene {
 
   def init() : Unit = {
-    val img = new Image("cat.png")
-    img.init()
-
-    objects = Vector(img)
+    objects = Vector(new Image("cat.png"))
   }
 
 }
