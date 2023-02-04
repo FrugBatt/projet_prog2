@@ -35,7 +35,7 @@ object Game {
   }
 
   def end() : Unit = {
-    ResourceManager.close()
+    scene.close()
   }
 
 }

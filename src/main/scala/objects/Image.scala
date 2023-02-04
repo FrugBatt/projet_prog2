@@ -20,4 +20,8 @@ class Image(loc : String) extends GameObject {
     ResourceManager.get_sprite(loc).draw(target, states)
   }
 
+  override def close() : Unit = {
+    ResourceManager.close(loc)
+  }
+
 }

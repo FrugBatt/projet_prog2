@@ -47,6 +47,10 @@ trait Scene extends Transformable with Drawable {
     objects.foreach(_.draw(target, states))
   }
 
+  override def close() : Unit = {
+    objects.foreach(_.close())
+  }
+
   init()
   
 }
