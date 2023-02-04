@@ -25,7 +25,7 @@ object Game {
       for event <- window.pollEvent() do
         scene.call_event(event)
       window.clear(Color.Black())
-      window.draw(ResourceManager.get_sprite("cat"))
+      window.draw(scene)
       window.display()
 
     end()
