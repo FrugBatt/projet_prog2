@@ -7,4 +7,6 @@ import game.Game
 
 @main def main = {
   Game.init()
+  Game.game_loop()
+  Game.end()
 }

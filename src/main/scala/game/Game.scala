@@ -15,8 +15,6 @@ object Game {
   def init() : Unit = {
     window = RenderWindow(VideoMode(1024, 768), "Le RTS de Hugo et Simon les bews")
     scene = VoidScene()
-
-    game_loop()
   }
 
   def game_loop() : Unit = {
@@ -30,8 +28,6 @@ object Game {
       window.clear(Color.Black())
       window.draw(scene)
       window.display()
-
-    end()
   }
 
   def end() : Unit = {
