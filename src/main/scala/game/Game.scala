@@ -19,12 +19,18 @@ object Game {
 
   def game_loop() : Unit = {
     while window.isOpen() do
+      // === EVENTS === 
       for event <- window.pollEvent() do
         scene.call_event(event)
         event match {
           case _ : Event.Closed => window.closeWindow()
           case _ => ()
         }
+      
+      // === UPDATE ===
+      scene.update()
+
+      // === RENDER ===
       window.clear(Color.Black())
       window.draw(scene)
       window.display()
