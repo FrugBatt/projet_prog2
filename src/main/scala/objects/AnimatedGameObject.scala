@@ -5,41 +5,45 @@ import scala.collection.mutable.Map
 
 import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
+import sfml.graphics.Sprite
+import sfml.graphics.Rect
 
 import graphics.ResourceManager
 
-trait AnimatedGameObject(val resourceLocPrefix : String, val resourceLocExtension : String, val anims : Array[(String, Int)], var animation : String) extends GameObject {
+trait AnimatedGameObject(resource : String, width : Int, height : Int, animationNum : Array[Int]) extends GameObject {
 
-  val animations = Map[String, Array[String]]()
-  var animIter = 0
+  var animationIteration = 0
+  var animationState = 0
+
+  var sprite : Sprite = _
 
   def init() : Unit = {
-    for (i <- 0 to (anims.length-1)) {
-      val (animName, animNum) = anims(i)
-      val animTab = new Array[String](animNum)
+    ResourceManager.load_resource(resource)
 
-      for (j <- 0 to (animNum - 1)) {
-        val animLoc = resourceLocPrefix + "_" + animName + "_" + j + "." + resourceLocExtension
-        ResourceManager.load_resource(animLoc)
-        animTab(j) = animLoc
-      }
+    sprite = ResourceManager.get_sprite(resource)
+  }
 
-      animations(animName) = animTab
-    }
+  def animationRect : Rect[Int] = {
+    val x = animationIteration * width
+    val y = animationState * height
+    return Rect[Int](x, y, width, height)
   }
 
   def update() : Unit = {
-    animIter += 1
-    if (animIter == animations(animation).length) animIter = 0
+    animationIteration += 1
+    if (animationIteration >= animationNum(animationState)) animationIteration = 0
+
+    sprite.textureRect = animationRect
   }
 
   def draw(target : RenderTarget, states : RenderStates) : Unit = {
     states.transform *= transform
-    ResourceManager.get_sprite(animations(animation)(animIter)).draw(target, states)
+    sprite.draw(target, states)
   }
 
   override def close() : Unit = {
-    animations.foreach(_._2.foreach(ResourceManager.close(_)))
+    sprite.close()
+    ResourceManager.close(resource)
   }
 
 }
