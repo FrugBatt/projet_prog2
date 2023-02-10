@@ -29,13 +29,18 @@ class Button(resource : String, width : Int, height : Int, onClick : () => Unit)
   }
 
   override def onMouseButtonReleased(e : Event.MouseButtonReleased) : Unit = {
-    if (state == 2 && bounds.contains(e.x, e.y)) state = 1
-    else if (state == 2) state = 0
+    if (bounds.contains(e.x, e.y)) state = 1
+    else state = 0
   }
 
   override def onMouseMoved(e : Event.MouseMoved) : Unit = {
-    if (state == 0 && bounds.contains(e.x, e.y)) state = 1
-    else if (state == 1 && !bounds.contains(e.x, e.y)) state = 0
+    if (state < 2) {
+      if(bounds.contains(e.x, e.y)) state = 1
+      else state = 0
+    }
+    else {
+      if(bounds.contains(e.x, e.y)) state = 2
+      else state = 3
   }
-
+}
 }
