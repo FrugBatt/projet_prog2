@@ -17,7 +17,6 @@ class Image(loc : String) extends GameObject {
     ResourceManager.load_resource(loc)
 
     sprite = ResourceManager.get_sprite(loc)
-    sprite.textureRect = Rect[Int](300, 200, 100, 100)
   }
 
   def update() : Unit = {}
@@ -30,10 +29,6 @@ class Image(loc : String) extends GameObject {
   override def close() : Unit = {
     sprite.close()
     ResourceManager.close(loc)
-  }
-
-  override def onMouseButtonPressed(e : Event.MouseButtonPressed) = {
-    println(position.x + " - " + origin.x)
   }
 
 }
