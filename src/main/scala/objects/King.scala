@@ -9,19 +9,29 @@ import sfml.graphics.Rect
 import sfml.graphics.Sprite
 import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
+import game.Game
 
 class King extends AnimatedGameObject("game/king.png", 16, 17, Array(2,8,8)) {
     var moveup = false
     var moveleft = false
     var movedown = false
     var moveright = false
-
+    var x : Float = 0
+    var y : Float = 0
+    var w : Float = this.sprite.textureRect.width
+    var h : Float = this.sprite.textureRect.height
     override def update(): Unit = {
         super.update() 
-        if(moveup) this.position = (this.position.x, this.position.y - 1)
-        if(moveleft) this.position = (this.position.x - 1, this.position.y)
-        if(movedown) this.position = (this.position.x, this.position.y + 1)
-        if(moveright) this.position = (this.position.x + 1 , this.position.y)
+        x = this.position.x
+        y = this.position.y 
+        if(moveup && y > 0) this.position = (x, y - 1)
+        if(moveleft && x > 0) this.position = (x - 1, y)
+        if(movedown && y < (Game.height - h)) this.position = (x, y + 1)
+        if(moveright && x < (Game.width - w)) this.position = (x + 1 , y)
+    }
+
+    def attack() : Unit = {
+        println("ATTACK!!!!")
     }
 
     override def onKeyPressed(e : Event.KeyPressed) : Unit = {
@@ -41,6 +51,7 @@ class King extends AnimatedGameObject("game/king.png", 16, 17, Array(2,8,8)) {
             moveright = true
             animationState = 1
         }
+        if (e.code == Keyboard.Key.KeySpace) attack()
     }
 
      override def onKeyReleased(e : Event.KeyReleased) : Unit = {
