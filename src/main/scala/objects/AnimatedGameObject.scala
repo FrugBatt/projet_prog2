@@ -10,10 +10,13 @@ import sfml.graphics.Rect
 
 import graphics.ResourceManager
 
-abstract class AnimatedGameObject(resource : String, width : Int, height : Int, animationNum : Array[Int]) extends GameObject(resource) {
+abstract class AnimatedGameObject(resource : String, width : Int, height : Int, animationNum : Array[Int], val animationTime : Long = 200L) extends GameObject(resource) {
 
   var animationIteration = 0
   var animationState = 0
+
+  var lastAnimationUpdate = System.currentTimeMillis()
+  var lastAnimationState = 0
 
   def animationRect : Rect[Int] = {
     val x = animationIteration * width
@@ -22,6 +25,10 @@ abstract class AnimatedGameObject(resource : String, width : Int, height : Int, 
   }
 
   def update() : Unit = {
+    if (System.currentTimeMillis() - lastAnimationUpdate < animationTime && animationState == lastAnimationState) return
+    lastAnimationUpdate = System.currentTimeMillis()
+    lastAnimationState = animationState
+
     animationIteration += 1
     if (animationIteration >= animationNum(animationState)) animationIteration = 0
 
