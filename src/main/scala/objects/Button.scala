@@ -37,10 +37,9 @@ class Button(resource : String, width : Int, height : Int, onClick : () => Unit)
     if (state < 2) {
       if(bounds.contains(e.x, e.y)) state = 1
       else state = 0
-    }
-    else {
+    } else {
       if(bounds.contains(e.x, e.y)) state = 2
       else state = 3
+    }
   }
-}
 }
