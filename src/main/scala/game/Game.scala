@@ -11,8 +11,10 @@ object Game {
 
   var window : RenderWindow = _
   var scene : Scene = _
+  var width : Int = 1024
+  var height : Int = 768
   def init() : Unit = {
-    window = RenderWindow(VideoMode(1024, 768), "Le RTS de Hugo et Simon les bews")
+    window = RenderWindow(VideoMode(width, height), "Le RTS de Hugo et Simon les bews")
     scene = VoidScene()
   }
 
