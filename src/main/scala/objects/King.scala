@@ -9,59 +9,70 @@ import sfml.graphics.Rect
 import sfml.graphics.Sprite
 import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
+import sfml.system.Vector2
 import game.Game
 
 class King extends AnimatedGameObject("game/king.png", 16, 17, Array(2,8,8)) {
-    var moveup = false
-    var moveleft = false
-    var movedown = false
-    var moveright = false
-    var x : Float = 0
-    var y : Float = 0
-    var w : Float = this.sprite.textureRect.width
-    var h : Float = this.sprite.textureRect.height
-    override def update(): Unit = {
-        super.update() 
-        x = this.position.x
-        y = this.position.y 
-        if(moveup && y > 0) this.position = (x, y - 1)
-        if(moveleft && x > 0) this.position = (x - 1, y)
-        if(movedown && y < (Game.height - h)) this.position = (x, y + 1)
-        if(moveright && x < (Game.width - w)) this.position = (x + 1 , y)
-    }
 
-    def attack() : Unit = {
-        println("ATTACK!!!!")
-    }
+  object Direction {
+    var up : Boolean = false
+    var down : Boolean = false
+    var right : Boolean = false
+    var left : Boolean = false
+  }
 
-    override def onKeyPressed(e : Event.KeyPressed) : Unit = {
-        if (e.code == Keyboard.Key.KeyZ) {
-            moveup = true
-            animationState = 2
-        }
-        if (e.code == Keyboard.Key.KeyQ) {
-            moveleft = true
-            animationState = 1
-        }
-        if (e.code == Keyboard.Key.KeyS) {
-            movedown = true
-            animationState = 2
-        }
-        if (e.code == Keyboard.Key.KeyD) {
-            moveright = true
-            animationState = 1
-        }
-        if (e.code == Keyboard.Key.KeySpace) attack()
-    }
+  val w : Float = this.sprite.textureRect.width
+  val h : Float = this.sprite.textureRect.height
 
-     override def onKeyReleased(e : Event.KeyReleased) : Unit = {
-        if (e.code == Keyboard.Key.KeyZ || e.code == Keyboard.Key.KeyQ || e.code == Keyboard.Key.KeyS || e.code == Keyboard.Key.KeyD ) {
-            moveup = false
-            moveleft = false
-            movedown = false
-            moveright = false
-            animationState = 0
-        }
+  override def update(): Unit = {
+    super.update() 
+
+    val x = this.position.x
+    val y = this.position.y 
+
+    if(Direction.up && y > 0) this.position = (x, y - 1)
+    if(Direction.left && x > 0) this.position = (x - 1, y)
+    if(Direction.down && y < (Game.height - h)) this.position = (x, y + 1)
+    if(Direction.right && x < (Game.width - w)) this.position = (x + 1 , y)
+  }
+
+  def attack() : Unit = {
+    println("ATTACK!!!!")
+  }
+
+  def flip_sprite() : Unit = {
+    if (Direction.right) this.scale = Vector2(this.scale.x.abs, this.scale.y)
+    else if (Direction.left) this.scale = Vector2(this.scale.x.abs * -1, this.scale.y)
+  }
+
+  override def onKeyPressed(e : Event.KeyPressed) : Unit = {
+    if (e.code == Keyboard.Key.KeyZ) {
+      Direction.up = true
+      animationState = 2
+    } else if (e.code == Keyboard.Key.KeyQ) {
+      Direction.left = true
+      flip_sprite()
+      animationState = 1
+    } else if (e.code == Keyboard.Key.KeyS) {
+      Direction.down = true
+      animationState = 2
+    } else if (e.code == Keyboard.Key.KeyD) {
+      Direction.right = true
+      flip_sprite()
+      animationState = 1
+    } else if (e.code == Keyboard.Key.KeySpace) {
+      attack()
     }
+  }
+
+  override def onKeyReleased(e : Event.KeyReleased) : Unit = {
+    if (e.code == Keyboard.Key.KeyZ || e.code == Keyboard.Key.KeyQ || e.code == Keyboard.Key.KeyS || e.code == Keyboard.Key.KeyD ) {
+      Direction.up = false
+      Direction.down = false
+      Direction.right = false
+      Direction.left = false
+      animationState = 0
+    }
+  }
 
 }
