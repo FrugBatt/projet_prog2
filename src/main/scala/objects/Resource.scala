@@ -10,6 +10,9 @@ import sfml.graphics.Sprite
 import graphics.ResourceManager
 
 class Resource(resource : String, val value: Int, val kind: String) extends GameObject(resource){
+  
+  def update() : Unit = {}
+
 }
 
 
