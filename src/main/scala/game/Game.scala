@@ -5,7 +5,7 @@ import sfml.graphics._
 import sfml.window._
 import graphics.ResourceManager
 import scene.Scene
-import scene.VoidScene
+import scene.GameScene
 
 object Game {
 
@@ -15,7 +15,7 @@ object Game {
   var height : Int = 768
   def init() : Unit = {
     window = RenderWindow(VideoMode(width, height), "Le RTS de Hugo et Simon les bews")
-    scene = VoidScene()
+    scene = new GameScene(window, width, height)
   }
 
   def game_loop() : Unit = {

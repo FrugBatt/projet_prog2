@@ -12,7 +12,7 @@ import sfml.graphics.RenderStates
 import sfml.system.Vector2
 import game.Game
 
-class King extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
+class King(val cam : Camera) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
 
   object Direction {
     var up : Boolean = false
@@ -30,10 +30,24 @@ class King extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8))
     val x = this.position.x
     val y = this.position.y 
 
-    if(Direction.up && y > 0) this.position = (x, y - 1)
-    if(Direction.left && x > 0) this.position = (x - 1, y)
-    if(Direction.down && y < (Game.height)) this.position = (x, y + 1)
-    if(Direction.right && x < (Game.width)) this.position = (x + 1 , y)
+    if(Direction.up && y > 0) {
+      this.position = (x, y - 1)
+      cam.position = (x, y - 1)
+    }
+    if(Direction.left && x > 0) {
+      this.position = (x - 1, y)
+      cam.position = (x - 1, y)
+    }
+    if(Direction.down && y < (Game.height)) {
+      this.position = (x, y + 1)
+      cam.position = (x, y + 1)
+    }
+    if(Direction.right && x < (Game.width)) {
+      this.position = (x + 1 , y)
+      cam.position = (x + 1 , y)
+    }
+
+    cam.view()
   }
 
   def attack() : Unit = {
