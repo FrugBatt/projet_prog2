@@ -39,7 +39,7 @@ trait Scene extends Transformable with Drawable {
   }
 
   def update() : Unit = {
-    objects.foreach(_.update())
+    objects.foreach(_.update_head())
   }
 
   def draw(target : RenderTarget, states : RenderStates) : Unit = {
