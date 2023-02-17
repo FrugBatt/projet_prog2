@@ -27,13 +27,10 @@ class King extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8))
   override def update(): Unit = {
     super.update() 
 
-    val x = this.position.x
-    val y = this.position.y 
-
-    if(Direction.up && y > 0) this.position = (x, y - 1)
-    if(Direction.left && x > 0) this.position = (x - 1, y)
-    if(Direction.down && y < (Game.height)) this.position = (x, y + 1)
-    if(Direction.right && x < (Game.width)) this.position = (x + 1 , y)
+    if(Direction.up && this.position.y > 0) this.position = (this.position.x, this.position.y - 1)
+    if(Direction.left && this.position.x > 0) this.position = (this.position.x - 1, this.position.y)
+    if(Direction.down && this.position.y < (Game.height)) this.position = (this.position.x, this.position.y + 1)
+    if(Direction.right && this.position.x < (Game.width)) this.position = (this.position.x + 1 , this.position.y)
   }
 
   def attack() : Unit = {
