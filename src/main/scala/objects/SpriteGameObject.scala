@@ -5,7 +5,7 @@ import event.Listener
 import graphics.ResourceManager
 import sfml.system.Vector2
 
-abstract class SpriteGameObject(resource : String) extends GameObject {
+abstract class SpriteGameObject(resource : String) extends GameObject() {
   
   var sprite : Sprite = _
 
