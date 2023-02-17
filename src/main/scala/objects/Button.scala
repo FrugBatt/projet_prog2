@@ -9,7 +9,7 @@ import sfml.graphics.Sprite
 
 import graphics.ResourceManager
 
-class Button(resource : String, width : Int, height : Int, onClick : () => Unit) extends GameObject(resource) {
+class Button(resource : String, width : Int, height : Int, onClick : () => Unit) extends SpriteGameObject(resource) {
   
   var state = 0 // 0 : IDLE, 1 : HOVER, 2 : CLICKED
   def textureRect : Rect[Int] = {
