@@ -7,7 +7,7 @@ import sfml.graphics.RenderTarget
 import sfml.system.Vector2
 
 import objects.King
-import objects.CenteredCamera
+import objects.Camera
 import objects.World
 
 class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene {
@@ -15,10 +15,10 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
   def init() : Unit = {
     val world = new World()   
 
-    val king = new King()
-    val camera = new CenteredCamera(window, width, height, king)
+    val kingCamera = new Camera(window, width, height)
+    val king = new King(kingCamera)
 
-    objects = Vector(world, king, camera)
+    objects = Vector(world, king)
   }
 
 }
