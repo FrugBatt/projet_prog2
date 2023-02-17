@@ -12,13 +12,13 @@ import sfml.graphics.RenderStates
 import sfml.system.Vector2
 import game.Game
 
-class Healthbar() extends AnimatedGameObject("game/hp.png", 12, 73, Array(1,1,1,1,1,1,1,1,1,1)) {
+class Healthbar() extends StatedGameObject("game/hp.png", 73, 12) {
 
-    def regen(v : Int) : Unit {
-        animationState = 0.max(animationState - v)
+    def regen(v : Int) : Unit = {
+        state = 0.max(state - v)
     }
 
-    def damage(v : Int) : Unit {
-        animationState = 9.max(animationState + v)
+    def damage(v : Int) : Unit = {
+        state = 9.max(state + v)
     }
 }
