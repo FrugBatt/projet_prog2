@@ -15,10 +15,10 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
   def init() : Unit = {
     val world = new World()   
 
-    val kingCamera = new Camera(window, width, height)
-    val king = new King(kingCamera)
+    val king = new King()
+    val camera = new Camera(window, width, height, king)
 
-    objects = Vector(world, king)
+    objects = Vector(world, king, camera)
   }
 
 }
