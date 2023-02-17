@@ -12,7 +12,7 @@ import sfml.graphics.RenderStates
 import sfml.system.Vector2
 import game.Game
 
-class King extends AnimatedGameObject("game/king.png", 16, 17, Array(2,8,8)) {
+class King extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
 
   object Direction {
     var up : Boolean = false
@@ -32,33 +32,26 @@ class King extends AnimatedGameObject("game/king.png", 16, 17, Array(2,8,8)) {
 
     if(Direction.up && y > 0) this.position = (x, y - 1)
     if(Direction.left && x > 0) this.position = (x - 1, y)
-    if(Direction.down && y < (Game.height - h)) this.position = (x, y + 1)
-    if(Direction.right && x < (Game.width - w)) this.position = (x + 1 , y)
+    if(Direction.down && y < (Game.height)) this.position = (x, y + 1)
+    if(Direction.right && x < (Game.width)) this.position = (x + 1 , y)
   }
 
   def attack() : Unit = {
     println("ATTACK!!!!")
   }
 
-  def flip_sprite() : Unit = {
-    if (Direction.right) this.scale = Vector2(this.scale.x.abs, this.scale.y)
-    else if (Direction.left) this.scale = Vector2(this.scale.x.abs * -1, this.scale.y)
-  }
-
   override def onKeyPressed(e : Event.KeyPressed) : Unit = {
     if (e.code == Keyboard.Key.KeyZ) {
       Direction.up = true
-      animationState = 2
+      animationState = 4
     } else if (e.code == Keyboard.Key.KeyQ) {
       Direction.left = true
-      flip_sprite()
-      animationState = 1
+      animationState = 3
     } else if (e.code == Keyboard.Key.KeyS) {
       Direction.down = true
       animationState = 2
     } else if (e.code == Keyboard.Key.KeyD) {
       Direction.right = true
-      flip_sprite()
       animationState = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
       attack()
