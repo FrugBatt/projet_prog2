@@ -10,27 +10,27 @@ import sfml.graphics.Rect
 
 import graphics.ResourceManager
 
-abstract class AnimatedGameObject(resource : String, width : Int, height : Int, animationNum : Array[Int], val animationTime : Long = 200L) extends SpriteGameObject(resource) {
+abstract class AnimatedGameObject(resource : String, width : Int, height : Int, animationNum : Array[Int], val animationTime : Long = 200L) extends StatedGameObject(resource, width, height) {
 
   var animationIteration = 0
-  var animationState = 0
 
   var lastAnimationUpdate = System.currentTimeMillis()
   var lastAnimationState = 0
 
   def animationRect : Rect[Int] = {
     val x = animationIteration * width
-    val y = animationState * height
+    val y = stateRect.top
     return Rect[Int](x, y, width, height)
   }
 
-  def update() : Unit = {
-    if (System.currentTimeMillis() - lastAnimationUpdate < animationTime && animationState == lastAnimationState) return
+  override def update() : Unit = {
+    if (System.currentTimeMillis() - lastAnimationUpdate < animationTime && state == lastAnimationState) return
+    super.update()
     lastAnimationUpdate = System.currentTimeMillis()
-    lastAnimationState = animationState
+    lastAnimationState = state 
 
     animationIteration += 1
-    if (animationIteration >= animationNum(animationState)) animationIteration = 0
+    if (animationIteration >= animationNum(state)) animationIteration = 0
 
     sprite.textureRect = animationRect
   }

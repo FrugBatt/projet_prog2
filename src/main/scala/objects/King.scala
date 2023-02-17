@@ -40,16 +40,16 @@ class King extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8))
   override def onKeyPressed(e : Event.KeyPressed) : Unit = {
     if (e.code == Keyboard.Key.KeyZ) {
       Direction.up = true
-      animationState = 4
+      state = 4
     } else if (e.code == Keyboard.Key.KeyQ) {
       Direction.left = true
-      animationState = 3
+      state = 3
     } else if (e.code == Keyboard.Key.KeyS) {
       Direction.down = true
-      animationState = 2
+      state = 2
     } else if (e.code == Keyboard.Key.KeyD) {
       Direction.right = true
-      animationState = 1
+      state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
       attack()
     }
@@ -61,7 +61,7 @@ class King extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8))
       if (e.code == Keyboard.Key.KeyS) Direction.down = false
       if (e.code == Keyboard.Key.KeyD) Direction.right = false
       if (e.code == Keyboard.Key.KeyQ) Direction.left = false
-      if (! (Direction.up || Direction.down || Direction.left || Direction.right)) animationState = 0
+      if (! (Direction.up || Direction.down || Direction.left || Direction.right)) state = 0
 
   }
 
