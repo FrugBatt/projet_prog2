@@ -9,7 +9,7 @@ import sfml.graphics.Sprite
 import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 
-class World() extends GameObject("game/terrain.png") {
+class World() extends SpriteGameObject("game/terrain.png") {
     
     def update() : Unit = {}
     

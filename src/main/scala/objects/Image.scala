@@ -9,7 +9,7 @@ import sfml.graphics.Sprite
 import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 
-class Image(loc : String) extends GameObject(loc) {
+class Image(loc : String) extends SpriteGameObject(loc) {
   
   def update() : Unit = {}
 

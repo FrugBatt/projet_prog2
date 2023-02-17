@@ -10,7 +10,7 @@ import sfml.graphics.Rect
 
 import graphics.ResourceManager
 
-abstract class AnimatedGameObject(resource : String, width : Int, height : Int, animationNum : Array[Int], val animationTime : Long = 200L) extends GameObject(resource) {
+abstract class AnimatedGameObject(resource : String, width : Int, height : Int, animationNum : Array[Int], val animationTime : Long = 200L) extends SpriteGameObject(resource) {
 
   var animationIteration = 0
   var animationState = 0
