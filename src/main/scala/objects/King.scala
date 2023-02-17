@@ -73,13 +73,13 @@ class King(val cam : Camera) extends AnimatedGameObject("game/king.png", 16, 17,
   }
 
   override def onKeyReleased(e : Event.KeyReleased) : Unit = {
-    if (e.code == Keyboard.Key.KeyZ || e.code == Keyboard.Key.KeyQ || e.code == Keyboard.Key.KeyS || e.code == Keyboard.Key.KeyD ) {
-      Direction.up = false
-      Direction.down = false
-      Direction.right = false
-      Direction.left = false
-      animationState = 0
-    }
+
+      if (e.code == Keyboard.Key.KeyZ) Direction.up = false
+      if (e.code == Keyboard.Key.KeyS) Direction.down = false
+      if (e.code == Keyboard.Key.KeyD) Direction.right = false
+      if (e.code == Keyboard.Key.KeyQ) Direction.left = false
+      if (! (Direction.up || Direction.down || Direction.left || Direction.right)) animationState = 0
+
   }
 
 }
