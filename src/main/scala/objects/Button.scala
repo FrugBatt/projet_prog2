@@ -9,18 +9,9 @@ import sfml.graphics.Sprite
 
 import graphics.ResourceManager
 
-class Button(resource : String, width : Int, height : Int, onClick : () => Unit) extends SpriteGameObject(resource) {
+class Button(resource : String, width : Int, height : Int, onClick : () => Unit) extends StatedGameObject(resource, width, height) {
   
-  var state = 0 // 0 : IDLE, 1 : HOVER, 2 : CLICKED
-  def textureRect : Rect[Int] = {
-    val y = state * height
-    return Rect[Int](0, y, width, height)
-  }
-
-  def update() : Unit = {
-    sprite.textureRect = textureRect
-  }
-
+  // var state = 0 // 0 : IDLE, 1 : HOVER, 2 : CLICKED
   override def onMouseButtonPressed(e : Event.MouseButtonPressed) : Unit = {
     if (bounds.contains(e.x, e.y)) {
       state = 2
