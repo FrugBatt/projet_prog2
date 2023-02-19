@@ -3,13 +3,24 @@ package scene
 
 import sfml.window.Event
 import sfml.graphics.*
+import sfml.system.Vector2
 import scala.collection.immutable.Vector
+import objects.GameObject
+import objects.SpriteGameObject
 
 trait Scene extends Transformable with Drawable {
   
   var objects : Vector[GameObject] = _
   
   def init() : Unit
+
+  def safe_move(obj : SpriteGameObject, movX : Float, movY : Float) : Unit = {
+    val oldPos = obj.position
+    obj.move(movX, movY)
+    if (objects.exists(_.collision_box.contains(obj.position))) obj.position = oldPos
+  }
+
+  def trigger(position : Vector2[Float], action : (Vector[GameObject]) => Unit) : Unit = action(objects.filter(obj => obj.trigger_box.isDefined && obj.trigger_box.get.contains(position)))
 
   def call_event(e : Event) : Unit = {
     e match {

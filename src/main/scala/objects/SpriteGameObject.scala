@@ -1,4 +1,5 @@
 package prog2
+package objects
 
 import sfml.graphics._
 import event.Listener
@@ -27,6 +28,9 @@ abstract class SpriteGameObject(resource : String) extends GameObject() {
     return Rect[Float](position.x, position.y, sprite.textureRect.width, sprite.textureRect.height)
   }
 
+  def collision_box = Some(bounds)
+  def trigger_box = Some(bounds)
+
   final def origin: Vector2[Float] = sprite.origin
 
   final def origin_=(x: Float, y: Float) = sprite.origin = (x, y)
@@ -38,6 +42,8 @@ abstract class SpriteGameObject(resource : String) extends GameObject() {
   final def position_=(x: Float, y: Float) = sprite.position = (x, y)
 
   final def position_=(position: Vector2[Float]) = sprite.position = position
+
+  final def move(x : Float, y : Float) : Unit = sprite.move(x, y)
 
   final def rotation: Float = sprite.rotation
 

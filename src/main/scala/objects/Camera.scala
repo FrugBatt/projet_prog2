@@ -12,6 +12,9 @@ class Camera(val window : RenderTarget, val width : Int, val height : Int) exten
   
   val v = View(Rect[Float](0f, 0f, width, height))
 
+  def collision_box = None
+  def trigger_box = None
+
   def init() : Unit = {}
 
   def update() : Unit = {}
