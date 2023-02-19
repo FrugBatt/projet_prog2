@@ -2,7 +2,6 @@ package prog2
 package objects
 
 import sfml.graphics._
-import event.Listener
 import graphics.ResourceManager
 import sfml.system.Vector2
 
@@ -42,6 +41,8 @@ abstract class SpriteGameObject(resource : String) extends GameObject() {
   final def position_=(x: Float, y: Float) = sprite.position = (x, y)
 
   final def position_=(position: Vector2[Float]) = sprite.position = position
+
+  final def center: Vector2[Float] = Vector2(position.x + sprite.textureRect.width / 2, position.y + sprite.textureRect.height / 2)
 
   final def move(x : Float, y : Float) : Unit = sprite.move(x, y)
 

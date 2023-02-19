@@ -7,11 +7,22 @@ import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 import sfml.graphics.Sprite
 
-import graphics.ResourceManager
+import events.ResourceCollectAction
 
-class Resource(resource : String, val value: Int, val kind: String) extends SpriteGameObject(resource){
+enum ResourceType {
+  case WOOD
+  case STONE
+}
+
+class Resource(resource : String, val value: Int, val kind: ResourceType) extends SpriteGameObject(resource){
   
+  override def collision_box = None
+
   def update() : Unit = {}
+
+  override def interact() = {
+    return ResourceCollectAction(kind)
+  }
 
 }
 

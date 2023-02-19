@@ -6,13 +6,14 @@ import sfml.system.Vector2
 
 import objects.*
 import scala.compiletime.ops.float
+import scala.collection.mutable.ListBuffer
 
 class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene {
   
   def init() : Unit = {
     val world = new World()   
 
-    val king = new King()
+    val king = new King(this)
     val camera = new CenteredCamera(window, width, height, king)
    
     val w = world.sprite.textureRect.width
@@ -39,13 +40,13 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
     val chicken2 = new Pouleto()
     chicken2.position = Vector2(w*random(),h*random())
 
-    val rock1 = new Resource("game/rock.png",0,"")
+    val rock1 = new Resource("game/rock.png",0,ResourceType.STONE)
     rock1.position = Vector2(w*random(),h*random())
 
-    val rock2 = new Resource("game/rock.png",0,"")
+    val rock2 = new Resource("game/rock.png",0,ResourceType.STONE)
     rock2.position = Vector2(w*random(),h*random())
 
-    val wood1 = new Resource("game/wood.png",0,"")
+    val wood1 = new Resource("game/wood.png",0,ResourceType.WOOD)
     wood1.position = Vector2(w*random(),h*random())
 
 

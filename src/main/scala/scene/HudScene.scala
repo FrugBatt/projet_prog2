@@ -3,6 +3,7 @@ package scene
 
 import sfml.graphics.RenderTarget
 import sfml.system.Vector2
+import scala.collection.mutable.ListBuffer
 
 import objects.*
 

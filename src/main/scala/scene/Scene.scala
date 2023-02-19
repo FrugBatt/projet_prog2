@@ -7,20 +7,30 @@ import sfml.system.Vector2
 import scala.collection.immutable.Vector
 import objects.GameObject
 import objects.SpriteGameObject
+import scala.collection.mutable.ListBuffer
 
 trait Scene extends Transformable with Drawable {
   
   var objects : Vector[GameObject] = _
   
+
   def init() : Unit
 
   def safe_move(obj : SpriteGameObject, movX : Float, movY : Float) : Unit = {
-    val oldPos = obj.position
-    obj.move(movX, movY)
-    if (objects.exists(_.collision_box.contains(obj.position))) obj.position = oldPos
+    val oldPosX = obj.position
+    obj.move(movX, 0)
+    if (obj.collision_box.isDefined && objects.exists(o => o != obj && o.collision_box.isDefined && o.collision_box.get.intersects(obj.collision_box.get))) obj.position = oldPosX
+    
+    val oldPosY = obj.position
+    obj.move(0, movY)
+    if (obj.collision_box.isDefined && objects.exists(o => o != obj && o.collision_box.isDefined && o.collision_box.get.intersects(obj.collision_box.get))) obj.position = oldPosY
   }
 
   def trigger(position : Vector2[Float], action : (Vector[GameObject]) => Unit) : Unit = action(objects.filter(obj => obj.trigger_box.isDefined && obj.trigger_box.get.contains(position)))
+
+  def del(obj : GameObject) : Unit = {
+    objects = objects.filterNot(obj.==)
+  }
 
   def call_event(e : Event) : Unit = {
     e match {

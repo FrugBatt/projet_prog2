@@ -2,7 +2,9 @@ package prog2
 package objects
 
 import sfml.graphics._
-import event.Listener
+import events.Listener
+import events.InteractionAction
+import events.NoAction
 import sfml.system.Vector2
 
 abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listener {
@@ -23,6 +25,8 @@ abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listen
 
   def collision_box : Option[Rect[Float]]
   def trigger_box : Option[Rect[Float]]
+
+  def interact() : InteractionAction = return NoAction()
 
   init()
   

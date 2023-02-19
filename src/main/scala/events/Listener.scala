@@ -1,5 +1,5 @@
 package prog2
-package event
+package events
 
 import sfml.window.Event
 

@@ -10,9 +10,11 @@ import sfml.graphics.Sprite
 import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 import sfml.system.Vector2
+import events._
+import scene.Scene
 import game.Game
 
-class King extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
+class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
 
   object Direction {
     var up : Boolean = false
@@ -24,13 +26,20 @@ class King extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8))
   val w : Float = this.sprite.textureRect.width
   val h : Float = this.sprite.textureRect.height
 
+  override def trigger_box = None
+
   override def update(): Unit = {
     super.update() 
 
-    if(Direction.up && this.position.y > 0) this.position = (this.position.x, this.position.y - 1)
-    if(Direction.left && this.position.x > 0) this.position = (this.position.x - 1, this.position.y)
-    if(Direction.down && this.position.y < (Game.height)) this.position = (this.position.x, this.position.y + 1)
-    if(Direction.right && this.position.x < (Game.width)) this.position = (this.position.x + 1 , this.position.y)
+    var movX = 0
+    var movY = 0
+
+    if(Direction.up) movY -= 1
+    if(Direction.left) movX -= 1
+    if(Direction.down) movY += 1
+    if(Direction.right) movX += 1
+
+    if (movX != 0 || movY != 0) context.safe_move(this, movX, movY)
   }
 
   def attack() : Unit = {
@@ -52,6 +61,16 @@ class King extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8))
       state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
       attack()
+    } else if (e.code == Keyboard.Key.KeyE) {
+      context.trigger(this.center, objs => objs.foreach(o => o.interact() match {
+        case a : ResourceCollectAction => 
+          context.del(o)
+          a.resourceType match {
+            case ResourceType.WOOD => println("WOOOOOD")
+            case ResourceType.STONE => println("STONNNE")
+          }
+        case _ => ()
+      }))
     }
   }
 

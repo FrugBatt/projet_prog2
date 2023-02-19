@@ -10,7 +10,10 @@ import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 
 class World() extends SpriteGameObject("game/terrain.png") {
+
+  override def collision_box = None
+  override def trigger_box = None
     
-    def update() : Unit = {}
+  def update() : Unit = {}
     
 }
