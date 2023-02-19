@@ -1,15 +1,9 @@
 package prog2
 package scene
 
-import sfml.graphics.View
-import sfml.graphics.Rect
 import sfml.graphics.RenderTarget
 import sfml.system.Vector2
 
-import objects.King
-import objects.CenteredCamera
-import objects.World
-import objects.Healthbar
 import objects.*
 import scala.compiletime.ops.float
 
@@ -20,13 +14,7 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
 
     val king = new King()
     val camera = new CenteredCamera(window, width, height, king)
-    val hp = new Healthbar()
-    val inv = new Inventory()
-    val hudcamera = new Camera(window,width,height)
-    hp.scale = Vector2(5f,5f)
-    inv.position = Vector2(0,height/10)
-    inv.scale = Vector2(5f,5f)
-    
+   
     val w = world.sprite.textureRect.width
     val h = world.sprite.textureRect.height
 
@@ -61,7 +49,7 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
     wood1.position = Vector2(w*random(),h*random())
 
 
-    objects = Vector(camera, world, rock1, rock2, wood1, enemy1, enemy2, enemy3, chicken1, chicken2, king, hudcamera, inv, hp)
+    objects = Vector(camera, world, rock1, rock2, wood1, enemy1, enemy2, enemy3, chicken1, chicken2, king)
   }
 
 }

@@ -6,39 +6,44 @@ import sfml.window._
 import graphics.ResourceManager
 import scene.Scene
 import scene.GameScene
+import scene.HudScene
 
 object Game {
 
   var window : RenderWindow = _
-  var scene : Scene = _
+  var scenes : Vector[Scene] = _
   var width : Int = 1024
   var height : Int = 768
   def init() : Unit = {
     window = RenderWindow(VideoMode(width, height), "Le RTS de Hugo et Simon les bews")
-    scene = new GameScene(window, width, height)
+    
+    val game_scene = new GameScene(window, width, height)
+    val hud = new HudScene(window, width, height)
+
+    scenes = Vector(game_scene, hud)
   }
 
   def game_loop() : Unit = {
     while window.isOpen() do
       // === EVENTS === 
       for event <- window.pollEvent() do
-        scene.call_event(event)
+        scenes.foreach(_.call_event(event))
         event match {
           case _ : Event.Closed => window.closeWindow()
           case _ => ()
         }
       
       // === UPDATE ===
-      scene.update()
+      scenes.foreach(_.update())
 
       // === RENDER ===
       window.clear(Color.Black())
-      window.draw(scene)
+      scenes.foreach(window.draw(_))
       window.display()
   }
 
   def end() : Unit = {
-    scene.close()
+    scenes.foreach(_.close())
   }
 
 }
