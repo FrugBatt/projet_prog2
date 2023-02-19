@@ -10,6 +10,7 @@ import objects.King
 import objects.CenteredCamera
 import objects.World
 import objects.Healthbar
+import objects.*
 
 class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene {
   
@@ -19,8 +20,10 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
     val king = new King()
     val camera = new CenteredCamera(window, width, height, king)
     val hp = new Healthbar()
+    val inv = new Inventory()
+    val hudcamera = new Camera(window,width,height)
 
-    objects = Vector(world, king, hp, camera)
+    objects = Vector(world, king, camera, inv, hp, hudcamera)
   }
 
 }
