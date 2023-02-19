@@ -1,5 +1,5 @@
-
-
+package prog2
+package objects
 
 import graphics.ResourceManager
 
