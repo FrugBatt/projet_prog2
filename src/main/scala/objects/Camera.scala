@@ -14,12 +14,12 @@ class Camera(val window : RenderTarget, val width : Int, val height : Int) exten
 
   def init() : Unit = {}
 
-  def update() : Unit = {
-    window.view = v
-  }
+  def update() : Unit = {}
 
   def close() : Unit = {}
 
-  def draw(target : RenderTarget, states : RenderStates) : Unit = {}
+  def draw(target : RenderTarget, states : RenderStates) : Unit = {
+    window.view = v
+  }
 
 }

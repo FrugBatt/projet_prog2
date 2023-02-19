@@ -23,7 +23,7 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
     val inv = new Inventory()
     val hudcamera = new Camera(window,width,height)
 
-    objects = Vector(world, king, camera, inv, hp, hudcamera)
+    objects = Vector(camera, world, king, hudcamera, inv, hp)
   }
 
 }

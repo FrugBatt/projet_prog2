@@ -16,9 +16,9 @@ class CenteredCamera(window : RenderTarget, width : Int, height : Int, val obj :
     v
   }
 
-  override def update() : Unit = {
+  override def draw(target : RenderTarget, states : RenderStates) : Unit = {
     v.center = obj.position
-    super.update()
+    super.draw(target, states)
   }
 
 }
