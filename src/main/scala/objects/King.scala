@@ -63,6 +63,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       context.trigger(this.center, objs => objs.foreach(o => o.attack(2) match {
         case a : AttackKilled =>
           context.del(o)
+          if (o.hpbar.isDefined) context.del(o.hpbar.get)
           println("Confirmed Kill")
         case b : AttackSuccess =>
           println("Attack Hit")

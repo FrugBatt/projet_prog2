@@ -20,8 +20,7 @@ class EntityHP(entity: SpriteGameObject, maxhp: Int, x_offset: Int) extends Stat
     override def update() : Unit = {
         super.update()
 
-        state = (10 * (1 - (maxhp/hp).toFloat)).toInt
-
+        state = (10f * (1f - (hp.toFloat/maxhp.toFloat))).toInt
         this.position = (entity.position.x + x_offset, entity.position.y - 2)
 
     }
