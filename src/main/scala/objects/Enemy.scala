@@ -14,5 +14,5 @@ import game.Game
 
 class Enemy() extends AnimatedGameObject("game/enemy.png", 18, 22, Array(2), animationTime = 800L) {
 
-
+    override def collision_box = Some(Rect[Float](position.x + 4, position.y, 6, sprite.textureRect.height))
 }
