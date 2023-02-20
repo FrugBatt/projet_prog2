@@ -3,6 +3,6 @@ package events
 
 import objects.ResourceType
 
-sealed trait InteractionAction
-class NoAction extends InteractionAction
-class ResourceCollectAction(val resourceType : ResourceType) extends InteractionAction
+sealed trait InteractionResponse
+class NoAction extends InteractionResponse
+class ResourceCollectAction(val resourceType : ResourceType) extends InteractionResponse
