@@ -12,6 +12,7 @@ import events.ResourceCollectAction
 enum ResourceType {
   case WOOD
   case STONE
+  case COIN
 }
 
 class Resource(resource : String, val value: Int, val kind: ResourceType) extends SpriteGameObject(resource){
