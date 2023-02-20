@@ -26,7 +26,6 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   val w : Float = this.sprite.textureRect.width
   val h : Float = this.sprite.textureRect.height
 
-  override def trigger_box = None
 
   override def update(): Unit = {
     super.update() 
@@ -60,7 +59,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       Direction.right = true
       state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
-      context.trigger(this.center, objs => objs.foreach(o => o.attack(2) match {
+      context.trigger(this.trigger_box, objs => objs.foreach(o => o.attack(2) match {
         case a : AttackKilled =>
           context.del(o)
           if (o.hpbar.isDefined) context.del(o.hpbar.get)
@@ -71,7 +70,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
           println("Nothing to attack")
       }))
     } else if (e.code == Keyboard.Key.KeyE) {
-      context.trigger(this.center, objs => objs.foreach(o => o.interact() match {
+      context.trigger(this.trigger_box, objs => objs.foreach(o => o.interact() match {
         case a : ResourceCollectAction => 
           context.del(o)
           a.resourceType match {
