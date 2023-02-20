@@ -10,6 +10,7 @@ import sfml.system.Vector2
 abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listener {
   
   var lastUpdate : Long = System.currentTimeMillis()
+  var hpbar : Option[EntityHP] = None
 
   def init() : Unit
 

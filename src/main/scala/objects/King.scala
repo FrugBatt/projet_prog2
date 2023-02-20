@@ -60,7 +60,10 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       Direction.right = true
       state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
-      attack()
+      context.trigger(this.center, objs => objs.foreach(o => o.attack() match {
+        
+
+      }))
     } else if (e.code == Keyboard.Key.KeyE) {
       context.trigger(this.center, objs => objs.foreach(o => o.interact() match {
         case a : ResourceCollectAction => 
