@@ -25,7 +25,7 @@ class Enemy() extends AnimatedGameObject("game/enemy.png", 18, 22, Array(2), ani
 
     override def collision_box = Some(Rect[Float](position.x + 4, position.y, 6, sprite.textureRect.height))
 
-    override def trigger_box = Some(Rect[Float](position.x - 2, position.y - 2, sprite.textureRect.width + 4, sprite.textureRect.height + 4))
+    override def trigger_box = Some(Rect[Float](position.x - 4, position.y - 4, sprite.textureRect.width + 8, sprite.textureRect.height + 8))
 
     override def attack(dmg : Int) = {
         hp = (hp - dmg).max(0)
