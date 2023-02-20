@@ -12,7 +12,7 @@ import sfml.graphics.RenderStates
 import sfml.system.Vector2
 import game.Game
 
-import events.AttackAction
+import events._
 
 class Enemy() extends AnimatedGameObject("game/enemy.png", 18, 22, Array(2), animationTime = 800L) {
     var hp = 10
@@ -27,11 +27,9 @@ class Enemy() extends AnimatedGameObject("game/enemy.png", 18, 22, Array(2), ani
 
     override def trigger_box = Some(Rect[Float](position.x - 2, position.y - 2, sprite.textureRect.width + 4, sprite.textureRect.height + 4))
 
-    def attack() = {
-        return AttackAction(this)
-    }
-
-    def damage(v: Int): Unit = {
-        hp = (hp - v).max(0)
+    override def attack(dmg : Int) = {
+        hp = (hp - dmg).max(0)
+        if (hp == 0) return AttackKilled()
+        return AttackSuccess()
     }
 }

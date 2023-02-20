@@ -6,4 +6,5 @@ package events
 
 sealed trait AttackAction
 class NoAttack extends AttackAction
-class AttackSuccess(val target: GameObject) extends AttackAction
+class AttackSuccess extends AttackAction
+class AttackKilled extends AttackAction

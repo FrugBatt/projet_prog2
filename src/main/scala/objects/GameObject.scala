@@ -5,6 +5,7 @@ import sfml.graphics._
 import events.Listener
 import events.InteractionAction
 import events.NoAction
+import events._
 import sfml.system.Vector2
 
 abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listener {
@@ -28,6 +29,7 @@ abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listen
   def trigger_box : Option[Rect[Float]]
 
   def interact() : InteractionAction = return NoAction()
+  def attack(dmg: Int) : AttackAction = return NoAttack()
 
   init()
   

@@ -60,9 +60,14 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       Direction.right = true
       state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
-      context.trigger(this.center, objs => objs.foreach(o => o.attack() match {
-        
-
+      context.trigger(this.center, objs => objs.foreach(o => o.attack(2) match {
+        case a : AttackKilled =>
+          context.del(o)
+          println("Confirmed Kill")
+        case b : AttackSuccess =>
+          println("Attack Hit")
+        case _ =>
+          println("Nothing to attack")
       }))
     } else if (e.code == Keyboard.Key.KeyE) {
       context.trigger(this.center, objs => objs.foreach(o => o.interact() match {
