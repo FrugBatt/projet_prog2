@@ -15,7 +15,13 @@ import events._
 
 class Pouleto() extends AnimatedGameObject("game/chicken.png", 16, 17, Array(12)) {
     var hp = 5
-    
+
+    override def update(): Unit = {
+        super.update()
+
+        if(hpbar.isDefined) hpbar.get.hp = hp
+    }
+
     override def collision_box = Some(Rect[Float](position.x + 2, position.y + 7, 12, 7))
     override def trigger_box = Some(Rect[Float](position.x - 4, position.y - 4, sprite.textureRect.width + 8, sprite.textureRect.height + 8))
 
