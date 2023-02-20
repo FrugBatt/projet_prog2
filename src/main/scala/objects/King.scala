@@ -74,8 +74,11 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
         case a : ResourceCollectAction => 
           context.del(o)
           a.resourceType match {
-            case ResourceType.WOOD => println("WOOOOOD")
-            case ResourceType.STONE => println("STONNNE")
+            case ResourceType.WOOD =>
+              Inventory.wood += 1
+              println(Inventory.wood + " " + Inventory.stone)
+            case ResourceType.STONE => Inventory.stone += 1
+            case _ => ()
           }
         case _ => ()
       }))
