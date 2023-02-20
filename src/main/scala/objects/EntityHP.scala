@@ -15,7 +15,7 @@ import game.Game
 class EntityHP(entity: SpriteGameObject, maxhp: Int, x_offset: Int) extends StatedGameObject("game/entityhp.png", 10, 1) {
 
     var hp = maxhp
-
+    override def collision_box = None
     override def update() : Unit = {
         super.update()
 
