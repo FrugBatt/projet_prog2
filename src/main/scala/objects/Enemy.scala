@@ -29,7 +29,6 @@ class Enemy() extends AnimatedGameObject("game/enemy.png", 18, 22, Array(2), ani
 
     override def attack(dmg : Int) = {
         hp = (hp - dmg).max(0)
-        if(hpbar.isDefined) println(hpbar.get.state)
         if (hp == 0) return AttackKilled()
         return AttackSuccess()
     }
