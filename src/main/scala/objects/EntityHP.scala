@@ -17,6 +17,8 @@ class EntityHP(entity: SpriteGameObject, maxhp: Int, x_offset: Int) extends Stat
     var hp = maxhp
     entity.hpbar = Some(this)
 
+    override def collision_box = None
+
     override def update() : Unit = {
         super.update()
 
