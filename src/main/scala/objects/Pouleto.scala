@@ -14,5 +14,5 @@ import game.Game
 
 class Pouleto() extends AnimatedGameObject("game/chicken.png", 16, 17, Array(12)) {
 
-
+    override def collision_box = Some(Rect[Float](position.x + 2, position.y + 7, 12, 7))
 }
