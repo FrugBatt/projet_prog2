@@ -75,7 +75,6 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
           a.resourceType match {
             case ResourceType.WOOD =>
               Inventory.wood += 1
-              println(Inventory.wood + " " + Inventory.stone)
             case ResourceType.STONE => Inventory.stone += 1
             case ResourceType.COIN => Inventory.coin += 1
             case ResourceType.MEAT => Inventory.health = (Inventory.health + 3).min(10).max(0)
