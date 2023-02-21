@@ -7,6 +7,7 @@ import graphics.ResourceManager
 import scene.Scene
 import scene.GameScene
 import scene.HudScene
+import scene.PauseScene
 
 object Game {
 
@@ -14,6 +15,9 @@ object Game {
   var scenes : Vector[Scene] = _
   var width : Int = 1024
   var height : Int = 768
+
+  var pause = false
+
   def init() : Unit = {
     window = RenderWindow(VideoMode(width, height), "Le RTS de Hugo et Simon les bews")
     
@@ -27,7 +31,9 @@ object Game {
     while window.isOpen() do
       // === EVENTS === 
       for event <- window.pollEvent() do
-        scenes.foreach(_.call_event(event))
+        if (pause) PauseScene.call_event(event)
+        else scenes.foreach(_.call_event(event))
+
         event match {
           case _ : Event.Closed => window.closeWindow()
           case _ => ()

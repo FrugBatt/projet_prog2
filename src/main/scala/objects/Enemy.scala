@@ -34,7 +34,6 @@ class Enemy(context: Scene) extends AnimatedGameObject("game/enemy.png", 18, 22,
                 if(opt.isDefined) opt.get.attack(1) match {
                     case _ : AttackKilled =>
                         context.del(opt.get)
-                        println("game over")
                     case _ => ()
                 }
             })

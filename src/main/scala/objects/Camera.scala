@@ -32,10 +32,8 @@ class Camera(val window : RenderTarget, val width : Int, val height : Int, val z
   }
 
   override def onResized(e : Event.Resized) : Unit = {
-    val centerc = v.center
     v.size = (e.width, e.height)
     v.zoom(zoom)
-    v.center = centerc
   }
 
 }

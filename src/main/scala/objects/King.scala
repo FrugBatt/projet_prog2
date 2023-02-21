@@ -43,10 +43,6 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     if (movX != 0 || movY != 0) context.safe_move(this, movX, movY)
   }
 
-  def attack() : Unit = {
-    println("ATTACK!!!!")
-  }
-
   override def onKeyPressed(e : Event.KeyPressed) : Unit = {
     if (e.code == Keyboard.Key.KeyZ) {
       Direction.up = true

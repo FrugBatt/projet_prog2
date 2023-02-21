@@ -4,6 +4,10 @@ package scene
 import sfml.graphics.RenderTarget
 import sfml.system.Vector2
 import sfml.graphics.Rect
+import sfml.window.Event
+
+import game.Game
+import sfml.window.Keyboard
 
 import objects.*
 import scala.compiletime.ops.float
@@ -65,6 +69,18 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
 
 
     objects = Vector(camera, world, rock1, rock2, wood1, enemy1, hpe1, enemy2, hpe2, enemy3, hpe3, chicken1, hpc1, chicken2, hpc2, north_wall, west_wall, south_wall, east_wall, king)
+  }
+
+  override def call_event(e : Event) : Unit = {
+    e match{
+      case e : Event.KeyPressed =>
+        if (e.code == Keyboard.Key.KeyEscape) {
+          Game.pause = true
+          Game.scenes = Game.scenes :+ PauseScene
+        }
+      case _ => ()
+    }
+    super.call_event(e)
   }
 
 }
