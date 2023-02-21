@@ -16,7 +16,7 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
     val world = new World()   
 
     val king = new King(this)
-    val camera = new CenteredCamera(window, width, height, king)
+    val camera = new CenteredCamera(window, width, height, 0.2f, king)
    
     val w = world.sprite.textureRect.width
     val h = world.sprite.textureRect.height
