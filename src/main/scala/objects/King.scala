@@ -61,13 +61,13 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       Direction.right = true
       state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
-      context.trigger(this.trigger_box, objs => objs.foreach(o => o.attack(2) match {
+      context.trigger(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2) match {
         case a : AttackKilled =>
           context.del(o)
-          context.add(a.drop)
+          if (a.drop.isDefined) context.add(a.drop.get)
           if (o.hpbar.isDefined) context.del(o.hpbar.get)
         case _ => ()
-      }))
+      }}))
     } else if (e.code == Keyboard.Key.KeyE) {
       context.trigger(this.trigger_box, objs => objs.foreach(o => o.interact() match {
         case a : ResourceCollectAction => 
@@ -83,6 +83,13 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
         case _ => ()
       }))
     }
+  }
+
+  override def attack(dmg: Int): AttackResponse = {
+
+    Inventory.health = (Inventory.health - dmg).max(0)
+    if (Inventory.health == 0) return AttackKilled(None)
+    return AttackSuccess()
   }
 
   override def onKeyReleased(e : Event.KeyReleased) : Unit = {

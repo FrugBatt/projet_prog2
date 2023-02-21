@@ -34,15 +34,15 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
       (rand.between(15,85).toFloat)/100
     }
 
-    val enemy1 = new Enemy()
+    val enemy1 = new Enemy(this)
     enemy1.position = Vector2(w*random(),h*random())
     val hpe1 = new EntityHP(enemy1,10,2)
 
-    val enemy2 = new Enemy()
+    val enemy2 = new Enemy(this)
     enemy2.position = Vector2(w*random(),h*random())
     val hpe2 = new EntityHP(enemy2,10,2)
 
-    val enemy3 = new Enemy()
+    val enemy3 = new Enemy(this)
     enemy3.position = Vector2(w*random(),h*random())
     val hpe3 = new EntityHP(enemy3,10,2)
 

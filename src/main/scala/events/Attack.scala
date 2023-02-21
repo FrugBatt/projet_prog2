@@ -9,4 +9,4 @@ import objects.Resource
 sealed trait AttackResponse
 class NoAttack extends AttackResponse
 class AttackSuccess extends AttackResponse
-class AttackKilled(val drop: Resource) extends AttackResponse
+class AttackKilled(val drop: Option[Resource]) extends AttackResponse

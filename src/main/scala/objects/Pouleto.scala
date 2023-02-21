@@ -31,7 +31,7 @@ class Pouleto() extends AnimatedGameObject("game/chicken.png", 16, 17, Array(12)
         if (hp == 0) {
             val r = new Resource("game/meat.png",3,ResourceType.MEAT)
             r.position = position
-            return AttackKilled(r)
+            return AttackKilled(Some(r))
         }
         return AttackSuccess()
         
