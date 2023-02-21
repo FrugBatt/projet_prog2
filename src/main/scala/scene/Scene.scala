@@ -32,6 +32,10 @@ trait Scene extends Transformable with Drawable {
     objects = objects.filterNot(obj.==)
   }
 
+  def add(obj: GameObject): Unit = {
+    objects = objects :+ obj
+  }
+
   def call_event(e : Event) : Unit = {
     e match {
       case e : Event.Closed => objects.foreach(_.onClosed(e))

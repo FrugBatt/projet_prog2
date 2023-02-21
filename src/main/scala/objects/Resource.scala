@@ -13,9 +13,10 @@ enum ResourceType {
   case WOOD
   case STONE
   case COIN
+  case MEAT
 }
 
-class Resource(resource : String, val value: Int, val kind: ResourceType) extends SpriteGameObject(resource){
+class Resource(resource : String, val value: Int = 1, val kind: ResourceType) extends SpriteGameObject(resource){
   
   override def collision_box = None
 

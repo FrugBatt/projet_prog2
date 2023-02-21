@@ -11,7 +11,8 @@ import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 import sfml.system.Vector2
 import game.Game
-
+import objects.Resource
+import objects.ResourceType
 import events._
 
 class Enemy() extends AnimatedGameObject("game/enemy.png", 18, 22, Array(2), animationTime = 800L) {
@@ -29,7 +30,11 @@ class Enemy() extends AnimatedGameObject("game/enemy.png", 18, 22, Array(2), ani
 
     override def attack(dmg : Int) = {
         hp = (hp - dmg).max(0)
-        if (hp == 0) return AttackKilled()
+        if (hp == 0) {
+            val r = new Resource("game/coin.png",2,ResourceType.COIN)
+            r.position = position
+            return AttackKilled(r)
+        }
         return AttackSuccess()
     }
 }

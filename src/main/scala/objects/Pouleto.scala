@@ -11,11 +11,12 @@ import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 import sfml.system.Vector2
 import game.Game
+import objects.Resource
 import events._
 
 class Pouleto() extends AnimatedGameObject("game/chicken.png", 16, 17, Array(12)) {
     var hp = 5
-
+    
     override def update(): Unit = {
         super.update()
 
@@ -27,7 +28,12 @@ class Pouleto() extends AnimatedGameObject("game/chicken.png", 16, 17, Array(12)
 
     override def attack(dmg : Int) = {
         hp = (hp - dmg).max(0)
-        if (hp == 0) return AttackKilled()
+        if (hp == 0) {
+            val r = new Resource("game/meat.png",3,ResourceType.MEAT)
+            r.position = position
+            return AttackKilled(r)
+        }
         return AttackSuccess()
+        
     }
 }

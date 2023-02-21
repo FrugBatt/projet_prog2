@@ -12,7 +12,9 @@ import sfml.graphics.RenderStates
 import sfml.system.Vector2
 import events._
 import scene.Scene
+import scene.HudScene
 import game.Game
+import objects.Resource
 
 class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
 
@@ -60,8 +62,9 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
       context.trigger(this.trigger_box, objs => objs.foreach(o => o.attack(2) match {
-        case _ : AttackKilled =>
+        case a : AttackKilled =>
           context.del(o)
+          context.add(a.drop)
           if (o.hpbar.isDefined) context.del(o.hpbar.get)
         case _ => ()
       }))
@@ -74,7 +77,8 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
               Inventory.wood += 1
               println(Inventory.wood + " " + Inventory.stone)
             case ResourceType.STONE => Inventory.stone += 1
-            case _ => ()
+            case ResourceType.COIN => Inventory.coin += 1
+            case ResourceType.MEAT => Inventory.health = (Inventory.health + 3).min(10).max(0)
           }
         case _ => ()
       }))

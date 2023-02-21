@@ -16,6 +16,7 @@ object Inventory extends SpriteGameObject("game/inventory.png"){
   var wood = 0
   var stone = 0
   var coin = 0
+  var health = 10
 
   def update() : Unit = {}
 
