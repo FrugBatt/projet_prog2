@@ -9,9 +9,19 @@ import objects.*
 
 class HudScene(window : RenderTarget, width : Int, height : Int) extends Scene {
   
+
+    def gameover() : Unit = {
+    val gameover_msg = new TextGameObject("GAME OVER")
+    gameover_msg.scale = Vector2(1.5f,1.5f)
+    gameover_msg.position = Vector2(300,150)
+
+    objects = objects :+ gameover_msg
+  }
   def init() : Unit = {
-    val hp = new Healthbar()
+    val hp = new Healthbar(this)
     val hudcamera = new Camera(window,width,height)
+
+
 
     hp.scale = Vector2(5f,5f)
     Inventory.position = Vector2(0,height/10)
