@@ -11,7 +11,7 @@ class HudScene(window : RenderTarget, width : Int, height : Int) extends Scene {
   
   def init() : Unit = {
     val hp = new Healthbar()
-    val hudcamera = new Camera(window,width,height)
+    val hudcamera = new Camera(window,width,height, 1f)
 
     hp.scale = Vector2(5f,5f)
     Inventory.position = Vector2(0,height/10)

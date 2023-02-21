@@ -8,14 +8,8 @@ import sfml.graphics.View
 
 import sfml.system.Vector2
 
-class CenteredCamera(window : RenderTarget, width : Int, height : Int, val obj : SpriteGameObject) extends Camera(window, width, height) {
+class CenteredCamera(window : RenderTarget, width : Int, height : Int, zoom : Float, val obj : SpriteGameObject) extends Camera(window, width, height, zoom) {
   
-  override val v = {
-    val v = View(Rect[Float](0f, 0f, width, height))
-    v.zoom(0.2f)
-    v
-  }
-
   override def draw(target : RenderTarget, states : RenderStates) : Unit = {
     v.center = obj.position
     super.draw(target, states)
