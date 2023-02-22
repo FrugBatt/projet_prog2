@@ -11,7 +11,6 @@ abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listen
   def trigger_box : Option[Rect[Float]]
   
   var lastUpdate : Long = System.currentTimeMillis()
-  var hpbar : Option[EntityHP] = None
 
   def init() : Unit
 

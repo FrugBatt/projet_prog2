@@ -13,7 +13,6 @@ trait Scene extends Transformable with Drawable {
   
   var objects : Vector[GameObject] = _
   
-
   def init() : Unit
 
   def safe_move(obj : SpriteGameObject, movX : Float, movY : Float) : Unit = {

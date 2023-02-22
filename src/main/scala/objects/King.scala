@@ -61,7 +61,6 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
         case a : AttackKilled =>
           context.del(o)
           if (a.drop.isDefined) context.add(a.drop.get)
-          if (o.hpbar.isDefined) context.del(o.hpbar.get)
         case _ => ()
       }}))
     } else if (e.code == Keyboard.Key.KeyE) {

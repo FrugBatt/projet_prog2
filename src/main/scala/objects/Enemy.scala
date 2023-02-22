@@ -18,39 +18,27 @@ import objects.King
 import events._
 import scala.compiletime.ops.long
 
-class Enemy(context: Scene) extends AnimatedGameObject("game/enemy.png", 18, 22, Array(2), animationTime = 800L) {
-    var hp = 10
-    val attack_delay : Long = 1000L
-    var last_attack : Long = System.currentTimeMillis()
-    override def update(): Unit = {
-        super.update()
+class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("game/coin.png", 2, ResourceType.COIN),"game/enemy.png", 18, 22, Array(2), animationTime = 800L) {
 
-        if(hpbar.isDefined) hpbar.get.hp = hp
+  val attack_delay : Long = 1000L
+  var last_attack : Long = System.currentTimeMillis()
 
-        if(System.currentTimeMillis() - last_attack > attack_delay) {
-            last_attack = System.currentTimeMillis()
-            context.trigger(this.trigger_box, objs => {
-                val opt = objs.find(o => o.isInstanceOf[King])
-                if(opt.isDefined) opt.get.attack(1) match {
-                    case _ : AttackKilled =>
-                        context.del(opt.get)
-                    case _ => ()
-                }
-            })
+  override def collision_box = Some(Rect[Float](position.x + 4, position.y, 6, sprite.textureRect.height))
+  override def trigger_box = Some(Rect[Float](position.x - 4, position.y - 4, sprite.textureRect.width + 8, sprite.textureRect.height + 8))
+
+  override def update(): Unit = {
+    super.update()
+
+    if(System.currentTimeMillis() - last_attack > attack_delay) {
+      last_attack = System.currentTimeMillis()
+      context.trigger(this.trigger_box, objs => {
+        val opt = objs.find(o => o.isInstanceOf[King])
+        if(opt.isDefined) opt.get.attack(1) match {
+          case _ : AttackKilled =>
+            context.del(opt.get)
+          case _ => ()
         }
+      })
     }
-
-    override def collision_box = Some(Rect[Float](position.x + 4, position.y, 6, sprite.textureRect.height))
-
-    override def trigger_box = Some(Rect[Float](position.x - 4, position.y - 4, sprite.textureRect.width + 8, sprite.textureRect.height + 8))
-
-    override def attack(dmg : Int) = {
-        hp = (hp - dmg).max(0)
-        if (hp == 0) {
-            val r = new Resource("game/coin.png",2,ResourceType.COIN)
-            r.position = position
-            return AttackKilled(Some(r))
-        }
-        return AttackSuccess()
-    }
+  }
 }

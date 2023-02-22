@@ -12,19 +12,16 @@ import sfml.graphics.RenderStates
 import sfml.system.Vector2
 import game.Game
 
-class EntityHP(entity: SpriteGameObject, maxhp: Int, x_offset: Int) extends StatedGameObject("game/entityhp.png", 10, 1) {
+class EntityHP(maxhp: Int) extends StatedGameObject("game/entityhp.png", 10, 1) {
 
-    var hp = maxhp
-    entity.hpbar = Some(this)
+  var hp = maxhp
 
-    override def collision_box = None
+  override def collision_box = None
 
-    override def update() : Unit = {
-        super.update()
+  override def update() : Unit = {
+    super.update()
 
-        state = (10f * (1f - (hp.toFloat/maxhp.toFloat))).toInt
-        this.position = (entity.position.x + x_offset, entity.position.y - 2)
-
-    }
+    state = (10f * (1f - (hp.toFloat/maxhp.toFloat))).toInt
+  }
 
 }
