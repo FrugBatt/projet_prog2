@@ -40,7 +40,7 @@ object Game {
         }
       
       // === UPDATE ===
-      scenes.foreach(_.update())
+      if (!pause) scenes.foreach(_.update())
 
       // === RENDER ===
       window.clear(Color.Black())
