@@ -8,7 +8,7 @@ import sfml.graphics.Font
 import sfml.graphics.Color
 import sfml.system.Vector2
 
-class TextGameObject(label : String) extends GameObject {
+class TextGameObject(label : String, characterSize : Int = 65) extends GameObject {
 
   override def trigger_box = None
   override def collision_box = None
@@ -21,7 +21,7 @@ class TextGameObject(label : String) extends GameObject {
     t.font = f
 
     t.string = label
-    t.characterSize = 65
+    t.characterSize = characterSize
     t
   }
 

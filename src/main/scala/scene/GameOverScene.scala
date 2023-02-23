@@ -8,8 +8,7 @@ import objects.TextGameObject
 object GameOverScene extends Scene {
 
   def init() : Unit = {
-    val gameover_msg = new TextGameObject("GAME OVER")
-    gameover_msg.scale = Vector2(1.5f,1.5f)
+    val gameover_msg = new TextGameObject("GAME OVER", characterSize = 50)
     gameover_msg.position = Vector2(300,150)
 
     objects = Vector(gameover_msg)
