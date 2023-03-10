@@ -22,7 +22,7 @@ class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("ga
     val rand = new scala.util.Random
     var roaming : Option[Vector2[Float]] = None
     var roaming_since : Long = 0L
-    var roaming_time : Long = rand.nextLong(5000L)
+    var roaming_time : Long = rand.nextLong(3000L)
     var fleeing : Option[SpriteGameObject] = None
     var fleeing_since : Long = 0L
 
@@ -36,32 +36,33 @@ class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("ga
         if (fleeing.isDefined) {
             val x = (this.position.x - fleeing.get.position.x)
             val y = (this.position.y - fleeing.get.position.y)
-            if (x > 0) state = 1
-            else state = 2
+            if (x > 0) state = 1 //animation for moving to the right
+            else state = 2 //animation for moving to the left
             val norm : Float = 3*((sqrt(x*x + y*y)).toFloat)
             context.safe_move(this, x/norm, y/norm)
 
             if (System.currentTimeMillis() - fleeing_since > 4000L) {
                 fleeing = None
-                state = 0
+                state = 0 //animation for stanind still
             }
         }
         else if (roaming.isDefined) {
 
             context.safe_move(this, roaming.get.x/5, roaming.get.y/5)
-            if (roaming.get.x > 0) state = 1
-            else state = 2
+            if (roaming.get.x > 0) state = 1 //animation for moving to the right
+            else state = 2 //animation for moving to the left
             
         }
         if (System.currentTimeMillis() - roaming_since > roaming_time) roam()
 
     }
 
-    def roam() = {
+    def roam() = { //deciding whether or not should the chicken roam, and in what direction and for how long
         roaming_since = System.currentTimeMillis()
+        roaming_time = rand.nextLong(3000L)
         if(rand.nextInt(2) == 1) {
             roaming = None
-            state = 0
+            state = 0 //animation for standing still
         }
         else {
             val angle = rand.nextFloat()*6.3f
