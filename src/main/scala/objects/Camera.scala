@@ -5,6 +5,7 @@ import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 import sfml.graphics.Rect
 import sfml.graphics.View
+import sfml.Immutable
 
 import sfml.window.Event
 
@@ -28,7 +29,7 @@ class Camera(val window : RenderTarget, val width : Int, val height : Int, val z
   def close() : Unit = {}
 
   def draw(target : RenderTarget, states : RenderStates) : Unit = {
-    window.view = v
+    window.view = Immutable(v)
   }
 
   override def onResized(e : Event.Resized) : Unit = {

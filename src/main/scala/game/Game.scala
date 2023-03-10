@@ -35,7 +35,7 @@ object Game {
         else scenes.foreach(_.call_event(event))
 
         event match {
-          case _ : Event.Closed => window.closeWindow()
+          case _ : Event.Closed => window.close()
           case _ => ()
         }
       

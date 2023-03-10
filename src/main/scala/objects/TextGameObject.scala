@@ -13,11 +13,14 @@ class TextGameObject(label : String, characterSize : Int = 65) extends GameObjec
   override def trigger_box = None
   override def collision_box = None
 
-  val text : Text = {
-    val t = Text()
-
+  val f = {
     val f = Font()
     f.loadFromFile("src/main/resources/Minecraft-Regular.otf")
+    f
+  }
+
+  val text : Text = {
+    val t = Text()
     t.font = f
 
     t.string = label
@@ -29,9 +32,7 @@ class TextGameObject(label : String, characterSize : Int = 65) extends GameObjec
   }
 
   def update() : Unit = {}
-  def close() : Unit = {
-    // text.close()
-  }
+  def close() : Unit = {}
 
   def draw(target : RenderTarget, states : RenderStates) : Unit = {
     text.draw(target, states)

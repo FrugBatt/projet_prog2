@@ -17,7 +17,7 @@ class HudScene(window : RenderTarget, width : Int, height : Int) extends Scene {
     hp.scale = Vector2(5f,5f)
     Inventory.position = Vector2(0,height/10)
     Inventory.scale = Vector2(5f,5f)
-    
+
     val stone_amount = new UpdatableTextGameObject(() => Inventory.stone)
     stone_amount.position = Vector2(150, 112)
 

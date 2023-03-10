@@ -15,7 +15,7 @@ abstract class SpriteGameObject(resource : String) extends GameObject() {
   }
 
   def close() : Unit = {
-    sprite.close()
+    // sprite.close()
     ResourceManager.close(resource)
   }
 
