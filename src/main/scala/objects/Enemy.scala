@@ -33,7 +33,7 @@ class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("gam
       last_attack = System.currentTimeMillis()
       context.trigger(this.trigger_box, objs => {
         val opt = objs.find(o => o.isInstanceOf[King])
-        if(opt.isDefined) opt.get.attack(1) match {
+        if(opt.isDefined) opt.get.attack(1,this) match {
           case _ : AttackKilled =>
             context.del(opt.get)
           case _ => ()

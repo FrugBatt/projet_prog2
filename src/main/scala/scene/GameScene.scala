@@ -50,11 +50,11 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
     enemy3.position = Vector2(w*random(),h*random())
     // val hpe3 = new EntityHP(enemy3,10,2)
 
-    val chicken1 = new Pouleto()
+    val chicken1 = new Pouleto(this)
     chicken1.position = Vector2(w*random(),h*random())
     // val hpc1 = new EntityHP(chicken1,5,3)
 
-    val chicken2 = new Pouleto()
+    val chicken2 = new Pouleto(this)
     chicken2.position = Vector2(w*random(),h*random())
     // val hpc2 = new EntityHP(chicken2,5,3)
 

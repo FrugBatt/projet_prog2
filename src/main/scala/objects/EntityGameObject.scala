@@ -22,16 +22,16 @@ class EntityGameObject(hp : Int, drop : () => Resource, resource : String, width
 
   val health = {
     val h = new EntityHP(hp)
-    h.position = (position.x + 2, position.y - 2)
     h
   }
 
   override def update(): Unit = {
     super.update()
     health.update()
+    health.position = (position.x + 2, position.y - 2)
   }
 
-  override def attack(dmg : Int) = {
+  override def attack(dmg : Int, attacker : SpriteGameObject) = {
     health.hp = (health.hp - dmg).max(0)
     if (health.hp == 0) {
       val d = drop()
