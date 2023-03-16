@@ -17,7 +17,7 @@ import objects.Resource
 import events._
 import scene._
 
-class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("game/meat.png", 3, ResourceType.MEAT), "game/chicken.png", 16, 17, Array(8,8,8),50L) {
+class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("game/meat.png", 3, ResourceType.MEAT), "game/chicken.png", 16, 17, Array(32,8,8),50L) {
     
     val rand = new scala.util.Random
     var roaming : Option[Vector2[Float]] = None
