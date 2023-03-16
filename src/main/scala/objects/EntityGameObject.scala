@@ -18,7 +18,7 @@ import objects.King
 import events._
 import scala.compiletime.ops.long
 
-class EntityGameObject(hp : Int, drop : () => Resource, resource : String, width : Int, height : Int, animationLen : Array[Int], animationTime : Long = 800L) extends AnimatedGameObject(resource, width, height, animationLen, animationTime) {
+class EntityGameObject(hp : Int, drop : () => Resource, resource : String, width : Int, height : Int, animationLen : Array[Int], animationTime : Long = 800L, val hp_x_offset: Int = 2) extends AnimatedGameObject(resource, width, height, animationLen, animationTime) {
 
   val health = {
     val h = new EntityHP(hp)
@@ -28,7 +28,7 @@ class EntityGameObject(hp : Int, drop : () => Resource, resource : String, width
   override def update(): Unit = {
     super.update()
     health.update()
-    health.position = (position.x + 2, position.y - 2)
+    health.position = (position.x + hp_x_offset, position.y - 2)
   }
 
   override def attack(dmg : Int, attacker : SpriteGameObject) = {
