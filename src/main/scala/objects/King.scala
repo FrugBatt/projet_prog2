@@ -57,7 +57,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       Direction.right = true
       state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
-      context.trigger(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2) match {
+      context.trigger(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2,this) match {
         case a : AttackKilled =>
           context.del(o)
           if (a.drop.isDefined) context.add(a.drop.get)
@@ -79,7 +79,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     }
   }
 
-  override def attack(dmg: Int): AttackResponse = {
+  override def attack(dmg: Int, attacker: SpriteGameObject): AttackResponse = {
 
     Inventory.health = (Inventory.health - dmg).max(0)
     if (Inventory.health == 0) return AttackKilled(None)

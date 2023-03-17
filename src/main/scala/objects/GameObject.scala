@@ -9,6 +9,8 @@ abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listen
 
   def collision_box : Option[Rect[Float]]
   def trigger_box : Option[Rect[Float]]
+
+  def position : Vector2[Float] = Vector2(0,0)
   
   var lastUpdate : Long = System.currentTimeMillis()
 
@@ -25,7 +27,7 @@ abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listen
   def close() : Unit
 
   def interact() : InteractionResponse = return NoAction()
-  def attack(dmg: Int) : AttackResponse = return NoAttack()
+  def attack(dmg: Int, attacker: SpriteGameObject) : AttackResponse = return NoAttack()
 
   init()
   
