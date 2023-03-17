@@ -3,7 +3,8 @@ package objects
 
 
 
-class Healthbar extends StatedGameObject("index.png", 64, 64){
+class Base(x: Float, y: Float) extends StatedGameObject("index.png", 64, 64){
+    position.x = x
+    position.y = y
 
-    
 }
