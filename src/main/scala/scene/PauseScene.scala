@@ -3,6 +3,8 @@ package scene
 
 import sfml.system.Vector2
 import objects.TextGameObject
+import objects.RectangleShapeGameObject
+import sfml.graphics.Color
 
 import game.Game
 
@@ -14,7 +16,9 @@ object PauseScene extends Scene {
     val title = new TextGameObject("Pause (Press ESCAPE to quit)", characterSize = 50)
     title.position = Vector2(200,250)
 
-    objects = Vector(title)
+    val background = new RectangleShapeGameObject(Color(0, 0, 0, 100), 0, 0, Game.width, Game.height)
+
+    objects = Vector(background, title)
   }
 
   override def call_event(e : Event) : Unit = {
