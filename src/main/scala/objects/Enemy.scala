@@ -22,6 +22,8 @@ import scala.compiletime.ops.long
 class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("game/coin.png", 2, ResourceType.COIN),"game/enemy.png", 38, 23, Array(8,8,8,8,8), animationTime = 100L, hp_x_offset = 14) {
 
   val rand = new scala.util.Random
+  var chasing : Option[GameObject] = None
+  val chasing_range : Float = 200f
   var roaming : Option[Vector2[Float]] = None
   var roaming_since : Long = 0L
   var roaming_time : Long = rand.nextLong(3000L)
@@ -60,7 +62,21 @@ class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("gam
       state = 0
       anim_time = None
     }}
-    else if (roaming.isDefined) {     //priority: attacking > roaming
+
+    else if (chasing.isDefined) {
+            val x = (chasing.get.position.x - position.x)
+            val y = (chasing.get.position.y - position.y)
+            if (x > 0) state = 3 //animation for moving to the right
+            else state = 4 //animation for moving to the left
+            val norm : Float = 2*((sqrt(x*x + y*y)).toFloat)
+            context.safe_move(this, x/norm, y/norm)
+
+            if (norm > chasing_range) {
+                chasing = None
+            }
+        }
+
+    else if (roaming.isDefined) {     //priority: attacking > chasing > roaming
       context.safe_move(this, roaming.get.x/5, roaming.get.y/5)
       if (roaming.get.x > 0) state = 3 //animation for moving to the right
       else state = 4 //animation for moving to the left
@@ -73,6 +89,7 @@ class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("gam
       context.trigger(this.trigger_box, objs => {
         val opt = objs.find(o => o.isInstanceOf[King])
         if(opt.isDefined) {
+          chasing = opt
           if(opt.get.position.x > position.x) animate(1)  //attacks towards its right
           else animate(2)                                 // attacks towards its left
           opt.get.attack(1,this) match {

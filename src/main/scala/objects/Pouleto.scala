@@ -23,7 +23,7 @@ class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("ga
     var roaming : Option[Vector2[Float]] = None
     var roaming_since : Long = 0L
     var roaming_time : Long = rand.nextLong(3000L)
-    var fleeing : Option[SpriteGameObject] = None
+    var fleeing : Option[GameObject] = None
     var fleeing_since : Long = 0L
 
     override def collision_box = Some(Rect[Float](position.x + 2, position.y + 7, 12, 7))
