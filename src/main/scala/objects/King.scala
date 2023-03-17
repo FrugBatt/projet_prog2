@@ -57,14 +57,14 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       Direction.right = true
       state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
-      context.trigger(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2,this) match {
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2,this) match {
         case a : AttackKilled =>
           context.del(o)
           if (a.drop.isDefined) context.add(a.drop.get)
         case _ => ()
       }}))
     } else if (e.code == Keyboard.Key.KeyE) {
-      context.trigger(this.trigger_box, objs => objs.foreach(o => o.interact() match {
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact() match {
         case a : ResourceCollectAction => 
           context.del(o)
           a.resourceType match {
