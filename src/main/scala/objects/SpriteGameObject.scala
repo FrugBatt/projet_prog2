@@ -36,7 +36,7 @@ abstract class SpriteGameObject(resource : String) extends GameObject() {
 
   def origin_=(origin: Vector2[Float]) = sprite.origin = origin
 
-  def position: Vector2[Float] = sprite.position
+  override def position: Vector2[Float] = sprite.position
 
   def position_=(x: Float, y: Float) = sprite.position = (x, y)
 

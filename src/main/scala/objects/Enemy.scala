@@ -1,6 +1,7 @@
 package prog2
 package objects
 
+import scala.math._
 import graphics.ResourceManager
 
 import sfml.window.Keyboard
@@ -20,6 +21,10 @@ import scala.compiletime.ops.long
 
 class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("game/coin.png", 2, ResourceType.COIN),"game/enemy.png", 38, 23, Array(8,8,8,8,8), animationTime = 100L, hp_x_offset = 14) {
 
+  val rand = new scala.util.Random
+  var roaming : Option[Vector2[Float]] = None
+  var roaming_since : Long = 0L
+  var roaming_time : Long = rand.nextLong(3000L)
   val attack_delay : Long = 1000L
   var anim_time : Option[Long] = None
   var last_attack : Long = System.currentTimeMillis()
@@ -33,19 +38,43 @@ class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("gam
     anim_time = Some(System.currentTimeMillis())
   }
 
+
+  def roam() = { //deciding whether or not should the ogre roam, and in what direction and for how long
+        roaming_since = System.currentTimeMillis()
+        roaming_time = rand.nextLong(3000L)
+        if(rand.nextInt(2) == 1) {
+            roaming = None
+            state = 0 //animation for standing still
+        }
+        else {
+            val angle = rand.nextFloat()*6.3f
+            roaming = Some(Vector2(cos(angle).toFloat,sin(angle).toFloat))
+        }
+
+    }
+
   override def update(): Unit = {
     super.update()
 
-    if(anim_time.isDefined) if(System.currentTimeMillis() - anim_time.get > animationTime * 8) {
+    if(anim_time.isDefined) {if(System.currentTimeMillis() - anim_time.get > animationTime * 7) {
       state = 0
       anim_time = None
+    }}
+    else if (roaming.isDefined) {     //priority: attacking > roaming
+      context.safe_move(this, roaming.get.x/5, roaming.get.y/5)
+      if (roaming.get.x > 0) state = 3 //animation for moving to the right
+      else state = 4 //animation for moving to the left
     }
+    if (System.currentTimeMillis() - roaming_since > roaming_time) roam()
+
+
     if(System.currentTimeMillis() - last_attack > attack_delay) {
       last_attack = System.currentTimeMillis()
       context.trigger(this.trigger_box, objs => {
         val opt = objs.find(o => o.isInstanceOf[King])
         if(opt.isDefined) {
-          animate(1)
+          if(opt.get.position.x > position.x) animate(1)  //attacks towards its right
+          else animate(2)                                 // attacks towards its left
           opt.get.attack(1,this) match {
           case _ : AttackKilled =>
             context.del(opt.get)

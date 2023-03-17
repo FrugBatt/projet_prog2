@@ -9,6 +9,8 @@ abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listen
 
   def collision_box : Option[Rect[Float]]
   def trigger_box : Option[Rect[Float]]
+
+  def position : Vector2[Float] = Vector2(0,0)
   
   var lastUpdate : Long = System.currentTimeMillis()
 

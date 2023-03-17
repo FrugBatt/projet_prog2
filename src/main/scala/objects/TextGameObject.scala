@@ -43,7 +43,7 @@ class TextGameObject(label : String, characterSize : Int = 65) extends GameObjec
 
   final def origin_=(origin: Vector2[Float]) = text.origin = origin
 
-  final def position: Vector2[Float] = text.position
+  override final def position: Vector2[Float] = text.position
 
   final def position_=(x: Float, y: Float) = text.position = (x, y)
 

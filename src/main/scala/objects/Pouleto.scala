@@ -38,7 +38,7 @@ class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("ga
             val y = (this.position.y - fleeing.get.position.y)
             if (x > 0) state = 1 //animation for moving to the right
             else state = 2 //animation for moving to the left
-            val norm : Float = 3*((sqrt(x*x + y*y)).toFloat)
+            val norm : Float = 2*((sqrt(x*x + y*y)).toFloat)
             context.safe_move(this, x/norm, y/norm)
 
             if (System.currentTimeMillis() - fleeing_since > 4000L) {
@@ -46,7 +46,7 @@ class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("ga
                 state = 0 //animation for stanind still
             }
         }
-        else if (roaming.isDefined) {
+        else if (roaming.isDefined) {       //priority: fleeing > roaming
 
             context.safe_move(this, roaming.get.x/5, roaming.get.y/5)
             if (roaming.get.x > 0) state = 1 //animation for moving to the right
