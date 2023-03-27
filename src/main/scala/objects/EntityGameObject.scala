@@ -28,7 +28,7 @@ class EntityGameObject(hp : Int, drop : () => Resource, resource : String, width
   override def update(): Unit = {
     super.update()
     health.update()
-    health.position = (position.x + hp_x_offset, position.y - 2)
+    
   }
 
   override def attack(dmg : Int, attacker : SpriteGameObject) = {
@@ -48,11 +48,11 @@ class EntityGameObject(hp : Int, drop : () => Resource, resource : String, width
 
   override def position_=(x: Float, y: Float) = {
     sprite.position = (x, y)
-    health.position = (x + 2, y - 2)
+    health.position = (x + hp_x_offset, y - 2)
   }
 
   override def position_=(position: Vector2[Float]) = {
     sprite.position = position
-    health.position = (position.x + 2, position.y - 2)
+    health.position = (position.x + hp_x_offset, position.y - 2)
   }
 }
