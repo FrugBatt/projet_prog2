@@ -11,11 +11,9 @@ import sfml.graphics.Sprite
 
 import graphics.ResourceManager
 
-object Inventory extends SpriteGameObject("game/inventory.png"){
+object PersonalInventory extends SpriteGameObject("game/inventory.png"){
   
-  var wood = 0
-  var stone = 0
-  var coin = 0
+  val inventory = new Inventory()
   var health = 10
 
   def update() : Unit = {}
