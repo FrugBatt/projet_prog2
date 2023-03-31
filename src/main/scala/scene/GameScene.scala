@@ -66,8 +66,8 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
     castle.position = Vector2(w*random(),h*random())
     objects = Vector(camera, world, mountain, forest, enemy1, enemy2, enemy3, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king, castle)
 
-    add(mountain.deposit.get)
-    add(forest.deposit.get)
+    add(mountain.deposit)
+    add(forest.deposit)
   }
 
   override def call_event(e : Event) : Unit = {
