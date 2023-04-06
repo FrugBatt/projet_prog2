@@ -28,6 +28,8 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   val w : Float = this.sprite.textureRect.width
   val h : Float = this.sprite.textureRect.height
 
+  var has_castle : Boolean = false
+
 
   override def update(): Unit = {
     super.update() 
@@ -56,7 +58,9 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     } else if (e.code == Keyboard.Key.KeyD) {
       Direction.right = true
       state = 1
-    } else if (e.code == Keyboard.Key.KeySpace) {
+    } else if (e.code == Keyboard.Key.KeyC) {
+      build()
+    }else if (e.code == Keyboard.Key.KeySpace) {
       context.trigger(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2,this) match {
         case a : AttackKilled =>
           context.del(o)
@@ -69,9 +73,9 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
           context.del(o)
           a.resourceType match {
             case ResourceType.WOOD =>
-              Inventory.wood += 1
-            case ResourceType.STONE => Inventory.stone += 1
-            case ResourceType.COIN => Inventory.coin += 1
+              Inventory.wood += 10
+            case ResourceType.STONE => Inventory.stone += 10
+            case ResourceType.COIN => Inventory.coin += 10
             case ResourceType.MEAT => Inventory.health = (Inventory.health + 3).min(10).max(0)
           }
         case _ => ()
@@ -85,6 +89,24 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     if (Inventory.health == 0) return AttackKilled(None)
     return AttackSuccess()
   }
+
+  def build() : Unit = {
+    if (!has_castle){
+      if (Inventory.wood >= 4 && Inventory.stone >= 10 && Inventory.coin >= 1) {
+        val castle = new Base()
+        castle.position = (this.position.x, this.position.y + sprite.textureRect.height)
+        castle.update()
+        context.add(castle)
+        Inventory.wood -= 4
+        Inventory.stone -= 10
+        Inventory.coin -= 1
+        has_castle = true
+      }
+      else println("not enough resources")
+    }
+    else println("you can only have one castle")
+}
+
 
   override def onKeyReleased(e : Event.KeyReleased) : Unit = {
 
