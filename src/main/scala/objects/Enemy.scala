@@ -86,7 +86,7 @@ class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("gam
 
     if(System.currentTimeMillis() - last_attack > attack_delay) {
       last_attack = System.currentTimeMillis()
-      context.trigger(this.trigger_box, objs => {
+      context.trigger_all(this.trigger_box, objs => {
         val opt = objs.find(o => o.isInstanceOf[King])
         if(opt.isDefined) {
           chasing = opt

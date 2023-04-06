@@ -25,7 +25,13 @@ trait Scene extends Transformable with Drawable {
     if (obj.collision_box.isDefined && objects.exists(o => o != obj && o.collision_box.isDefined && o.collision_box.get.intersects(obj.collision_box.get))) obj.position = oldPosY
   }
 
-  def trigger(trigbox : Option[Rect[Float]], action : (Vector[GameObject]) => Unit) : Unit = if(trigbox.isDefined) action(objects.filter(obj => obj.trigger_box.isDefined && obj.trigger_box.get.intersects(trigbox.get)))
+  def trigger_all(trigbox : Option[Rect[Float]], action : (Vector[GameObject]) => Unit) : Unit = if(trigbox.isDefined) action(objects.filter(obj => obj.trigger_box.isDefined && obj.trigger_box.get.intersects(trigbox.get)))
+  def trigger[A <: GameObject](trigbox : Option[Rect[Float]], action : (A) => Unit) : Unit = {
+    if(trigbox.isDefined) objects.filter(obj => obj match {
+      case _ : A => obj.trigger_box.isDefined && obj.trigger_box.get.intersects(trigbox.get)
+      case _ => false
+    }).map(obj => obj.asInstanceOf[A]).foreach(action(_))
+  }
 
   def del(obj : GameObject) : Unit = {
     objects = objects.filterNot(obj.==)

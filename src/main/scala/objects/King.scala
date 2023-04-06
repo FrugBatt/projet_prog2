@@ -57,7 +57,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       Direction.right = true
       state = 1
     } else if (e.code == Keyboard.Key.KeySpace) {
-      context.trigger(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2,this) match {
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2,this) match {
         case a : AttackKilled =>
           context.del(o)
           if (a.drop.isDefined) context.add(a.drop.get)
@@ -67,18 +67,18 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
       context.trigger(this.trigger_box, objs => objs.foreach(o => o.interact() match {
         case a : ResourceRetrievalAction => 
           a.resourceType match {
-            case ResourceType.WOOD => Inventory.wood += 1
-            case ResourceType.STONE => Inventory.stone += 1
-            case ResourceType.COIN => Inventory.coin += 1
-            case ResourceType.MEAT => Inventory.health = (Inventory.health + 3).min(10).max(0)
+            case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
+            case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
+            case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
+            case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
           }
         case b : ResourceCollectAction => 
           context.del(o)
           b.resourceType match {
-            case ResourceType.WOOD => Inventory.wood += 1
-            case ResourceType.STONE => Inventory.stone += 1
-            case ResourceType.COIN => Inventory.coin += 1
-            case ResourceType.MEAT => Inventory.health = (Inventory.health + 3).min(10).max(0)
+            case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
+            case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
+            case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
+            case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
           }
         case _ => ()
       }))
@@ -87,8 +87,8 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
 
   override def attack(dmg: Int, attacker: SpriteGameObject): AttackResponse = {
 
-    Inventory.health = (Inventory.health - dmg).max(0)
-    if (Inventory.health == 0) return AttackKilled(None)
+    PersonalInventory.health = (PersonalInventory.health - dmg).max(0)
+    if (PersonalInventory.health == 0) return AttackKilled(None)
     return AttackSuccess()
   }
 
