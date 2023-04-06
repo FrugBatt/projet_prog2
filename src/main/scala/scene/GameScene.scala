@@ -58,17 +58,16 @@ class GameScene(window : RenderTarget, width : Int, height : Int) extends Scene 
     chicken2.position = Vector2(w*random(),h*random())
     // val hpc2 = new EntityHP(chicken2,5,3)
 
-    val rock1 = new Resource("game/rock.png",0,ResourceType.STONE)
-    rock1.position = Vector2(w*random(),h*random())
+    val mountain = new ResourceGenerator(ResourceType.STONE,"game/mountain.png",Vector2(w*random(),h*random()))
+    mountain.scale = Vector2(1.5f,1.5f)
+    val forest = new ResourceGenerator(ResourceType.WOOD,"game/forest.png",Vector2(w*random(),h*random()))
 
-    val rock2 = new Resource("game/rock.png",0,ResourceType.STONE)
-    rock2.position = Vector2(w*random(),h*random())
+    val castle = new Base()
+    castle.position = Vector2(w*random(),h*random())
+    objects = Vector(camera, world, mountain, forest, enemy1, enemy2, enemy3, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king, castle)
 
-    val wood1 = new Resource("game/wood.png",0,ResourceType.WOOD)
-    wood1.position = Vector2(w*random(),h*random())
-
-
-    objects = Vector(camera, world, rock1, rock2, wood1, enemy1, enemy2, enemy3, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king)
+    add(mountain.deposit)
+    add(forest.deposit)
   }
 
   override def call_event(e : Event) : Unit = {

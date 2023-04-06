@@ -64,10 +64,17 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
         case _ => ()
       }}))
     } else if (e.code == Keyboard.Key.KeyE) {
-      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact() match {
-        case a : ResourceCollectAction => 
-          context.del(o)
+      context.trigger(this.trigger_box, objs => objs.foreach(o => o.interact() match {
+        case a : ResourceRetrievalAction => 
           a.resourceType match {
+            case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
+            case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
+            case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
+            case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
+          }
+        case b : ResourceCollectAction => 
+          context.del(o)
+          b.resourceType match {
             case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
             case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
             case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
