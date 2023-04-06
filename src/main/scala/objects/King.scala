@@ -64,7 +64,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
         case _ => ()
       }}))
     } else if (e.code == Keyboard.Key.KeyE) {
-      context.trigger(this.trigger_box, objs => objs.foreach(o => o.interact() match {
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact() match {
         case a : ResourceRetrievalAction => 
           a.resourceType match {
             case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
