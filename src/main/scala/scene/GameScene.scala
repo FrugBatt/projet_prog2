@@ -17,14 +17,17 @@ import javax.swing.Box
 
 class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int) extends Scene {
   
+
   def init() : Unit = {
-    val world = new World()   
 
     val king = new King(this, hud)
     val camera = new CenteredCamera(window, width, height, 0.2f, king)
-   
+    val world = new World()  
     val w = world.sprite.textureRect.width
     val h = world.sprite.textureRect.height
+
+    
+
     val x = 0f
     val y = 0f
 
@@ -39,17 +42,11 @@ class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int)
       (rand.between(15,85).toFloat)/100
     }
 
-    val ogre1 = new Ogre(this)
-    ogre1.position = Vector2(w*random(),h*random())
+    val spawner = new Spawner(this,6000L,12000L)
+
+    val ogre = new Ogre(this)
+    ogre.position = Vector2(w*random(),h*random())
     // val hpe1 = new EntityHP(enemy1,10,2)
-
-    val ogre2 = new Ogre(this)
-    ogre2.position = Vector2(w*random(),h*random())
-    // val hpe2 = new EntityHP(enemy2,10,2)
-
-    val ogre3 = new Ogre(this)
-    ogre3.position = Vector2(w*random(),h*random())
-    // val hpe3 = new EntityHP(enemy3,10,2)
 
     val goblin = new Goblin(this)
     goblin.position = Vector2(w*random(),h*random())
@@ -66,7 +63,7 @@ class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int)
     mountain.scale = Vector2(1.5f,1.5f)
     val forest = new ResourceGenerator(ResourceType.WOOD,"game/forest.png",Vector2(w*random(),h*random()))
 
-    objects = Vector(camera, world, mountain, forest, ogre1, ogre2, ogre3, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king)
+    objects = Vector(camera, spawner, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king)
 
     add(mountain.deposit)
     add(forest.deposit)
