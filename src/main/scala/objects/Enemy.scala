@@ -67,7 +67,7 @@ class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource,
             if (x > 0) state = 3 //animation for moving to the right
             else state = 4 //animation for moving to the left
             val norm : Float = 2*((sqrt(x*x + y*y)).toFloat)
-            context.safe_move(this, x/norm, y/norm)
+            if (norm < 5) context.safe_move(this, x/norm, y/norm)
 
             if (norm > chasing_range) {
                 chasing = None
