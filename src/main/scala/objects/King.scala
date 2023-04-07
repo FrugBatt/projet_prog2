@@ -183,7 +183,7 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
     if (start) {
       if (!has_castle){
         if (PersonalInventory.inventory.amount(ResourceType.STONE) >= 10 && PersonalInventory.inventory.amount(ResourceType.WOOD) >= 4 && PersonalInventory.inventory.amount(ResourceType.COIN) >= 2) {
-          val castle = new Base(hud)
+          val castle = new Base(hud,this)
           castle.position = (this.position.x, this.position.y + sprite.textureRect.height)
           castle.update()
           context.add(castle)

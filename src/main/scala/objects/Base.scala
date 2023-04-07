@@ -7,7 +7,7 @@ import objects.Inventory
 import events._
 import scene.HudScene
 
-class Base(hud: HudScene) extends AnimatedGameObject("game/castle.png", 51, 48,Array(8,8,8,8)){
+class Base(hud: HudScene, owner: King) extends AnimatedGameObject("game/castle.png", 51, 48,Array(8,8,8,8)){
     
     override def id = 2
 
@@ -72,7 +72,10 @@ class Base(hud: HudScene) extends AnimatedGameObject("game/castle.png", 51, 48,A
     override def damage(dmg: Int, attacker : SpriteGameObject) : AttackResponse = {
         inventory.hp = (inventory.hp - dmg).max(0)
         state = (40 - inventory.hp)/10
-        if (inventory.hp == 0) return AttackKilled(None)
+        if (inventory.hp == 0) {
+            owner.has_castle = false
+            return AttackKilled(None)
+        }
         else return AttackSuccess()
     }
 }
