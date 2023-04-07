@@ -40,8 +40,6 @@ trait Scene extends Transformable with Drawable {
 
   def add(obj: GameObject): Unit = {
     objects = objects :+ obj
-    if (obj.isInstanceOf[SpriteGameObject]) while (obj.collision_box.isDefined && objects.exists(o => o != obj && o.collision_box.isDefined && o.collision_box.get.intersects(obj.collision_box.get))) obj.asInstanceOf[SpriteGameObject].move(1,1)
-
   }
 
   def call_event(e : Event) : Unit = {
