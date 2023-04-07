@@ -62,4 +62,6 @@ class TextGameObject(label : String, characterSize : Int = 65) extends GameObjec
 
   final def scale_=(factors: Vector2[Float]) = text.scale = factors
 
+  final def characterSize_=(size: Int) = text.characterSize = size
+
 }
