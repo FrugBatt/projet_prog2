@@ -3,6 +3,7 @@ package objects
 
 import graphics.ResourceManager
 
+import scala.math._
 import sfml.window.Keyboard
 import sfml.window.Event
 import sfml.graphics.Rect
@@ -16,7 +17,7 @@ import scene.HudScene
 import game.Game
 import objects.Resource
 
-class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
+class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
 
   object Direction {
     var up : Boolean = false
@@ -29,7 +30,8 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   val h : Float = this.sprite.textureRect.height
 
   var has_castle : Boolean = false
-
+  var interacting_castle : Option[Base] = None
+  val castle_range : Float = 300f
 
   override def update(): Unit = {
     super.update() 
@@ -43,6 +45,15 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     if(Direction.right) movX += 1
 
     if (movX != 0 || movY != 0) context.safe_move(this, movX, movY)
+
+    if (interacting_castle.isDefined){
+      val x = position.x - interacting_castle.get.position.x
+      val y = position.y - interacting_castle.get.position.y
+      if (sqrt(x*x + y*y) > castle_range) {
+        interacting_castle.get.inv_close()
+        interacting_castle = None
+      }
+    }
   }
 
   override def onKeyPressed(e : Event.KeyPressed) : Unit = {
@@ -58,9 +69,17 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     } else if (e.code == Keyboard.Key.KeyD) {
       Direction.right = true
       state = 1
-    } else if (e.code == Keyboard.Key.KeyC) {
+    } else if (e.code == Keyboard.Key.KeyI) {
+      context.trigger(this.trigger_box, objs => objs.foreach(o => if(o.isInstanceOf[Base]){
+        interacting_castle = Some(o.asInstanceOf[Base])
+        interacting_castle.get.inv_display()}))
+    }else if (e.code == Keyboard.Key.KeyC) {
       build()
-    }else if (e.code == Keyboard.Key.KeySpace) {
+    } else if (e.code == Keyboard.Key.KeyLeft) {
+      if(interacting_castle.isDefined) interacting_castle.get.retrieve()
+    } else if (e.code == Keyboard.Key.KeyRight) {
+      if(interacting_castle.isDefined) interacting_castle.get.store()
+    } else if (e.code == Keyboard.Key.KeySpace) {
       context.trigger(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2,this) match {
         case a : AttackKilled =>
           context.del(o)
@@ -93,7 +112,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   def build() : Unit = {
     if (!has_castle){
       if (Inventory.wood >= 4 && Inventory.stone >= 10 && Inventory.coin >= 1) {
-        val castle = new Base()
+        val castle = new Base(hud)
         castle.position = (this.position.x, this.position.y + sprite.textureRect.height)
         castle.update()
         context.add(castle)

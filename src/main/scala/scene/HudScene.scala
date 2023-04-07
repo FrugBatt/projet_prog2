@@ -6,9 +6,13 @@ import sfml.system.Vector2
 import scala.collection.mutable.ListBuffer
 
 import objects.*
+import game.Game
 
-class HudScene(window : RenderTarget, width : Int, height : Int) extends Scene {
+class HudScene() extends Scene {
   
+  val window : RenderTarget = Game.window
+  val width : Int = Game.width
+  val height : Int = Game.height
 
   def init() : Unit = {
     val hp = new Healthbar()
