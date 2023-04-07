@@ -93,6 +93,7 @@ class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource,
           opt.get.damage(1,this) match {
           case _ : AttackKilled =>
             context.del(opt.get)
+            chasing = None
           case _ => ()
           }
         }
