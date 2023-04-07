@@ -4,8 +4,13 @@ package objects
 import sfml.window.Event
 import scala.compiletime.ops.boolean
 import sfml.window.Keyboard
+import sfml.system.Vector2
+import game.Game
 
 class StructureInventory() extends StatedGameObject("game/castle_invetory.png",50,70) {
+    position = Vector2(Game.width - 180,Game.height/10)
+    scale = Vector2(5f,5f)
+
 
     var is_displayed : Boolean = false
 

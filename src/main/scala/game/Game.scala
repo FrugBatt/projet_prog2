@@ -21,7 +21,7 @@ object Game {
   def init() : Unit = {
     window = RenderWindow(VideoMode(width, height), "Le RTS de Hugo et Simon les bews")
     
-    val hud = new HudScene()
+    val hud = new HudScene(window,width,height)
     val game_scene = new GameScene(window, hud, width, height)
 
     scenes = Vector(game_scene, hud)

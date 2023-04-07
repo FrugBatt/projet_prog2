@@ -8,11 +8,7 @@ import scala.collection.mutable.ListBuffer
 import objects.*
 import game.Game
 
-class HudScene() extends Scene {
-  
-  val window : RenderTarget = Game.window
-  val width : Int = Game.width
-  val height : Int = Game.height
+class HudScene(window: RenderTarget, width : Int, height : Int) extends Scene {
 
   def init() : Unit = {
     val hp = new Healthbar()

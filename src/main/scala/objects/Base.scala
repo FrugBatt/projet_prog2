@@ -10,6 +10,7 @@ import scene.HudScene
 class Base(hud: HudScene) extends AnimatedGameObject("game/castle.png", 51, 48,Array(8)){
     
     override def collision_box = Some(Rect[Float](position.x + 1, position.y + 24, 47, 23))
+    override def trigger_box = Some(Rect[Float](position.x - 5, position.y - 5, 61, 58))
 
     val inventory = new StructureInventory()
 
