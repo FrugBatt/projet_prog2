@@ -156,13 +156,6 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
   def collect(start : Boolean) : Unit = {
     if (start) {
       context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact(ResourceCollectAction()) match {
-        // case a : ResourceRetrievalAction => 
-        //   a.resourceType match {
-        //     case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
-        //     case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
-        //     case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
-        //     case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
-        // }
         case b : ResourceCollectResponse => 
           b.resourceType match {
             case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)

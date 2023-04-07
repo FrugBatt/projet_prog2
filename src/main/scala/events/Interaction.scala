@@ -13,4 +13,3 @@ sealed trait InteractionResponse
 class NoAction extends InteractionResponse
 class ResourceCollectResponse(val resourceType : ResourceType) extends InteractionResponse
 class ResourceHarvestResponse(val resourceType: ResourceType) extends InteractionResponse
-// class ResourceRetrievalReponse(val resourceType: ResourceType) extends InteractionResponse
