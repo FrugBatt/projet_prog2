@@ -28,6 +28,17 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   val w : Float = this.sprite.textureRect.width
   val h : Float = this.sprite.textureRect.height
 
+  override def init() : Unit = {
+    super.init()
+
+    Control.moveForward.addListener(forward)
+    Control.moveBackward.addListener(backward)
+    Control.moveLeft.addListener(left)
+    Control.moveRight.addListener(right)
+
+    Control.attack.addListener(attack)
+    Control.collect.addListener(collect)
+  }
 
   override def update(): Unit = {
     super.update() 
@@ -43,63 +54,80 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     if (movX != 0 || movY != 0) context.safe_move(this, movX, movY)
   }
 
-  override def onKeyPressed(e : Event.KeyPressed) : Unit = {
-    if (e.code == Keyboard.Key.KeyZ) {
+  def forward(start : Boolean) : Unit = {
+    if start {
       Direction.up = true
       state = 4
-    } else if (e.code == Keyboard.Key.KeyQ) {
-      Direction.left = true
-      state = 3
-    } else if (e.code == Keyboard.Key.KeyS) {
-      Direction.down = true
-      state = 2
-    } else if (e.code == Keyboard.Key.KeyD) {
-      Direction.right = true
-      state = 1
-    } else if (e.code == Keyboard.Key.KeySpace) {
-      context.trigger_all(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.attack(2,this) match {
-        case a : AttackKilled =>
-          context.del(o)
-          if (a.drop.isDefined) context.add(a.drop.get)
-        case _ => ()
-      }}))
-    } else if (e.code == Keyboard.Key.KeyE) {
-      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact() match {
-        case a : ResourceRetrievalAction => 
-          a.resourceType match {
-            case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
-            case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
-            case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
-            case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
-          }
-        case b : ResourceCollectAction => 
-          context.del(o)
-          b.resourceType match {
-            case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
-            case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
-            case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
-            case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
-          }
-        case _ => ()
-      }))
+    } else {
+      Direction.up = false
+      if (! (Direction.up || Direction.down || Direction.left || Direction.right)) state = 0
     }
   }
 
-  override def attack(dmg: Int, attacker: SpriteGameObject): AttackResponse = {
+  def backward(start : Boolean) : Unit = {
+    if start {
+      Direction.down = true
+      state = 2
+    } else {
+      Direction.down = false
+      if (! (Direction.up || Direction.down || Direction.left || Direction.right)) state = 0
+    }
+  }
+
+  def left(start : Boolean) : Unit = {
+    if start {
+      Direction.left = true
+      state = 3
+    } else {
+      Direction.left = false
+      if (! (Direction.up || Direction.down || Direction.left || Direction.right)) state = 0
+    }
+  }
+
+  def right(start : Boolean) : Unit = {
+    if start {
+      Direction.right = true
+      state = 1
+    } else {
+      Direction.right = false
+      if (! (Direction.up || Direction.down || Direction.left || Direction.right)) state = 0
+    }
+  }
+
+  def attack (start : Boolean) : Unit = {
+    context.trigger_all(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.damage(2,this) match {
+      case a : AttackKilled =>
+        context.del(o)
+        if (a.drop.isDefined) context.add(a.drop.get)
+      case _ => ()
+    }}))
+  }
+
+  def collect(start : Boolean) : Unit = {
+    context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact() match {
+      case a : ResourceRetrievalAction => 
+        a.resourceType match {
+          case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
+          case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
+          case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
+          case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
+        }
+      case b : ResourceCollectAction => 
+        context.del(o)
+        b.resourceType match {
+          case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
+          case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
+          case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
+          case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
+        }
+      case _ => ()
+    }))
+  }
+
+  override def damage(dmg: Int, attacker: SpriteGameObject): AttackResponse = {
 
     PersonalInventory.health = (PersonalInventory.health - dmg).max(0)
     if (PersonalInventory.health == 0) return AttackKilled(None)
     return AttackSuccess()
   }
-
-  override def onKeyReleased(e : Event.KeyReleased) : Unit = {
-
-      if (e.code == Keyboard.Key.KeyZ) Direction.up = false
-      if (e.code == Keyboard.Key.KeyS) Direction.down = false
-      if (e.code == Keyboard.Key.KeyD) Direction.right = false
-      if (e.code == Keyboard.Key.KeyQ) Direction.left = false
-      if (! (Direction.up || Direction.down || Direction.left || Direction.right)) state = 0
-
-  }
-
 }
