@@ -7,7 +7,7 @@ import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 import sfml.graphics.Sprite
 
-import events.ResourceCollectAction
+import events._
 
 enum ResourceType {
   case WOOD
@@ -22,8 +22,11 @@ class Resource(resource : String, val value: Int = 1, val kind: ResourceType) ex
 
   def update() : Unit = {}
 
-  override def interact() = {
-    return ResourceCollectAction(kind)
+  override def interact(action : InteractionAction) : InteractionResponse = {
+    action match {
+      case _ : ResourceCollectAction => return ResourceCollectResponse(kind)
+      case _ => return NoAction()
+    }
   }
 
 }

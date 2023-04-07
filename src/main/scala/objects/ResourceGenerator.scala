@@ -24,8 +24,13 @@ class ResourceGenerator(resource_type: ResourceType, resource: String, val pos: 
 
   def update() : Unit = {}
   
-  override def interact() = {
-    deposit.quantity = (deposit.quantity + 1).min(3)
-    return ResourceHarvestAction(resource_type)
+  override def interact(action : InteractionAction) : InteractionResponse = {
+    action match {
+      case _ : ResourceHarvestAction => {
+        deposit.quantity = (deposit.quantity + 1).min(3)
+        return ResourceHarvestResponse(resource_type)
+      }
+      case _ => return NoAction()
+    }
   }
 }
