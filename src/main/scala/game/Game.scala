@@ -8,6 +8,7 @@ import scene.Scene
 import scene.GameScene
 import scene.HudScene
 import scene.PauseScene
+import events.ControlManager
 
 object Game {
 
@@ -36,6 +37,8 @@ object Game {
 
         event match {
           case _ : Event.Closed => window.close()
+          case e : Event.KeyPressed => ControlManager.onKeyPressed(e)
+          case e : Event.KeyReleased => ControlManager.onKeyReleased(e)
           case _ => ()
         }
       
