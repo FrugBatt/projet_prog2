@@ -71,7 +71,9 @@ class Base(hud: HudScene) extends AnimatedGameObject("game/castle.png", 51, 48,A
 
     override def damage(dmg: Int, attacker : SpriteGameObject) : AttackResponse = {
         inventory.hp = (inventory.hp - dmg).max(0)
-        state = (40 - inventory.hp)/4
+        println(dmg)
+        println(inventory.hp)
+        state = (40 - inventory.hp)/10
         if (inventory.hp == 0) return AttackKilled(None)
         else return AttackSuccess()
     }
