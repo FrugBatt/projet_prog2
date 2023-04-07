@@ -50,6 +50,21 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
     Control.build.addListener(build)
   }
 
+  override def close() : Unit = {
+    super.close()
+
+    Control.moveForward.removeListener(forward)
+    Control.moveBackward.removeListener(backward)
+    Control.moveLeft.removeListener(left)
+    Control.moveRight.removeListener(right)
+
+    Control.castleInventory.removeListener(castleInventory)
+
+    Control.attack.removeListener(attack)
+    Control.collect.removeListener(collect)
+    Control.build.removeListener(build)
+  }
+
   override def update(): Unit = {
     super.update() 
 

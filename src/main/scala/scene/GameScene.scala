@@ -76,8 +76,13 @@ class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int)
 
   def pause(start : Boolean) : Unit = {
     if (start) {
-      Game.pause = true
-      Game.scenes = Game.scenes :+ PauseScene
+      if (Game.pause) {
+        Game.pause = false
+        Game.scenes = Game.scenes.filterNot(PauseScene.==)
+      } else {
+        Game.pause = true
+        Game.scenes = Game.scenes :+ PauseScene
+      }
     }
   }
 

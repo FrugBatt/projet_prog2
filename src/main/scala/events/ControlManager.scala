@@ -29,6 +29,10 @@ enum Control(val keys : Vector[Keyboard.Key]) {
   def addListener(listener : Boolean => Unit) : Unit = {
     listeners = listeners :+ listener
   }
+
+  def removeListener(listener : Boolean => Unit) : Unit = {
+    listeners = listeners.filterNot(listener.==)
+  } 
 }
 
 object ControlManager {

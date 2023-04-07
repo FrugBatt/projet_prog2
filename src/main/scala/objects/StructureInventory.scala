@@ -37,6 +37,15 @@ class StructureInventory() extends StatedGameObject("game/castle_inventory.png",
     Control.castleRight.addListener(store)
   }
 
+  override def close() : Unit = {
+    super.close()
+
+    Control.castleUp.removeListener(castleUp)
+    Control.castleDown.removeListener(castleDown)
+    Control.castleLeft.removeListener(retrieve)
+    Control.castleRight.removeListener(store)
+  }
+
   def castleUp(start : Boolean) : Unit = {
     if (start) {
       state = (state - 1).max(0) 

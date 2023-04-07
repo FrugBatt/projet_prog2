@@ -20,16 +20,4 @@ object PauseScene extends Scene {
 
     objects = Vector(background, title)
   }
-
-  override def call_event(e : Event) : Unit = {
-    e match {
-      case e : Event.KeyPressed =>
-        if (e.code == Keyboard.Key.KeyEscape) {
-          Game.pause = false
-          Game.scenes = Game.scenes.filterNot(this.==)
-        }
-      case _ => ()
-    }
-  }
-
 }

@@ -34,6 +34,7 @@ trait Scene extends Transformable with Drawable {
   }
 
   def del(obj : GameObject) : Unit = {
+    // objects.filter(obj.==).foreach(_.close())
     objects = objects.filterNot(obj.==)
   }
 
