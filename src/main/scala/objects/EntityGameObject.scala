@@ -31,7 +31,7 @@ class EntityGameObject(hp : Int, drop : () => Resource, resource : String, width
     
   }
 
-  override def attack(dmg : Int, attacker : SpriteGameObject) = {
+  override def damage(dmg : Int, attacker : SpriteGameObject) = {
     health.hp = (health.hp - dmg).max(0)
     if (health.hp == 0) {
       val d = drop()

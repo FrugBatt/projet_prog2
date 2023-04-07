@@ -70,7 +70,7 @@ class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("ga
         }
 
     }
-    override def attack(dmg: Int, attacker : SpriteGameObject) = {
+    override def damage(dmg: Int, attacker : SpriteGameObject) = {
         
 
         fleeing = Some(attacker)

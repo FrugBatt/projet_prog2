@@ -92,7 +92,7 @@ class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("gam
           chasing = opt
           if(opt.get.position.x > position.x) animate(1)  //attacks towards its right
           else animate(2)                                 // attacks towards its left
-          opt.get.attack(1,this) match {
+          opt.get.damage(1,this) match {
           case _ : AttackKilled =>
             context.del(opt.get)
           case _ => ()
