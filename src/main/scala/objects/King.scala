@@ -46,6 +46,7 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
     Control.castleInventory.addListener(castleInventory)
 
     Control.attack.addListener(attack)
+    Control.harvest.addListener(harvest)
     Control.collect.addListener(collect)
     Control.build.addListener(build)
   }
@@ -61,6 +62,7 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
     Control.castleInventory.removeListener(castleInventory)
 
     Control.attack.removeListener(attack)
+    Control.harvest.removeListener(harvest)
     Control.collect.removeListener(collect)
     Control.build.removeListener(build)
   }
@@ -146,26 +148,33 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
 
   def harvest(start : Boolean) : Unit = {
     if (start) {
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact(ResourceHarvestAction())))
+
     }
   }
 
   def collect(start : Boolean) : Unit = {
     if (start) {
-      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact() match {
-        case a : ResourceRetrievalAction => 
-          a.resourceType match {
-            case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
-            case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
-            case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
-            case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
-        }
-        case b : ResourceCollectAction => 
-          context.del(o)
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact(ResourceCollectAction()) match {
+        // case a : ResourceRetrievalAction => 
+        //   a.resourceType match {
+        //     case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
+        //     case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
+        //     case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
+        //     case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
+        // }
+        case b : ResourceCollectResponse => 
           b.resourceType match {
             case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
             case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
-            case ResourceType.COIN => PersonalInventory.inventory.add(ResourceType.COIN, 1)
-            case ResourceType.MEAT => PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
+            case ResourceType.COIN => {
+              PersonalInventory.inventory.add(ResourceType.COIN, 1)
+              context.del(o)
+            }
+            case ResourceType.MEAT => {
+              PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
+              context.del(o)
+            }
           }
         case _ => ()
       }))

@@ -28,7 +28,7 @@ abstract class GameObject(refreshTime : Long = 10L) extends Drawable with Listen
 
   def close() : Unit
 
-  def interact() : InteractionResponse = return NoAction()
+  def interact(action : InteractionAction) : InteractionResponse = return NoAction()
   def damage(dmg: Int, attacker: SpriteGameObject) : AttackResponse = return NoAttack()
 
   init()
