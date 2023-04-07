@@ -9,7 +9,7 @@ import game.Game
 import objects.Resource
 import events.Control
 
-class StructureInventory() extends StatedGameObject("game/castle_inventory.png",50,70) {
+class StructureInventory(maxhp : Int) extends StatedGameObject("game/castle_inventory.png",50,70) {
   position = Vector2(Game.width - 180,Game.height/10)
   scale = Vector2(3f,3f)
   
@@ -17,7 +17,7 @@ class StructureInventory() extends StatedGameObject("game/castle_inventory.png",
 
   var is_displayed : Boolean = false
 
-
+  var hp : Int = maxhp
   val stone_display = new UpdatableTextGameObject(() => inv.amount(ResourceType.STONE))
   stone_display.position = Vector2(position.x+85,position.y + 22)
   stone_display.characterSize_=(40)
