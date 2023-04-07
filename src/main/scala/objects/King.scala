@@ -44,12 +44,9 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
     if(Direction.down) movY += 1
     if(Direction.right) movX += 1
 
-    if (movX != 0 || movY != 0) context.safe_move(this, movX, movY)
-
-    if (interacting_castle.isDefined){
-      val x = position.x - interacting_castle.get.position.x
-      val y = position.y - interacting_castle.get.position.y
-      if (sqrt(x*x + y*y) > castle_range) {
+    if (movX != 0 || movY != 0) {
+      context.safe_move(this, movX, movY)
+      if (interacting_castle.isDefined){
         interacting_castle.get.inv_close()
         interacting_castle = None
       }

@@ -32,15 +32,15 @@ class Base(hud: HudScene) extends AnimatedGameObject("game/castle.png", 51, 48,A
 
 
     def store() : Unit = {
-        if (state == 0 && Inventory.stone > 0) {
+        if (inventory.state == 0 && Inventory.stone > 0) {
             inventory.stone += 1
             Inventory.stone -= 1
         }
-        if (state == 1 && Inventory.wood > 0) {
+        if (inventory.state == 1 && Inventory.wood > 0) {
             inventory.wood += 1
             Inventory.wood -= 1
         }
-        if (state == 2 && Inventory.coin > 0) {
+        if (inventory.state == 2 && Inventory.coin > 0) {
             inventory.coin += 1
             Inventory.coin -= 1
         }
