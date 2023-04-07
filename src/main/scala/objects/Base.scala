@@ -15,34 +15,34 @@ class Base(hud: HudScene) extends AnimatedGameObject("game/castle.png", 51, 48,A
     val inventory = new StructureInventory()
 
     def retrieve() : Unit = {{
-        if (inventory.state == 0 && inventory.stone > 0)  {
-            inventory.stone -= 1
-            Inventory.stone += 1
+        if (inventory.state == 0 && inventory.inv.amount(ResourceType.STONE) > 0)  {
+            inventory.inv.remove(ResourceType.STONE,1)
+            PersonalInventory.inventory.add(ResourceType.STONE,1)
     }
-        else if (inventory.state == 1 && inventory.wood > 0)  {
-            inventory.wood -= 1
-            Inventory.wood += 1
+        else if (inventory.state == 1 && inventory.inv.amount(ResourceType.WOOD) > 0)  {
+            inventory.inv.remove(ResourceType.WOOD,1)
+            PersonalInventory.inventory.add(ResourceType.WOOD,1)
     }
-        else if (inventory.state == 2 && inventory.coin > 0)  {
-            inventory.coin -= 1
-            Inventory.coin +=1
+        else if (inventory.state == 2 && inventory.inv.amount(ResourceType.COIN) > 0)  {
+            inventory.inv.remove(ResourceType.COIN,1)
+            PersonalInventory.inventory.add(ResourceType.COIN,1)
     }
     }
 }
 
 
     def store() : Unit = {
-        if (inventory.state == 0 && Inventory.stone > 0) {
-            inventory.stone += 1
-            Inventory.stone -= 1
+        if (inventory.state == 0 && PersonalInventory.inventory.amount(ResourceType.STONE) > 0) {
+            inventory.inv.add(ResourceType.STONE,1)
+            PersonalInventory.inventory.remove(ResourceType.STONE,1)
         }
-        if (inventory.state == 1 && Inventory.wood > 0) {
-            inventory.wood += 1
-            Inventory.wood -= 1
+        if (inventory.state == 1 && PersonalInventory.inventory.amount(ResourceType.WOOD) > 0) {
+            inventory.inv.add(ResourceType.WOOD,1)
+            PersonalInventory.inventory.remove(ResourceType.WOOD,1)
         }
-        if (inventory.state == 2 && Inventory.coin > 0) {
-            inventory.coin += 1
-            Inventory.coin -= 1
+        if (inventory.state == 2 && PersonalInventory.inventory.amount(ResourceType.COIN) > 0) {
+            inventory.inv.add(ResourceType.COIN,1)
+            PersonalInventory.inventory.remove(ResourceType.COIN,1)
         }
     }
 

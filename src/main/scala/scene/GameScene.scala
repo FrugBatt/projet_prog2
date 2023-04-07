@@ -62,9 +62,7 @@ class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int)
     mountain.scale = Vector2(1.5f,1.5f)
     val forest = new ResourceGenerator(ResourceType.WOOD,"game/forest.png",Vector2(w*random(),h*random()))
 
-    val castle = new Base()
-    castle.position = Vector2(w*random(),h*random())
-    objects = Vector(camera, world, mountain, forest, enemy1, enemy2, enemy3, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king, castle)
+    objects = Vector(camera, world, mountain, forest, enemy1, enemy2, enemy3, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king)
 
     add(mountain.deposit)
     add(forest.deposit)

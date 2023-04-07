@@ -67,7 +67,7 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
       Direction.right = true
       state = 1
     } else if (e.code == Keyboard.Key.KeyI) {
-      context.trigger(this.trigger_box, objs => objs.foreach(o => if(o.isInstanceOf[Base]){
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => if(o.isInstanceOf[Base]){
         interacting_castle = Some(o.asInstanceOf[Base])
         interacting_castle.get.inv_display()}))
     }else if (e.code == Keyboard.Key.KeyC) {
@@ -114,14 +114,14 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
 
   def build() : Unit = {
     if (!has_castle){
-      if (Inventory.wood >= 4 && Inventory.stone >= 10 && Inventory.coin >= 1) {
+      if (PersonalInventory.inventory.amount(ResourceType.STONE) >= 10 && PersonalInventory.inventory.amount(ResourceType.WOOD) >= 4 && PersonalInventory.inventory.amount(ResourceType.COIN) >= 2) {
         val castle = new Base(hud)
         castle.position = (this.position.x, this.position.y + sprite.textureRect.height)
         castle.update()
         context.add(castle)
-        Inventory.wood -= 4
-        Inventory.stone -= 10
-        Inventory.coin -= 1
+        PersonalInventory.inventory.remove(ResourceType.STONE,10)
+        PersonalInventory.inventory.remove(ResourceType.WOOD,4)
+        PersonalInventory.inventory.remove(ResourceType.COIN,2)
         has_castle = true
       }
       else println("not enough resources")
