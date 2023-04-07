@@ -7,6 +7,7 @@ import sfml.graphics.Rect
 import sfml.window.Event
 
 import game.Game
+import events.Control
 import sfml.window.Keyboard
 
 import objects.*
@@ -66,18 +67,15 @@ class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int)
 
     add(mountain.deposit)
     add(forest.deposit)
+
+    Control.pause.addListener(pause)
   }
 
-  override def call_event(e : Event) : Unit = {
-    e match{
-      case e : Event.KeyPressed =>
-        if (e.code == Keyboard.Key.KeyEscape) {
-          Game.pause = true
-          Game.scenes = Game.scenes :+ PauseScene
-        }
-      case _ => ()
+  def pause(start : Boolean) : Unit = {
+    if (start) {
+      Game.pause = true
+      Game.scenes = Game.scenes :+ PauseScene
     }
-    super.call_event(e)
   }
 
 }

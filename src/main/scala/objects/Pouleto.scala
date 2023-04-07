@@ -76,6 +76,6 @@ class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("ga
         fleeing = Some(attacker)
         fleeing_since = System.currentTimeMillis()
 
-        super.attack(dmg,attacker)
+        super.damage(dmg,attacker)
     }
 }
