@@ -19,6 +19,8 @@ import objects.Resource
 
 class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
 
+  override def id = 1
+
   object Direction {
     var up : Boolean = false
     var down : Boolean = false

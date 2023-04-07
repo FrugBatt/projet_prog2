@@ -55,4 +55,9 @@ class EntityGameObject(hp : Int, drop : () => Resource, resource : String, width
     sprite.position = position
     health.position = (position.x + hp_x_offset, position.y - 2)
   }
+
+  override def move(x: Float,y : Float) = {
+    super.move(x,y)
+    health.move(x,y)
+  }
 }

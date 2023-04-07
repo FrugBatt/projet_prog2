@@ -38,16 +38,16 @@ class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int)
       (rand.between(15,85).toFloat)/100
     }
 
-    val enemy1 = new Enemy(this)
-    enemy1.position = Vector2(w*random(),h*random())
+    val ogre1 = new Ogre(this)
+    ogre1.position = Vector2(w*random(),h*random())
     // val hpe1 = new EntityHP(enemy1,10,2)
 
-    val enemy2 = new Enemy(this)
-    enemy2.position = Vector2(w*random(),h*random())
+    val ogre2 = new Ogre(this)
+    ogre2.position = Vector2(w*random(),h*random())
     // val hpe2 = new EntityHP(enemy2,10,2)
 
-    val enemy3 = new Enemy(this)
-    enemy3.position = Vector2(w*random(),h*random())
+    val ogre3 = new Ogre(this)
+    ogre3.position = Vector2(w*random(),h*random())
     // val hpe3 = new EntityHP(enemy3,10,2)
 
     val chicken1 = new Pouleto(this)
@@ -62,7 +62,7 @@ class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int)
     mountain.scale = Vector2(1.5f,1.5f)
     val forest = new ResourceGenerator(ResourceType.WOOD,"game/forest.png",Vector2(w*random(),h*random()))
 
-    objects = Vector(camera, world, mountain, forest, enemy1, enemy2, enemy3, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king)
+    objects = Vector(camera, world, mountain, forest, ogre1, ogre2, ogre3, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king)
 
     add(mountain.deposit)
     add(forest.deposit)

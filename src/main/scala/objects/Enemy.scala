@@ -19,10 +19,10 @@ import objects.King
 import events._
 import scala.compiletime.ops.long
 
-class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("game/coin.png", 2, ResourceType.COIN),"game/enemy.png", 38, 23, Array(8,8,8,8,8), animationTime = 100L, hp_x_offset = 14) {
+class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource, resource: String, width: Int, height: Int, animationLen : Array[Int], animationTime : Long, hp_x_offset: Int, val target_id : Int = 0) extends EntityGameObject(hp, drop, resource, width, height, animationLen, animationTime, hp_x_offset) {
 
   val rand = new scala.util.Random
-  var chasing : Option[GameObject] = None
+  var chasing : Option[target] = None
   val chasing_range : Float = 200f
   var roaming : Option[Vector2[Float]] = None
   var roaming_since : Long = 0L
@@ -31,8 +31,6 @@ class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("gam
   var anim_time : Option[Long] = None
   var last_attack : Long = System.currentTimeMillis()
 
-  override def collision_box = Some(Rect[Float](position.x + 10, position.y, 18, sprite.textureRect.height))
-  override def trigger_box = Some(Rect[Float](position.x - 3, position.y - 3, sprite.textureRect.width + 6, sprite.textureRect.height + 6))
 
   def animate(animationState : Int) : Unit = {
     state = animationState
@@ -41,7 +39,7 @@ class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("gam
   }
 
 
-  def roam() = { //deciding whether or not should the ogre roam, and in what direction and for how long
+  def roam() = { //deciding whether or not should the enemy roam, and in what direction and for how long
         roaming_since = System.currentTimeMillis()
         roaming_time = rand.nextLong(3000L)
         if(rand.nextInt(2) == 1) {
@@ -87,9 +85,9 @@ class Enemy(context: Scene) extends EntityGameObject(10, () => new Resource("gam
     if(System.currentTimeMillis() - last_attack > attack_delay) {
       last_attack = System.currentTimeMillis()
       context.trigger_all(this.trigger_box, objs => {
-        val opt = objs.find(o => o.isInstanceOf[King])
+        val opt = objs.find(o => o.id == target_id)
         if(opt.isDefined) {
-          chasing = opt
+          chasing = Some(opt.get.asInstanceOf[target])
           if(opt.get.position.x > position.x) animate(1)  //attacks towards its right
           else animate(2)                                 // attacks towards its left
           opt.get.attack(1,this) match {
