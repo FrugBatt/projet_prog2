@@ -9,7 +9,7 @@ import sfml.graphics.RenderStates
 import sfml.graphics.RenderTarget
 
 
-class Spawner(context: Scene, min_time : Long, max_time : Long) extends GameObject(){
+class Spawner(context: Scene, min_time : Long, max_time : Long) extends GameObject {
 
     val w = 256
     val h = 256
@@ -17,7 +17,7 @@ class Spawner(context: Scene, min_time : Long, max_time : Long) extends GameObje
     val rand = new scala.util.Random
 
     def random() : Float = {
-    (rand.between(15,85).toFloat)/100
+      (rand.between(15,85).toFloat)/100
     }
 
     var last_spawn : Long = System.currentTimeMillis()

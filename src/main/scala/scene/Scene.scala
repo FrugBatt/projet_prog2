@@ -45,7 +45,7 @@ trait Scene extends Transformable with Drawable {
                   else 1}
       val ydir = {if (obj.position.y > 128) -1 
                   else 1}
-      while (obj.collision_box.isDefined && objects.exists(o => o != obj && o.collision_box.isDefined && o.collision_box.get.intersects(obj.collision_box.get))) obj.asInstanceOf[SpriteGameObject].move(1,1)
+      while (obj.collision_box.isDefined && objects.exists(o => o != obj && o.collision_box.isDefined && o.collision_box.get.intersects(obj.collision_box.get))) obj.asInstanceOf[SpriteGameObject].move(xdir,ydir)
     }
   }
 
