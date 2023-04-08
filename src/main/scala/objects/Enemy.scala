@@ -22,8 +22,9 @@ import scala.compiletime.ops.long
 class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource, resource: String, width: Int, height: Int, animationLen : Array[Int], animationTime : Long, hp_x_offset: Int, val target_id : Int = 0) extends EntityGameObject(hp, drop, resource, width, height, animationLen, animationTime, hp_x_offset) {
 
   val rand = new scala.util.Random
+  val seeking_range : Float = 80f
   var chasing : Option[target] = None
-  val chasing_range : Float = 200f
+  val chasing_range : Float = 180f
   var roaming : Option[Vector2[Float]] = None
   var roaming_since : Long = 0L
   var roaming_time : Long = rand.nextLong(3000L)
@@ -38,6 +39,12 @@ class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource,
     anim_time = Some(System.currentTimeMillis())
   }
 
+   def seek() = { //searching for a target in seeking range
+    if (!chasing.isDefined){
+      val tgt = context.objects.find(o => (o.id == target_id) && (sqrt((o.position.x - center.x)*(o.position.x - center.x) + (o.position.y - center.y)*(o.position.y - center.y)) < seeking_range))
+      if (tgt.isDefined) chasing = Some(tgt.get.asInstanceOf[target])
+    }
+  }
 
   def roam() = { //deciding whether or not should the enemy roam, and in what direction and for how long
         roaming_since = System.currentTimeMillis()
@@ -56,6 +63,8 @@ class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource,
   override def update(): Unit = {
     super.update()
 
+    seek()
+
     if(anim_time.isDefined) {if(System.currentTimeMillis() - anim_time.get > animationTime * 7) {
       state = 0
       anim_time = None
@@ -67,9 +76,8 @@ class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource,
             if (x > 0) state = 3 //animation for moving to the right
             else state = 4 //animation for moving to the left
             val norm : Float = 2*((sqrt(x*x + y*y)).toFloat)
-            if (norm < 5) context.safe_move(this, x/norm, y/norm)
-
-            if (norm > chasing_range) {
+            if (norm > 5) context.safe_move(this, x/norm, y/norm)
+            if (norm > chasing_range || !(context.objects.contains(chasing.get))) {
                 chasing = None
             }
         }
