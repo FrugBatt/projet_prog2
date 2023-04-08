@@ -9,9 +9,10 @@ import game.Game
 import objects.Resource
 import events.Control
 
-class StructureInventory(maxhp : Int) extends StatedGameObject("game/castle_inventory.png",50,70) {
+class StructureInventory(maxhp : Int) extends StatedGameObject("game/castle_inventory.png",50,90) {
   position = Vector2(Game.width - 180,Game.height/10)
   scale = Vector2(3f,3f)
+
   
   val inv = new Inventory()
 
@@ -27,6 +28,9 @@ class StructureInventory(maxhp : Int) extends StatedGameObject("game/castle_inve
   val coin_display = new UpdatableTextGameObject(() => inv.amount(ResourceType.COIN))
   coin_display.position = Vector2(position.x+85,position.y + 143)
   coin_display.characterSize_=(40)
+  val hp_display = new UpdatableTextGameObject(() => hp, "hp: ", "/40")
+  hp_display.position =Vector2(position.x+15,position.y + 190)
+  hp_display.characterSize_=(25)
 
   override def init() : Unit = {
     super.init()
@@ -48,23 +52,27 @@ class StructureInventory(maxhp : Int) extends StatedGameObject("game/castle_inve
 
   def castleUp(start : Boolean) : Unit = {
     if (start) {
-      state = (state - 1).max(0) 
+      state = (state%4 - 1).max(0)
+      if (hp < maxhp) state += 4
     }
   }
 
   def castleDown(start : Boolean) : Unit = {
-    state = (state + 1).min(2) 
+    if (start) {
+    state = (state%4 + 1).min(3)
+    if (hp < maxhp) state += 4
+    }
   }
 
   def retrieve(start : Boolean) : Unit = {
     if (start) {
-      if (state == 0 && inv.amount(ResourceType.STONE) > 0)  {
+      if (state%4 == 0 && inv.amount(ResourceType.STONE) > 0)  {
         inv.remove(ResourceType.STONE,1)
         PersonalInventory.inventory.add(ResourceType.STONE,1)
-      } else if (state == 1 && inv.amount(ResourceType.WOOD) > 0)  {
+      } else if (state%4 == 1 && inv.amount(ResourceType.WOOD) > 0)  {
         inv.remove(ResourceType.WOOD,1)
         PersonalInventory.inventory.add(ResourceType.WOOD,1)
-      } else if (state == 2 && inv.amount(ResourceType.COIN) > 0)  {
+      } else if (state%4 == 2 && inv.amount(ResourceType.COIN) > 0)  {
         inv.remove(ResourceType.COIN,1)
         PersonalInventory.inventory.add(ResourceType.COIN,1)
       }
@@ -73,16 +81,22 @@ class StructureInventory(maxhp : Int) extends StatedGameObject("game/castle_inve
 
   def store(start : Boolean) : Unit = {
     if (start) {
-      if (state == 0 && PersonalInventory.inventory.amount(ResourceType.STONE) > 0) {
+      if (state%4 == 0 && PersonalInventory.inventory.amount(ResourceType.STONE) > 0) {
         inv.add(ResourceType.STONE,1)
         PersonalInventory.inventory.remove(ResourceType.STONE,1)
-      } else if (state == 1 && PersonalInventory.inventory.amount(ResourceType.WOOD) > 0) {
+      } else if (state%4 == 1 && PersonalInventory.inventory.amount(ResourceType.WOOD) > 0) {
         inv.add(ResourceType.WOOD,1)
         PersonalInventory.inventory.remove(ResourceType.WOOD,1)
-      } else if (state == 2 && PersonalInventory.inventory.amount(ResourceType.COIN) > 0) {
+      } else if (state%4 == 2 && PersonalInventory.inventory.amount(ResourceType.COIN) > 0) {
         inv.add(ResourceType.COIN,1)
         PersonalInventory.inventory.remove(ResourceType.COIN,1)
       }
+        else if (state == 7 && PersonalInventory.inventory.amount(ResourceType.STONE) >= 4 && PersonalInventory.inventory.amount(ResourceType.WOOD) >= 2) {
+          hp = (hp+10).min(maxhp)
+          if (hp == maxhp) state = state - 4
+          PersonalInventory.inventory.remove(ResourceType.STONE,4)
+          PersonalInventory.inventory.remove(ResourceType.WOOD,2)
+        }
     }
   }
 }

@@ -56,6 +56,7 @@ class Base(hud: HudScene, owner: King) extends AnimatedGameObject("game/castle.p
             hud.add(inventory.stone_display)
             hud.add(inventory.wood_display)
             hud.add(inventory.coin_display)
+            hud.add(inventory.hp_display)
         }
     }
 
@@ -66,12 +67,18 @@ class Base(hud: HudScene, owner: King) extends AnimatedGameObject("game/castle.p
             hud.del(inventory.stone_display)
             hud.del(inventory.wood_display)
             hud.del(inventory.coin_display)
+            hud.del(inventory.hp_display)
         }
+    }
+
+    override def update() = {
+        super.update()
+        state = (40 - inventory.hp)/10
     }
 
     override def damage(dmg: Int, attacker : SpriteGameObject) : AttackResponse = {
         inventory.hp = (inventory.hp - dmg).max(0)
-        state = (40 - inventory.hp)/10
+        inventory.state = inventory.state%4 + 4
         if (inventory.hp == 0) {
             owner.has_castle = false
             return AttackKilled(None)
