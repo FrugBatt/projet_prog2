@@ -26,8 +26,8 @@ class Spawner(context: Scene, min_time : Long, max_time : Long) extends GameObje
         if (System.currentTimeMillis() - last_spawn > next_spawn_delay) {
             val entity = {
                 val r = rand.nextInt(100)
-                if(r <= 35) new Ogre(context)
-                else if (r <= 80) new Goblin(context)
+                if(r <= 40) new Ogre(context)
+                else if (r <= 90) new Goblin(context)
                 else new Pouleto(context)
             }
             entity.position = Vector2(w*random(),h*random())
