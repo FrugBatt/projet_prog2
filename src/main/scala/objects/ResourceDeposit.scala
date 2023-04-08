@@ -3,6 +3,7 @@ package objects
 
 import events._
 import objects.Resource
+import objects.PersonalInventory
 import sfml.graphics._
 import sfml.system.Vector2
 
@@ -20,6 +21,8 @@ class ResourceDeposit(generator: ResourceGenerator, resource_type : ResourceType
   }
 
   override def interact(action : InteractionAction) : InteractionResponse = {
+    if (PersonalInventory.inventory.amount(resource_type) >= 30) return NoAction()
+
     action match {
       case _ : ResourceCollectAction => {
         if (quantity > 0){
