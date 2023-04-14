@@ -32,6 +32,7 @@ class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource,
   var anim_time : Option[Long] = None
   var last_attack : Long = System.currentTimeMillis()
 
+  override def id = 3
 
   def animate(animationState : Int) : Unit = {
     state = animationState

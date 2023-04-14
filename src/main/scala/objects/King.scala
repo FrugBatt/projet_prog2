@@ -137,7 +137,7 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
 
   def attack (start : Boolean) : Unit = {
     if (start) {
-      context.trigger_all(this.trigger_box, objs => objs.foreach(o => if(!o.isInstanceOf[King]){o.damage(2,this) match {
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => if(o.id == 3){o.damage(2,this) match {
         case a : AttackKilled =>
           context.del(o)
           if (a.drop.isDefined) context.add(a.drop.get)
@@ -148,7 +148,14 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
 
   def harvest(start : Boolean) : Unit = {
     if (start) {
-      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact(ResourceHarvestAction())))
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact(ResourceHarvestAction()) match{
+        case a: ResourceHarvestResponse =>
+          val axe = new AnimationObject(context,position.x-8,position.y-8,"game/axe.png",32,32,Array(8),60L)
+          axe.animate(0)
+        case _ => ()
+      }
+        ))
+      
 
     }
   }

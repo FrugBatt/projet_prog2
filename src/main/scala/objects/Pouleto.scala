@@ -26,6 +26,8 @@ class Pouleto(context: Scene) extends EntityGameObject(5, () => new Resource("ga
     var fleeing : Option[GameObject] = None
     var fleeing_since : Long = 0L
 
+    override def id = 3
+
     override def collision_box = Some(Rect[Float](position.x + 2, position.y + 7, 12, 7))
     override def trigger_box = Some(Rect[Float](position.x - 4, position.y - 4, sprite.textureRect.width + 8, sprite.textureRect.height + 8))
 

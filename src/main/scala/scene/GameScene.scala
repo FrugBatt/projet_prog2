@@ -59,9 +59,9 @@ class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int)
     chicken2.position = Vector2(w*random(),h*random())
     // val hpc2 = new EntityHP(chicken2,5,3)
 
-    val mountain = new ResourceGenerator(ResourceType.STONE,"game/mountain.png",Vector2(w*random(),h*random()))
+    val mountain = new ResourceGenerator(ResourceType.STONE,"game/mountain.png",Vector2(w*random()*0.85f,h*random()*0.85f))
     mountain.scale = Vector2(1.5f,1.5f)
-    val forest = new ResourceGenerator(ResourceType.WOOD,"game/forest.png",Vector2(w*random(),h*random()))
+    val forest = new ResourceGenerator(ResourceType.WOOD,"game/forest.png",Vector2(w*random()*0.85f,h*random()*0.85f))
 
     objects = Vector(camera, spawner, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king)
 
