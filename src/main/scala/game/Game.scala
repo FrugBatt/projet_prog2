@@ -39,6 +39,9 @@ object Game {
           case _ : Event.Closed => window.close()
           case e : Event.KeyPressed => ControlManager.onKeyPressed(e)
           case e : Event.KeyReleased => ControlManager.onKeyReleased(e)
+          case e : Event.MouseButtonPressed => ControlManager.onMouseButtonPressed(e)
+          case e : Event.MouseButtonReleased => ControlManager.onMouseButtonReleased(e)
+          case e : Event.MouseWheelScrolled => ControlManager.onMouseWheelScrolled(e)
           case _ => ()
         }
       
