@@ -8,14 +8,16 @@ import scala.collection.mutable.ListBuffer
 import objects.*
 import game.Game
 
-class HudScene(window: RenderTarget, width : Int, height : Int) extends Scene {
+object HudScene extends Scene {
+  
 
   def init() : Unit = {
+
     val hp = new Healthbar()
-    val hudcamera = new Camera(window,width,height, 1f)
+    val hudcamera = new Camera(Game.window,Game.width,Game.height, 1f)
 
     hp.scale = Vector2(5f,5f)
-    PersonalInventory.position = Vector2(0,height/10)
+    PersonalInventory.position = Vector2(0,Game.height/10)
     PersonalInventory.scale = Vector2(5f,5f)
 
     val stone_amount = new UpdatableTextGameObject(() => PersonalInventory.inventory.amount(ResourceType.STONE))

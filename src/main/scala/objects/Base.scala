@@ -7,7 +7,7 @@ import objects.Inventory
 import events._
 import scene.HudScene
 
-class Base(hud: HudScene, owner: King) extends AnimatedGameObject("game/castle.png", 51, 48,Array(8,8,8,8)){
+class Base(owner: King) extends AnimatedGameObject("game/castle.png", 51, 48,Array(8,8,8,8)){
     
     override def id = 2
 
@@ -19,22 +19,22 @@ class Base(hud: HudScene, owner: King) extends AnimatedGameObject("game/castle.p
     def inv_display() : Unit = {
         if (!inventory.is_displayed){
             inventory.is_displayed = true
-            hud.add(inventory)
-            hud.add(inventory.stone_display)
-            hud.add(inventory.wood_display)
-            hud.add(inventory.coin_display)
-            hud.add(inventory.hp_display)
+            HudScene.add(inventory)
+            HudScene.add(inventory.stone_display)
+            HudScene.add(inventory.wood_display)
+            HudScene.add(inventory.coin_display)
+            HudScene.add(inventory.hp_display)
         }
     }
 
     def inv_close() : Unit = {
         if (inventory.is_displayed){
             inventory.is_displayed = false
-            hud.del(inventory)
-            hud.del(inventory.stone_display)
-            hud.del(inventory.wood_display)
-            hud.del(inventory.coin_display)
-            hud.del(inventory.hp_display)
+            HudScene.del(inventory)
+            HudScene.del(inventory.stone_display)
+            HudScene.del(inventory.wood_display)
+            HudScene.del(inventory.coin_display)
+            HudScene.del(inventory.hp_display)
         }
     }
 

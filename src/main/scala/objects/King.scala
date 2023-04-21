@@ -17,7 +17,7 @@ import scene.HudScene
 import game.Game
 import objects.Resource
 
-class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
+class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
 
   override def id = 1
 
@@ -192,7 +192,7 @@ class King(context : Scene, hud : HudScene) extends AnimatedGameObject("game/kin
     if (start) {
       if (!has_castle){
         if (PersonalInventory.inventory.amount(ResourceType.STONE) >= 10 && PersonalInventory.inventory.amount(ResourceType.WOOD) >= 4 && PersonalInventory.inventory.amount(ResourceType.COIN) >= 2) {
-          val castle = new Base(hud,this)
+          val castle = new Base(this)
           castle.position = (this.position.x, this.position.y + sprite.textureRect.height)
           castle.update()
           context.add(castle)
