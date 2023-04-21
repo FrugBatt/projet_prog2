@@ -23,6 +23,11 @@ abstract class AnimatedGameObject(resource : String, width : Int, height : Int, 
     return Rect[Int](x, y, width, height)
   }
 
+  override def init() : Unit = {
+    super.init()
+    sprite.textureRect = animationRect
+  }
+
   override def update() : Unit = {
     if (System.currentTimeMillis() - lastAnimationUpdate < animationTime && state == lastAnimationState) return
     super.update()
