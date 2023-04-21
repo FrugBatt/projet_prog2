@@ -7,7 +7,7 @@ import sfml.system.Vector2
 
 class RectangleShapeGameObject(color : Color, x : Int, y : Int, width : Int, height : Int) extends GameObject() {
   
-  val shape : RectangleShape = {
+  var shape : RectangleShape = {
     val r = RectangleShape((width, height))
     r.position = (x, y)
     r.fillColor = color

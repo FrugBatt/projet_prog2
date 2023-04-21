@@ -18,12 +18,14 @@ object Game {
   var height : Int = 768
 
   var pause = false
+  
 
   def init() : Unit = {
+
     window = RenderWindow(VideoMode(width, height), "Le RTS de Hugo et Simon les bews")
     
-    val hud = new HudScene(window,width,height)
-    val game_scene = new GameScene(window, hud, width, height)
+    val hud = HudScene
+    val game_scene = GameScene
 
     scenes = Vector(game_scene, hud)
   }

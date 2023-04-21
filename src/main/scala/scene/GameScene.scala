@@ -15,13 +15,14 @@ import scala.compiletime.ops.float
 import scala.collection.mutable.ListBuffer
 import javax.swing.Box
 
-class GameScene(window : RenderTarget, hud: HudScene, width : Int, height : Int) extends Scene {
+object GameScene extends Scene {
   
 
   def init() : Unit = {
 
-    val king = new King(this, hud)
-    val camera = new CenteredCamera(window, width, height, 0.2f, king)
+
+    val king = new King(this)
+    val camera = new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, king)
     val world = new World()  
     val w = world.sprite.textureRect.width
     val h = world.sprite.textureRect.height
