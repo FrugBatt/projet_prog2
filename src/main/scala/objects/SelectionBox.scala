@@ -23,9 +23,26 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
     var height = 0
     var clicking = false
 
+    override def init(): Unit = {
+
+        super.init()
+
+        Control.mouseClick.addListener(click)
+
+    }
+
+    override def close(): Unit = {
+
+        super.close()
+        
+        Control.mouseClick.removeListener(click)
+
+    }
+
     override def update(): Unit = {
         super.update()
-        
+        width = Mouse.position.x - x
+        height = Mouse.position.y - y
         shape = { 
             val r = RectangleShape((width,height))
             r. position = Vector2(x,y)
@@ -35,23 +52,28 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
 
     }
 
-    def click() = {
-        clicking = true
-        x = Mouse.position.x
-        y = Mouse.position.y
-        GameScene.objects.foreach(o => if(o.isInstanceOf[PlayerControlledEntity]) o.asInstanceOf[PlayerControlledEntity].unselect())
+    override def draw(target : RenderTarget, states : RenderStates) : Unit = {
+        if(clicking) shape.draw(target, states)
     }
 
-    def move() = {
-        if(clicking){
-            width = Mouse.position.x - x
-            height = Mouse.position.y - y
+    def click(press: Boolean) = {
+        if(press){
+
+            clicking = true
+            x = Mouse.position.x
+            y = Mouse.position.y
+            println(x) 
+            println(y)
+            GameScene.objects.foreach(o => if(o.isInstanceOf[PlayerControlledEntity]) o.asInstanceOf[PlayerControlledEntity].unselect())
+        }
+        else{
+
+            clicking = false
+            println(width)
+            println(height)
+            GameScene.trigger_all(Some(Rect[Float](x,y,width,height)), objs => objs.foreach(o => if(o.isInstanceOf[PlayerControlledEntity]) o.asInstanceOf[PlayerControlledEntity].select()))
         }
     }
 
-    def unclick() = {
-        clicking = false
-        GameScene.trigger_all(Some(Rect[Float](x,y,width,height)), objs => objs.foreach(o => if(o.isInstanceOf[PlayerControlledEntity]) o.asInstanceOf[PlayerControlledEntity].select()))
     }
 
-}
