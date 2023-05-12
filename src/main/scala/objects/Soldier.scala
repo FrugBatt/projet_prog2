@@ -18,7 +18,10 @@ import objects.King
 import events._
 import scala.compiletime.ops.long
 
-class Soldier() extends PlayerControlledEntity(10,() => new Resource("game/coin.png", 2, ResourceType.COIN),"game/soldier.png",32,32,Array(1,1)){
+class Soldier() extends PlayerControlledEntity(10,() => new Resource("game/coin.png", 2, ResourceType.COIN),"game/soldier.png",19,25,Array(16,6),120L){
+
+    scale = Vector2[Float](0.7f,0.7f)
+    health.scale = Vector2[Float](0.7f,0.7f)
 
     override def select(): Unit = {
         super.select()

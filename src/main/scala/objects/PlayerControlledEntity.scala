@@ -22,17 +22,18 @@ import scala.compiletime.ops.long
 class PlayerControlledEntity(hp: Int, drop: () => Resource, resource: String, width: Int, height: Int, animationLen : Array[Int], animationTime : Long = 800L) extends EntityGameObject(hp,drop,resource,width,height,animationLen,animationTime) {
 
     var selected : Boolean = false
+    health.show = false
 
     override def collision_box = None
 
     def select() : Unit = {
         selected = true
-        println("I have been selected")
+        health.show = true
     }
 
     def unselect() : Unit = {
         selected = false
-        println("I have been unselected")
+        health.show = false
     }
 
 
