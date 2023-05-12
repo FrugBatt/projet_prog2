@@ -70,6 +70,8 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   override def update(): Unit = {
     super.update() 
 
+
+
     var movX = 0
     var movY = 0
 

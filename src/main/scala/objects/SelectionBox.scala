@@ -22,6 +22,10 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
     var width = 0
     var height = 0
     var clicking = false
+    val king = GameScene.king
+    val zoom = GameScene.camera.zoom
+    var window_height : Int = 0
+    var window_width : Int = 0
 
     override def init(): Unit = {
 
@@ -41,15 +45,21 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
 
     override def update(): Unit = {
         super.update()
-        width = Mouse.position.x - x
-        height = Mouse.position.y - y
+        window_width = Game.window.size.x
+        window_height = Game.window.size.y
+
+
+
+        width = (king.center.x + zoom*(Mouse.position.x - (window_width/2))).toInt - x - 31 //weird offset we dont know the source of, 31 seems to work alright
+        height = (king.center.y + zoom*(Mouse.position.y - (window_height/2))).toInt - y - 31
         shape = { 
             val r = RectangleShape((width,height))
-            r. position = Vector2(x,y)
-            r.fillColor = Color(0, 80, 255, 100)
+            r.position = Vector2(x,y)
+            r.fillColor = Color(255, 0, 40, 100)
+            r.outlineColor = Color(255, 0, 40, 255)
+            r.outlineThickness = 0.5f
             r
         }
-
     }
 
     override def draw(target : RenderTarget, states : RenderStates) : Unit = {
@@ -60,17 +70,13 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
         if(press){
 
             clicking = true
-            x = Mouse.position.x
-            y = Mouse.position.y
-            println(x) 
-            println(y)
+            x = (king.center.x + zoom*(Mouse.position.x - (window_width/2))).toInt - 31
+            y = (king.center.y + zoom*(Mouse.position.y - (window_height/2))).toInt - 31
             GameScene.objects.foreach(o => if(o.isInstanceOf[PlayerControlledEntity]) o.asInstanceOf[PlayerControlledEntity].unselect())
         }
         else{
 
             clicking = false
-            println(width)
-            println(height)
             GameScene.trigger_all(Some(Rect[Float](x,y,width,height)), objs => objs.foreach(o => if(o.isInstanceOf[PlayerControlledEntity]) o.asInstanceOf[PlayerControlledEntity].select()))
         }
     }

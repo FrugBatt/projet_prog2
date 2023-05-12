@@ -17,13 +17,15 @@ import javax.swing.Box
 
 object GameScene extends Scene {
   
+  var king : King = _
+  var camera : CenteredCamera = _
 
   def init() : Unit = {
 
-
-    val king = new King(this)
-    val camera = new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, king)
+    king = new King(this)
+    camera = new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, king)
     val world = new World()  
+    val selectionbox = SelectionBox
     val w = world.sprite.textureRect.width
     val h = world.sprite.textureRect.height
 
@@ -64,7 +66,10 @@ object GameScene extends Scene {
     mountain.scale = Vector2(1.5f,1.5f)
     val forest = new ResourceGenerator(ResourceType.WOOD,"game/forest.png",Vector2(w*random()*0.85f,h*random()*0.85f))
 
-    objects = Vector(camera, spawner, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king)
+    val soldier = new Soldier()
+    soldier.position = Vector2(w*random(),h*random())
+
+    objects = Vector(camera, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king, soldier, selectionbox)
 
     add(mountain.deposit)
     add(forest.deposit)
