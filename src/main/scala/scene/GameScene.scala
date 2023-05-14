@@ -20,6 +20,10 @@ object GameScene extends Scene {
   var king : King = _
   var camera : CenteredCamera = _
 
+
+  def mouse_to_gamescene_x(x : Int) = (king.center.x + camera.zoom*(x - (Game.window.size.x/2))).toInt - x - 31 //weird offset we dont know the source of, 31 seems to work alright
+  def mouse_to_gamescene_y(y : Int) = (king.center.y + camera.zoom*(y - (Game.window.size.y/2))).toInt - y - 31
+
   def init() : Unit = {
 
     king = new King(this)
@@ -66,10 +70,20 @@ object GameScene extends Scene {
     mountain.scale = Vector2(1.5f,1.5f)
     val forest = new ResourceGenerator(ResourceType.WOOD,"game/forest.png",Vector2(w*random()*0.85f,h*random()*0.85f))
 
-    val soldier = new Soldier()
-    soldier.position = Vector2(w*random(),h*random())
+    val soldier1 = new Soldier()
+    soldier1.position = Vector2(w*random(),h*random())
 
-    objects = Vector(camera, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king, soldier, selectionbox)
+    val soldier2 = new Soldier()
+    soldier2.position = Vector2(w*random(),h*random())
+
+    val soldier3 = new Soldier()
+    soldier3.position = Vector2(w*random(),h*random())
+
+    val soldier4 = new Soldier()
+    soldier4.position = Vector2(w*random(),h*random())
+
+
+    objects = Vector(camera, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king, soldier1, soldier2, soldier3, soldier4, selectionbox)
 
     add(mountain.deposit)
     add(forest.deposit)

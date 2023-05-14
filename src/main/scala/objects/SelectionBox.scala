@@ -31,7 +31,7 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
 
         super.init()
 
-        Control.mouseClick.addListener(click)
+        Control.leftClick.addListener(click)
 
     }
 
@@ -39,7 +39,7 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
 
         super.close()
         
-        Control.mouseClick.removeListener(click)
+        Control.leftClick.removeListener(click)
 
     }
 
@@ -50,8 +50,8 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
 
 
 
-        width = (king.center.x + zoom*(Mouse.position.x - (window_width/2))).toInt - x - 31 //weird offset we dont know the source of, 31 seems to work alright
-        height = (king.center.y + zoom*(Mouse.position.y - (window_height/2))).toInt - y - 31
+        width = (king.center.x + zoom*(Mouse.position.x - (window_width/2))).toInt - x - 42 //weird offset we dont know the source of, 31 seems to work alright
+        height = (king.center.y + zoom*(Mouse.position.y - (window_height/2))).toInt - y - 40
         shape = { 
             val r = RectangleShape((width,height))
             r.position = Vector2(x,y)
@@ -70,8 +70,8 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
         if(press){
 
             clicking = true
-            x = (king.center.x + zoom*(Mouse.position.x - (window_width/2))).toInt - 31
-            y = (king.center.y + zoom*(Mouse.position.y - (window_height/2))).toInt - 31
+            x = (king.center.x + zoom*(Mouse.position.x - (window_width/2))).toInt - 42
+            y = (king.center.y + zoom*(Mouse.position.y - (window_height/2))).toInt - 40
             GameScene.objects.foreach(o => if(o.isInstanceOf[PlayerControlledEntity]) o.asInstanceOf[PlayerControlledEntity].unselect())
         }
         else{

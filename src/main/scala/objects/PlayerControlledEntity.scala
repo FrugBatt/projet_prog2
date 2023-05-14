@@ -26,6 +26,11 @@ class PlayerControlledEntity(hp: Int, drop: () => Resource, resource: String, wi
 
     override def collision_box = None
 
+    Control.rightClick.addListener(order)
+
+    def order(start: Boolean) : Unit = {}
+
+
     def select() : Unit = {
         selected = true
         health.show = true
