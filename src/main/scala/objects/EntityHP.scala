@@ -15,8 +15,15 @@ import game.Game
 class EntityHP(maxhp: Int) extends StatedGameObject("game/entityhp.png", 10, 1) {
 
   var hp = maxhp
+  var show = true
 
   override def collision_box = None
+
+
+  override def draw(target : RenderTarget, states : RenderStates) : Unit = {
+    if(show) sprite.draw(target, states)
+  }
+
 
   override def update() : Unit = {
     super.update()

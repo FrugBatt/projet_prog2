@@ -20,10 +20,7 @@ import scala.compiletime.ops.long
 
 class EntityGameObject(hp : Int, drop : () => Resource, resource : String, width : Int, height : Int, animationLen : Array[Int], animationTime : Long = 800L, val hp_x_offset: Int = 2) extends AnimatedGameObject(resource, width, height, animationLen, animationTime) {
 
-  val health = {
-    val h = new EntityHP(hp)
-    h
-  }
+  val health = new EntityHP(hp)
 
   override def update(): Unit = {
     super.update()

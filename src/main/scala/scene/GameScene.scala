@@ -5,6 +5,7 @@ import sfml.graphics.RenderTarget
 import sfml.system.Vector2
 import sfml.graphics.Rect
 import sfml.window.Event
+import sfml.window.Mouse
 
 import game.Game
 import events.Control
@@ -17,18 +18,25 @@ import javax.swing.Box
 
 object GameScene extends Scene {
   
+  var king : King = _
   var camera : CenteredCamera = _
   var world : World = _
   var north_wall : BoxGameObject = _
   var west_wall : BoxGameObject = _
   var south_wall : BoxGameObject = _
 
+  def mouse_position() = {
+    Game.window.mapPixelToCoords(Mouse.position,camera.v) - Vector2(24,22)
+  } 
+
   def init() : Unit = {
-    val king = new King(this)
+    king = new King(this)
     camera = new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, king)
     world = new World()  
     val w = world.map_rect().width
     val h = world.map_rect().height
+
+    val selectionbox = SelectionBox
 
     north_wall = new BoxGameObject(Rect[Float](0,-1,w,1))
     west_wall = new BoxGameObject(Rect[Float](-1,0,1,h))
@@ -66,7 +74,20 @@ object GameScene extends Scene {
     mountain.scale = Vector2(1.5f,1.5f)
     val forest = new ResourceGenerator(ResourceType.WOOD,"game/forest.png",Vector2(w*random()*0.85f,h*random()*0.85f))
 
-    objects = Vector(camera, spawner, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, king)
+    val soldier1 = new Soldier()
+    soldier1.position = Vector2(w*random(),h*random())
+
+    val soldier2 = new Soldier()
+    soldier2.position = Vector2(w*random(),h*random())
+
+    val soldier3 = new Soldier()
+    soldier3.position = Vector2(w*random(),h*random())
+
+    val soldier4 = new Soldier()
+    soldier4.position = Vector2(w*random(),h*random())
+
+
+    objects = Vector(camera, spawner, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, king, soldier1, soldier2, soldier3, soldier4, selectionbox)
 
     add(mountain.deposit)
     add(forest.deposit)

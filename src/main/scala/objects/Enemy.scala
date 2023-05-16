@@ -19,12 +19,12 @@ import objects.King
 import events._
 import scala.compiletime.ops.long
 
-class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource, resource: String, width: Int, height: Int, animationLen : Array[Int], animationTime : Long, hp_x_offset: Int, val target_id : Int = 0) extends EntityGameObject(hp, drop, resource, width, height, animationLen, animationTime, hp_x_offset) {
+class Enemy[target <: GameObject](context: Scene, hp: Int, attack_dmg: Int, drop: () => Resource, resource: String, width: Int, height: Int, animationLen : Array[Int], animationTime : Long, hp_x_offset: Int, val target_id : Int = 0) extends EntityGameObject(hp, drop, resource, width, height, animationLen, animationTime, hp_x_offset) {
 
   val rand = new scala.util.Random
-  val seeking_range : Float = 80f
+  val seeking_range : Float = 60f
   var chasing : Option[target] = None
-  val chasing_range : Float = 180f
+  val chasing_range : Float = 150f
   var roaming : Option[Vector2[Float]] = None
   var roaming_since : Long = 0L
   var roaming_time : Long = rand.nextLong(3000L)
@@ -99,7 +99,7 @@ class Enemy[target <: GameObject](context: Scene, hp: Int, drop: () => Resource,
           chasing = Some(opt.get.asInstanceOf[target])
           if(opt.get.position.x > position.x) animate(1)  //attacks towards its right
           else animate(2)                                 // attacks towards its left
-          opt.get.damage(1,this) match {
+          opt.get.damage(attack_dmg,this) match {
           case _ : AttackKilled =>
             context.del(opt.get)
             chasing = None

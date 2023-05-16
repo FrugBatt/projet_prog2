@@ -257,6 +257,9 @@ enum Control(val keys : Vector[Keys]) {
   case castleDown extends Control(Vector(Keys.Down, Keys.MouseWheel1Down))
   case castleLeft extends Control(Vector(Keys.Left, Keys.MouseWheel2Up))
   case castleRight extends Control(Vector(Keys.Right, Keys.MouseWheel2Down))
+
+  case leftClick extends Control(Vector(Keys.MouseLeft))
+  case rightClick extends Control(Vector(Keys.MouseRight))
   
   case pause extends Control(Vector(Keys.Escape))
 
