@@ -87,7 +87,7 @@ object GameScene extends Scene {
     soldier4.position = Vector2(w*random(),h*random())
 
 
-    objects = Vector(camera, spawner, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, king, soldier1, soldier2, soldier3, soldier4, selectionbox)
+    objects = Vector(camera, spawner, world, Lava, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, king, soldier1, soldier2, soldier3, soldier4, selectionbox)
 
     add(mountain.deposit)
     add(forest.deposit)
