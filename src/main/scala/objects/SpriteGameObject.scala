@@ -9,6 +9,7 @@ abstract class SpriteGameObject(resource : String) extends GameObject() {
   
   var sprite : Sprite = _
 
+
   def init() : Unit = {
     ResourceManager.load_resource(resource)
     sprite = ResourceManager.get_sprite(resource)
