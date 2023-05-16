@@ -6,7 +6,7 @@ import scala.compiletime.ops.boolean
 import sfml.window.Keyboard
 import sfml.system.Vector2
 import game.Game
-import objects.Resource
+import objects._
 import events.Control
 
 class StructureInventory(maxhp : Int) extends StatedGameObject("game/castle_inventory.png",50,90) {
@@ -35,29 +35,29 @@ class StructureInventory(maxhp : Int) extends StatedGameObject("game/castle_inve
   override def init() : Unit = {
     super.init()
 
-    Control.castleUp.addListener(castleUp)
-    Control.castleDown.addListener(castleDown)
-    Control.castleLeft.addListener(retrieve)
-    Control.castleRight.addListener(store)
+    Control.uiUp.addListener(invUp)
+    Control.uiDown.addListener(invDown)
+    Control.uiLeft.addListener(retrieve)
+    Control.uiRight.addListener(store)
   }
 
   override def close() : Unit = {
     super.close()
 
-    Control.castleUp.removeListener(castleUp)
-    Control.castleDown.removeListener(castleDown)
-    Control.castleLeft.removeListener(retrieve)
-    Control.castleRight.removeListener(store)
+    Control.uiUp.removeListener(invUp)
+    Control.uiDown.removeListener(invDown)
+    Control.uiLeft.removeListener(retrieve)
+    Control.uiRight.removeListener(store)
   }
 
-  def castleUp(start : Boolean) : Unit = {
+  def invUp(start : Boolean) : Unit = {
     if (start) {
       state = (state%4 - 1).max(0)
       if (hp < maxhp) state += 4
     }
   }
 
-  def castleDown(start : Boolean) : Unit = {
+  def invDown(start : Boolean) : Unit = {
     if (start) {
     state = (state%4 + 1).min(3)
     if (hp < maxhp) state += 4

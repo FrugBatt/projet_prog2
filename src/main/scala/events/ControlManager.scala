@@ -246,20 +246,21 @@ enum Control(val keys : Vector[Keys]) {
   case moveLeft extends Control(Vector(Keys.Q))
   case moveRight extends Control(Vector(Keys.D))
 
-  case castleInventory extends Control(Vector(Keys.E))
+  case structureInteract extends Control(Vector(Keys.E))
   
   case attack extends Control(Vector(Keys.F))
   case harvest extends Control(Vector(Keys.Space))
   case collect extends Control(Vector(Keys.A))
   case build extends Control(Vector(Keys.C))
 
-  case castleUp extends Control(Vector(Keys.Up, Keys.MouseWheel1Up))
-  case castleDown extends Control(Vector(Keys.Down, Keys.MouseWheel1Down))
-  case castleLeft extends Control(Vector(Keys.Left, Keys.MouseWheel2Up))
-  case castleRight extends Control(Vector(Keys.Right, Keys.MouseWheel2Down))
-
   case leftClick extends Control(Vector(Keys.MouseLeft))
   case rightClick extends Control(Vector(Keys.MouseRight))
+
+  case uiConfirm extends Control(Vector(Keys.Enter))
+  case uiUp extends Control(Vector(Keys.Up, Keys.MouseWheel1Up))
+  case uiDown extends Control(Vector(Keys.Down, Keys.MouseWheel1Down))
+  case uiLeft extends Control(Vector(Keys.Left, Keys.MouseWheel2Up))
+  case uiRight extends Control(Vector(Keys.Right, Keys.MouseWheel2Down))
   
   case pause extends Control(Vector(Keys.Escape))
 

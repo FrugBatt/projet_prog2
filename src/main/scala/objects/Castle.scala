@@ -7,7 +7,7 @@ import objects.Inventory
 import events._
 import scene.HudScene
 
-class Base(owner: King) extends AnimatedGameObject("game/castle.png", 51, 48,Array(8,8,8,8)){
+class Castle(owner: King) extends Structure(owner, 40, "game/castle.png", 51, 48,Array(8,8,8,8,8)){
     
     override def id = 2
 
@@ -15,6 +15,11 @@ class Base(owner: King) extends AnimatedGameObject("game/castle.png", 51, 48,Arr
     override def trigger_box = Some(Rect[Float](position.x - 5, position.y - 5, 61, 58))
 
     val inventory = new StructureInventory(40)
+
+    override def interact() = {
+        if (inventory.is_displayed) inv_close()
+        else inv_display()
+    }
 
     def inv_display() : Unit = {
         if (!inventory.is_displayed){
@@ -40,7 +45,7 @@ class Base(owner: King) extends AnimatedGameObject("game/castle.png", 51, 48,Arr
 
     override def update() = {
         super.update()
-        state = (40 - inventory.hp)/10
+        if(built) state = (40 - inventory.hp)/10 + 1
     }
 
     override def damage(dmg: Int, attacker : SpriteGameObject) : AttackResponse = {
