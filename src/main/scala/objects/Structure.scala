@@ -16,7 +16,7 @@ import scala.compiletime.ops.long
 
 
 
-class Structure(owner: King, maxhp: Int, resource: String, width: Int, height: Int, animationNum: Array[Int]) extends AnimatedGameObject(resource,width,height,animationNum) {
+class Structure(maxhp: Int, resource: String, width: Int, height: Int, animationNum: Array[Int]) extends AnimatedGameObject(resource,width,height,animationNum) {
 
     override def id = 5
 
@@ -35,6 +35,6 @@ class Structure(owner: King, maxhp: Int, resource: String, width: Int, height: I
         }
     }
 
-    def interact() = {}
+    def interact(player : PlayerState) = {}
 
 }

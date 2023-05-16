@@ -16,7 +16,13 @@ import scene._
 import game.Game
 import objects._
 
-class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
+
+enum PlayerState {
+  case P1
+  case P2
+}
+
+class King(context : Scene, p : PlayerState) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
 
   override def id = 1
 
@@ -27,6 +33,9 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     var left : Boolean = false
   }
 
+  val buildUIP1 = new BuildUI(PlayerState.P1)
+  val buildUIP2 = new BuildUI(PlayerState.P2)
+
   val w : Float = this.sprite.textureRect.width
   val h : Float = this.sprite.textureRect.height
 
@@ -36,40 +45,69 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
 
   override def init() : Unit = {
     super.init()
+    
+    p match {
+      case PlayerState.P1 =>
+        Control.moveForwardP1.addListener(forward)
+        Control.moveBackwardP1.addListener(backward)
+        Control.moveLeftP1.addListener(left)
+        Control.moveRightP1.addListener(right)
 
-    Control.moveForward.addListener(forward)
-    Control.moveBackward.addListener(backward)
-    Control.moveLeft.addListener(left)
-    Control.moveRight.addListener(right)
+        Control.attackP1.addListener(attack)
+        Control.harvestP1.addListener(harvest)
+        Control.collectP1.addListener(collect)
+        Control.buildP1.addListener(build)
 
-    Control.structureInteract.addListener(structureInteract)
+        Control.structureInteractP1.addListener(structureInteract)
+      case PlayerState.P2 =>
+        Control.moveForwardP2.addListener(forward)
+        Control.moveBackwardP2.addListener(backward)
+        Control.moveLeftP2.addListener(left)
+        Control.moveRightP2.addListener(right)
 
-    Control.attack.addListener(attack)
-    Control.harvest.addListener(harvest)
-    Control.collect.addListener(collect)
-    Control.build.addListener(build)
+        Control.attackP2.addListener(attack)
+        Control.harvestP2.addListener(harvest)
+        Control.collectP2.addListener(collect)
+        Control.buildP2.addListener(build)
+
+        Control.structureInteractP2.addListener(structureInteract)
+    }
+
   }
 
   override def close() : Unit = {
     super.close()
+    
+    p match {
+      case PlayerState.P1 =>
+        Control.moveForwardP1.removeListener(forward)
+        Control.moveBackwardP1.removeListener(backward)
+        Control.moveLeftP1.removeListener(left)
+        Control.moveRightP1.removeListener(right)
 
-    Control.moveForward.removeListener(forward)
-    Control.moveBackward.removeListener(backward)
-    Control.moveLeft.removeListener(left)
-    Control.moveRight.removeListener(right)
+        Control.attackP1.removeListener(attack)
+        Control.harvestP1.removeListener(harvest)
+        Control.collectP1.removeListener(collect)
+        Control.buildP1.removeListener(build)
 
-    Control.structureInteract.removeListener(structureInteract)
+        Control.structureInteractP1.removeListener(structureInteract)
+      case PlayerState.P2 =>
+        Control.moveForwardP2.removeListener(forward)
+        Control.moveBackwardP2.removeListener(backward)
+        Control.moveLeftP2.removeListener(left)
+        Control.moveRightP2.removeListener(right)
 
-    Control.attack.removeListener(attack)
-    Control.harvest.removeListener(harvest)
-    Control.collect.removeListener(collect)
-    Control.build.removeListener(build)
+        Control.attackP2.removeListener(attack)
+        Control.harvestP2.removeListener(harvest)
+        Control.collectP2.removeListener(collect)
+        Control.buildP2.removeListener(build)
+
+        Control.structureInteractP2.removeListener(structureInteract)
+    }
   }
 
   override def update(): Unit = {
     super.update() 
-
-
 
     var movX = 0
     var movY = 0
@@ -130,16 +168,15 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
 
   def structureInteract(start : Boolean) : Unit = {
     if (start) {
-      
       context.trigger_all(this.trigger_box, objs => {
         val opt = objs.find(o => o.isInstanceOf[Structure])
         if (opt.isDefined){
-          opt.get.asInstanceOf[Structure].interact()
+          opt.get.asInstanceOf[Structure].interact(p)
           if (opt.get.isInstanceOf[Castle]){
             interacting_castle = Some(opt.get.asInstanceOf[Castle])
           }
         }
-        })
+      })
     }
   }
 
@@ -156,7 +193,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
 
   def harvest(start : Boolean) : Unit = {
     if (start) {
-      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact(ResourceHarvestAction()) match{
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact(ResourceHarvestAction(p)) match{
         case a: ResourceHarvestResponse =>
           val axe = new AnimationObject(context,position.x-8,position.y-8,"game/axe.png",32,32,Array(8),60L)
           axe.animate(0)
@@ -168,19 +205,39 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     }
   }
 
+  def getInv(res : ResourceType) = p match {
+    case PlayerState.P1 => PersonalInventory.inventoryP1.amount(res)
+    case PlayerState.P2 => PersonalInventory.inventoryP2.amount(res)
+  }
+
+  def addingInv(res : ResourceType, amount : Int) = p match {
+    case PlayerState.P1 => PersonalInventory.inventoryP1.add(res, amount)
+    case PlayerState.P2 => PersonalInventory.inventoryP2.add(res, amount)
+  }
+
+  def getHealth() = p match {
+    case PlayerState.P1 => PersonalInventory.healthP1
+    case PlayerState.P2 => PersonalInventory.healthP2
+  }
+
+  def addingHealth(amount : Int) = p match {
+    case PlayerState.P1 => PersonalInventory.healthP1 = (PersonalInventory.healthP1 + amount).min(10).max(0)
+    case PlayerState.P2 => PersonalInventory.healthP2 = (PersonalInventory.healthP2 + amount).min(10).max(0)
+  }
+
   def collect(start : Boolean) : Unit = {
     if (start) {
-      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact(ResourceCollectAction()) match {
+      context.trigger_all(this.trigger_box, objs => objs.foreach(o => o.interact(ResourceCollectAction(p)) match {
         case b : ResourceCollectResponse => 
           b.resourceType match {
-            case ResourceType.WOOD => PersonalInventory.inventory.add(ResourceType.WOOD, 1)
-            case ResourceType.STONE => PersonalInventory.inventory.add(ResourceType.STONE, 1)
+            case ResourceType.WOOD => addingInv(ResourceType.WOOD, 1)
+            case ResourceType.STONE => addingInv(ResourceType.STONE, 1)
             case ResourceType.COIN => {
-              PersonalInventory.inventory.add(ResourceType.COIN, 1)
+              addingInv(ResourceType.COIN, 1)
               context.del(o)
             }
             case ResourceType.MEAT => {
-              PersonalInventory.health = (PersonalInventory.health + 3).min(10).max(0)
+              addingHealth(3)
               context.del(o)
             }
           }
@@ -190,19 +247,36 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   }
 
   override def damage(dmg: Int, attacker: SpriteGameObject): AttackResponse = {
-
-    PersonalInventory.health = (PersonalInventory.health - dmg).max(0)
-    if (PersonalInventory.health == 0) return AttackKilled(None)
+    addingHealth(-dmg)
+    if (getHealth() == 0) return AttackKilled(None)
     return AttackSuccess()
   }
 
   def build(start : Boolean) : Unit = {
       if (start) {
-        BuildUI.uidisplay()
+        if (p == PlayerState.P1) then buildUIP1.uidisplay()
+        else buildUIP2.uidisplay()
     }
       else{
-        BuildUI.uiclose()
+        if (p == PlayerState.P1) then buildUIP1.uiclose()
+        else buildUIP2.uiclose()
     }
+//     if (start) {
+//       if (!has_castle){
+//         if (getInv(ResourceType.STONE) >= 10 && getInv(ResourceType.WOOD) >= 4 && getInv(ResourceType.COIN) >= 2) {
+//           val castle = new Base(this)
+//           castle.position = (this.position.x, this.position.y + sprite.textureRect.height)
+//           castle.update()
+//           context.add(castle)
+//           addingInv(ResourceType.STONE, -10)
+//           addingInv(ResourceType.WOOD, -4)
+//           addingInv(ResourceType.COIN, -2)
+//           has_castle = true
+//         }
+//         else println("not enough resources")
+//       }
+//       else println("you can only have one castle")
+//     }
 }
 
 

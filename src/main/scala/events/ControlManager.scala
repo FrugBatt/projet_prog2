@@ -241,27 +241,48 @@ object Keys {
 enum Control(val keys : Vector[Keys]) {
   var listeners : Vector[Boolean => Unit] = Vector()
 
-  case moveForward extends Control(Vector(Keys.Z))
-  case moveBackward extends Control(Vector(Keys.S))
-  case moveLeft extends Control(Vector(Keys.Q))
-  case moveRight extends Control(Vector(Keys.D))
+  case moveForwardP1 extends Control(Vector(Keys.Z))
+  case moveBackwardP1 extends Control(Vector(Keys.S))
+  case moveLeftP1 extends Control(Vector(Keys.Q))
+  case moveRightP1 extends Control(Vector(Keys.D))
 
-  case structureInteract extends Control(Vector(Keys.E))
+  case attackP1 extends Control(Vector(Keys.F))
+  case harvestP1 extends Control(Vector(Keys.Space))
+  case collectP1 extends Control(Vector(Keys.A))
+  case buildP1 extends Control(Vector(Keys.C))
+
+  case structureInteractP1 extends Control(Vector(Keys.E))
+
+
   
-  case attack extends Control(Vector(Keys.F))
-  case harvest extends Control(Vector(Keys.Space))
-  case collect extends Control(Vector(Keys.A))
-  case build extends Control(Vector(Keys.C))
-
   case leftClick extends Control(Vector(Keys.MouseLeft))
   case rightClick extends Control(Vector(Keys.MouseRight))
 
   case uiConfirm extends Control(Vector(Keys.Enter))
-  case uiUp extends Control(Vector(Keys.Up, Keys.MouseWheel1Up))
-  case uiDown extends Control(Vector(Keys.Down, Keys.MouseWheel1Down))
-  case uiLeft extends Control(Vector(Keys.Left, Keys.MouseWheel2Up))
-  case uiRight extends Control(Vector(Keys.Right, Keys.MouseWheel2Down))
+  case uiUp extends Control(Vector(Keys.MouseWheel1Up))
+  case uiDown extends Control(Vector(Keys.MouseWheel1Down))
+  case uiLeft extends Control(Vector(Keys.MouseWheel2Up))
+  case uiRight extends Control(Vector(Keys.MouseWheel2Down))
   
+
+
+  case moveForwardP2 extends Control(Vector(Keys.Up))
+  case moveBackwardP2 extends Control(Vector(Keys.Down))
+  case moveLeftP2 extends Control(Vector(Keys.Left))
+  case moveRightP2 extends Control(Vector(Keys.Right))
+
+  case attackP2 extends Control(Vector(Keys.M))
+  case harvestP2 extends Control(Vector(Keys.L))
+  case collectP2 extends Control(Vector(Keys.K))
+  case buildP2 extends Control(Vector(Keys.J))
+
+  case structureInteractP2 extends Control(Vector(Keys.P))
+
+  // case castleUpP2 extends Control(Vector(Keys.O))
+  // case castleDownP2 extends Control(Vector(Keys.L))
+  // case castleLeftP2 extends Control(Vector(Keys.K))
+  // case castleRightP2 extends Control(Vector(Keys.M))
+
   case pause extends Control(Vector(Keys.Escape))
 
   def addListener(listener : Boolean => Unit) : Unit = {

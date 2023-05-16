@@ -22,7 +22,6 @@ object SelectionBox extends RectangleShapeGameObject(Color(0, 80, 255, 100),0,0,
     var width = 0
     var height = 0
     var clicking = false
-    val king = GameScene.king
     val zoom = GameScene.camera.zoom
     var window_height : Int = 0
     var window_width : Int = 0

@@ -7,7 +7,7 @@ import objects.Inventory
 import events._
 import scene.HudScene
 
-class Castle(owner: King) extends Structure(owner, 40, "game/castle.png", 51, 48,Array(8,8,8,8,8)){
+class Castle extends Structure(40, "game/castle.png", 51, 48,Array(8,8,8,8,8)){
     
     override def id = 2
 
@@ -16,9 +16,11 @@ class Castle(owner: King) extends Structure(owner, 40, "game/castle.png", 51, 48
 
     val inventory = new StructureInventory(40)
 
-    override def interact() = {
+    override def interact(player : PlayerState) = {
         if (inventory.is_displayed) inv_close()
         else inv_display()
+
+        inventory.player = player
     }
 
     def inv_display() : Unit = {
@@ -52,7 +54,7 @@ class Castle(owner: King) extends Structure(owner, 40, "game/castle.png", 51, 48
         inventory.hp = (inventory.hp - dmg).max(0)
         inventory.state = inventory.state%4 + 4
         if (inventory.hp == 0) {
-            owner.has_castle = false
+            // owner.has_castle = false
             return AttackKilled(None)
         }
         else return AttackSuccess()

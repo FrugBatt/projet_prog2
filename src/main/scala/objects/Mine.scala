@@ -9,7 +9,7 @@ import scene.HudScene
 
 
 
-class Mine(owner: King) extends Structure(owner, 10, "game/mine.png", 36, 28,Array(4,12)) {
+class Mine extends Structure(10, "game/mine.png", 36, 28,Array(4,12)) {
 
     val random = new scala.util.Random
     val generation_rate : Long = 4000L
@@ -32,11 +32,17 @@ class Mine(owner: King) extends Structure(owner, 10, "game/mine.png", 36, 28,Arr
         }
     }
 
-    override def interact() = {
-        PersonalInventory.inventory.add(ResourceType.STONE,stone_count)
-        PersonalInventory.inventory.add(ResourceType.COIN,gold_count)
-        stone_count = 0
-        gold_count = 0
+    override def interact(player : PlayerState) = {
+      player match {
+        case PlayerState.P1 =>
+          PersonalInventory.inventoryP1.add(ResourceType.STONE,stone_count)
+          PersonalInventory.inventoryP1.add(ResourceType.COIN,gold_count)
+        case PlayerState.P2 =>
+          PersonalInventory.inventoryP2.add(ResourceType.STONE,stone_count)
+          PersonalInventory.inventoryP2.add(ResourceType.COIN,gold_count)
+      }
+      stone_count = 0
+      gold_count = 0
     }
 
 }
