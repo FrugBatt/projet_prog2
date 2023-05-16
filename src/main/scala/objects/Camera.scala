@@ -11,10 +11,26 @@ import sfml.window.Event
 
 import sfml.system.Vector2
 
-class Camera(val window : RenderTarget, val width : Int, val height : Int, val zoom : Float) extends GameObject {
+enum Side {
+  case Left
+  case Right
+  case Full
+}
+
+class Camera(val window : RenderTarget, val width : Int, val height : Int, val zoom : Float, val side : Side) extends GameObject {
   
   var v = {
-    val v = View(Rect[Float](0f, 0f, width, height))
+    val v = side match {
+      case Side.Full => View(Rect[Float](0f, 0f, width, height))
+      case _ => View(Rect[Float](0f, 0f, width / 2, height))
+    }
+
+    side match {
+      case Side.Left => v.viewport = Rect[Float](0f, 0f, 0.5, 1)
+      case Side.Right => v.viewport = Rect[Float](0.5f, 0f, 0.5, 1)
+      case Side.Full => v.viewport = Rect[Float](0f, 0f, 1, 1)
+    }
+
     v.zoom(zoom)
     v
   }
@@ -33,7 +49,10 @@ class Camera(val window : RenderTarget, val width : Int, val height : Int, val z
   }
 
   override def onResized(e : Event.Resized) : Unit = {
-    v.size = (e.width, e.height)
+    side match {
+      case Side.Full => v.size = (e.width, e.height)
+      case _ => v.size = (e.width / 2, e.height)
+    }
     v.zoom(zoom)
   }
 

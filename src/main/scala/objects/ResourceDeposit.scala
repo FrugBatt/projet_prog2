@@ -21,10 +21,15 @@ class ResourceDeposit(generator: ResourceGenerator, resource_type : ResourceType
   }
 
   override def interact(action : InteractionAction) : InteractionResponse = {
-    if (PersonalInventory.inventory.amount(resource_type) >= 30) return NoAction()
+    // if (PersonalInventory.inventory.amount(resource_type) >= 30) return NoAction()
 
     action match {
-      case _ : ResourceCollectAction => {
+      case a : ResourceCollectAction => {
+        a.player match {
+          case PlayerState.P1 => if PersonalInventory.inventoryP1.amount(resource_type) >= 30 then return NoAction()
+          case PlayerState.P2 => if PersonalInventory.inventoryP2.amount(resource_type) >= 30 then return NoAction()
+        }
+
         if (quantity > 0){
           quantity = quantity - 1
           return ResourceCollectResponse(resource_type)

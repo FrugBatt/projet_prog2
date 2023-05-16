@@ -8,11 +8,14 @@ import scala.collection.immutable.Vector
 import objects.GameObject
 import objects.SpriteGameObject
 import scala.collection.mutable.ListBuffer
+import objects.Camera
 
 trait Scene extends Transformable with Drawable {
   
   var objects : Vector[GameObject] = _
   
+  var cameras : Vector[Camera] = Vector()
+
   def init() : Unit
 
   def safe_move(obj : SpriteGameObject, movX : Float, movY : Float) : Unit = {
@@ -82,7 +85,11 @@ trait Scene extends Transformable with Drawable {
 
   def draw(target : RenderTarget, states : RenderStates) : Unit = {
     states.transform *= transform
-    objects.foreach(_.draw(target, states))
+    cameras.foreach(cam => {
+      cam.draw(target, states)
+      objects.foreach(_.draw(target, states))
+    })
+    // objects.foreach(_.draw(target, states))
   }
 
   def close() : Unit = {
