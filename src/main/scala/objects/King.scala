@@ -109,7 +109,7 @@ class King(context : Scene, p : PlayerState) extends AnimatedGameObject("game/ki
   override def update(): Unit = {
     super.update() 
 
-    if (Lava.progress > center.x) PersonalInventory.health = (PersonalInventory.health - 1).max(0)
+    if (Lava.progress > center.x) addingHealth(-1)
 
     var movX = 0
     var movY = 0
