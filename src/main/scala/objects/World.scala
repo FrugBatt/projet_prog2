@@ -52,7 +52,7 @@ class World() extends GameObject() {
   override def init() : Unit = {}
 
   def update() : Unit = {
-    if (map_rect().width < GameScene.camera.v.center.x + sprites(0).textureRect.width/2) {
+    if (GameScene.cameras.exists(cam => map_rect().width < cam.v.center.x + sprites(0).textureRect.width/2)) {
       expand_map()
       println("map expanded")
     }
