@@ -18,9 +18,9 @@ object BuildUI extends StatedGameObject("game/buildUI.png",110,62) {
 
     val castle_build = new TextGameObject("Castle       20    4     2", 25)
     castle_build.position = Vector2(40, Game.height - 240)
-    val barracks_build = new TextGameObject("Barracks    10     10    4", 25)
+    val barracks_build = new TextGameObject("Barracks   10    10   4", 25)
     barracks_build.position = Vector2(40, Game.height - 203)
-    val mine_build = new TextGameObject("Mine          15    4    0", 25)
+    val mine_build = new TextGameObject("Mine          15    8    2", 25)
     mine_build.position = Vector2(40, Game.height - 166)
 
 
