@@ -32,12 +32,12 @@ object GameScene extends Scene {
 
   def init() : Unit = {
     king1 = new King(this, PlayerState.P1)
-    king2 = new King(this, PlayerState.P2)
-    king2.position = Vector2(100,100)
+    // king2 = new King(this, PlayerState.P2)
+    // king2.position = Vector2(100,100)
     
-    camera = new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, king1, Side.Left)
-    cameras = Vector(camera, new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, king2, Side.Right))
-    // cameras = Vector(camera)
+    camera = new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, king1, Side.Full)
+    // cameras = Vector(camera, new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, king2, Side.Right))
+    cameras = Vector(camera)
     world = new World()  
     val w = world.map_rect().width
     val h = world.map_rect().height
@@ -93,7 +93,7 @@ object GameScene extends Scene {
     soldier4.position = Vector2(w*random(),h*random())
 
 
-    objects = Vector(spawner, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, king1, king2, soldier1, soldier2, soldier3, soldier4, selectionbox)
+    objects = Vector(spawner, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, king1, soldier1, soldier2, soldier3, soldier4, selectionbox)
 
     add(mountain.deposit)
     add(forest.deposit)

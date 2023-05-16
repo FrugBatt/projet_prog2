@@ -8,7 +8,11 @@ import scene.Scene
 import scene.GameScene
 import scene.HudScene
 import scene.PauseScene
-import events.ControlManager
+
+import sfml.system.Vector2
+
+import objects._
+import events._
 
 object Game {
 
@@ -19,6 +23,7 @@ object Game {
 
   var pause = false
   
+  var single = true
 
   def init() : Unit = {
 
@@ -26,6 +31,8 @@ object Game {
     
     val hud = HudScene
     val game_scene = GameScene
+
+    Control.switchSingleMulti.addListener(switchSingleMulti)
 
     scenes = Vector(game_scene, hud)
   }
@@ -60,6 +67,38 @@ object Game {
 
   def end() : Unit = {
     scenes.foreach(_.close())
+  }
+
+  def switchSingleMulti(start : Boolean) : Unit = {
+    if (start) {
+      single = !single
+      if (single) {
+        GameScene.cameras = Vector(new CenteredCamera(window, width, height, 0.2f, GameScene.king1, Side.Full))
+
+        GameScene.del(GameScene.king2)
+        GameScene.king2.close()
+        GameScene.king2 = null
+
+        HudScene.del(HudScene.hpP2)
+        HudScene.del(HudScene.invhudP2)
+        HudScene.del(HudScene.stone_amountP2)
+        HudScene.del(HudScene.wood_amountP2)
+        HudScene.del(HudScene.coin_amountP2)
+      } else {
+        GameScene.king2 = new King(GameScene, PlayerState.P2)
+        GameScene.king2.position = Vector2(GameScene.king1.position.x,GameScene.king1.position.y + 50)
+        GameScene.add(GameScene.king2)
+
+        // GameScene.addCamera(new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, GameScene.king2, Side.Right)
+        GameScene.cameras = Vector(new CenteredCamera(window, width, height, 0.2f, GameScene.king1, Side.Left), new CenteredCamera(window, width, height, 0.2f, GameScene.king2, Side.Right))
+
+        HudScene.add(HudScene.hpP2)
+        HudScene.add(HudScene.invhudP2)
+        HudScene.add(HudScene.stone_amountP2)
+        HudScene.add(HudScene.wood_amountP2)
+        HudScene.add(HudScene.coin_amountP2)
+      }
+    }
   }
 
 }

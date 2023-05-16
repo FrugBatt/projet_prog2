@@ -277,6 +277,9 @@ enum Control(val keys : Vector[Keys]) {
   case buildP2 extends Control(Vector(Keys.J))
 
   case structureInteractP2 extends Control(Vector(Keys.P))
+  
+
+  case switchSingleMulti extends Control(Vector(Keys.F1))
 
   // case castleUpP2 extends Control(Vector(Keys.O))
   // case castleDownP2 extends Control(Vector(Keys.L))
