@@ -22,7 +22,7 @@ object Game {
 
   def init() : Unit = {
 
-    window = RenderWindow(VideoMode(width, height), "Le RTS de Hugo et Simon les bews")
+    window = RenderWindow(VideoMode(width, height), "Toujours pas de nom pour ce jeu")
     
     val hud = HudScene
     val game_scene = GameScene
@@ -54,6 +54,8 @@ object Game {
       window.clear(Color.Black())
       scenes.foreach(window.draw(_))
       window.display()
+      width = window.size.x
+      height = window.size.y
   }
 
   def end() : Unit = {

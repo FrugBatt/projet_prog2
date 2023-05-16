@@ -5,6 +5,7 @@ import sfml.graphics.RenderTarget
 import sfml.system.Vector2
 import sfml.graphics.Rect
 import sfml.window.Event
+import sfml.window.Mouse
 
 import game.Game
 import events.Control
@@ -21,8 +22,9 @@ object GameScene extends Scene {
   var camera : CenteredCamera = _
 
 
-  def mouse_to_gamescene_x(x : Int) = (king.center.x + camera.zoom*(x - (Game.window.size.x/2))).toInt - x - 31 //weird offset we dont know the source of, 31 seems to work alright
-  def mouse_to_gamescene_y(y : Int) = (king.center.y + camera.zoom*(y - (Game.window.size.y/2))).toInt - y - 31
+  def mouse_position() = {
+    Game.window.mapPixelToCoords(Mouse.position,camera.v) - Vector2(24,22)
+  } 
 
   def init() : Unit = {
 
@@ -83,7 +85,7 @@ object GameScene extends Scene {
     soldier4.position = Vector2(w*random(),h*random())
 
 
-    objects = Vector(camera, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king, soldier1, soldier2, soldier3, soldier4, selectionbox)
+    objects = Vector(camera, spawner, world, mountain, forest, ogre, goblin, chicken1, chicken2, north_wall, west_wall, south_wall, east_wall, king, soldier1, soldier2, soldier3, soldier4, selectionbox)
 
     add(mountain.deposit)
     add(forest.deposit)
