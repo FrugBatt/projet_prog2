@@ -5,7 +5,7 @@ import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 import sfml.graphics.Rect
 
-class BoxGameObject(box : Rect[Float]) extends GameObject {
+class BoxGameObject(var box : Rect[Float]) extends GameObject {
 
   def collision_box = Some(box)
   def trigger_box = None
