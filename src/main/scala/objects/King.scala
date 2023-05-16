@@ -12,10 +12,9 @@ import sfml.graphics.RenderTarget
 import sfml.graphics.RenderStates
 import sfml.system.Vector2
 import events._
-import scene.Scene
-import scene.HudScene
+import scene._
 import game.Game
-import objects.Resource
+import objects._
 
 class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, Array(8,8,8,8,8)) {
 
@@ -32,7 +31,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   val h : Float = this.sprite.textureRect.height
 
   var has_castle : Boolean = false
-  var interacting_castle : Option[Base] = None
+  var interacting_castle : Option[Castle] = None
   val castle_range : Float = 300f
 
   override def init() : Unit = {
@@ -43,7 +42,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     Control.moveLeft.addListener(left)
     Control.moveRight.addListener(right)
 
-    Control.castleInventory.addListener(castleInventory)
+    Control.structureInteract.addListener(structureInteract)
 
     Control.attack.addListener(attack)
     Control.harvest.addListener(harvest)
@@ -59,7 +58,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     Control.moveLeft.removeListener(left)
     Control.moveRight.removeListener(right)
 
-    Control.castleInventory.removeListener(castleInventory)
+    Control.structureInteract.removeListener(structureInteract)
 
     Control.attack.removeListener(attack)
     Control.harvest.removeListener(harvest)
@@ -127,11 +126,18 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
     }
   }
 
-  def castleInventory(start : Boolean) : Unit = {
+  def structureInteract(start : Boolean) : Unit = {
     if (start) {
-      context.trigger_all(this.trigger_box, objs => objs.foreach(o => if(o.isInstanceOf[Base]){
-        interacting_castle = Some(o.asInstanceOf[Base])
-        interacting_castle.get.inv_display()}))
+      
+      context.trigger_all(this.trigger_box, objs => {
+        val opt = objs.find(o => o.isInstanceOf[Structure])
+        if (opt.isDefined){
+          opt.get.asInstanceOf[Structure].interact()
+          if (opt.get.isInstanceOf[Castle]){
+            interacting_castle = Some(opt.asInstanceOf[Castle])
+          }
+        }
+        })
     }
   }
 
@@ -189,10 +195,19 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   }
 
   def build(start : Boolean) : Unit = {
+    if (true){
+      if (start) {
+        BuildUI.uidisplay()
+    }
+      else{
+        BuildUI.uiclose()
+    }
+  }
+    else{
     if (start) {
       if (!has_castle){
         if (PersonalInventory.inventory.amount(ResourceType.STONE) >= 10 && PersonalInventory.inventory.amount(ResourceType.WOOD) >= 4 && PersonalInventory.inventory.amount(ResourceType.COIN) >= 2) {
-          val castle = new Base(this)
+          val castle = new Castle(this)
           castle.position = (this.position.x, this.position.y + sprite.textureRect.height)
           castle.update()
           context.add(castle)
@@ -204,6 +219,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
         else println("not enough resources")
       }
       else println("you can only have one castle")
+    }
     }
 }
 
