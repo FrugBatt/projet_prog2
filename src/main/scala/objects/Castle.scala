@@ -7,7 +7,7 @@ import objects.Inventory
 import events._
 import scene.HudScene
 
-class Castle(owner: King) extends Structure(owner, 40, "game/castle.png", 51, 48,Array(8,8,8,8)){
+class Castle(owner: King) extends Structure(owner, 40, "game/castle.png", 51, 48,Array(8,8,8,8,8)){
     
     override def id = 2
 
@@ -45,7 +45,7 @@ class Castle(owner: King) extends Structure(owner, 40, "game/castle.png", 51, 48
 
     override def update() = {
         super.update()
-        state = (40 - inventory.hp)/10
+        if(built) state = (40 - inventory.hp)/10 + 1
     }
 
     override def damage(dmg: Int, attacker : SpriteGameObject) : AttackResponse = {

@@ -5,6 +5,8 @@ import events._
 import scene._
 import game.Game
 import objects.TextGameObject
+import objects.PersonalInventory
+import objects.King
 import sfml.system.Vector2
 
 object BuildUI extends StatedGameObject("game/buildUI.png",110,62) {
@@ -60,6 +62,37 @@ object BuildUI extends StatedGameObject("game/buildUI.png",110,62) {
     def down(start: Boolean) : Unit = {
         state = (state+1).min(2)
     }
-    def build(start: Boolean) : Unit = {}
+    def build(start: Boolean) : Unit = {
+        if (start && active) {
+            if(state == 0){
+                if (!GameScene.king.has_castle){
+                    if (PersonalInventory.inventory.amount(ResourceType.STONE) >= 10 && PersonalInventory.inventory.amount(ResourceType.WOOD) >= 4 && PersonalInventory.inventory.amount(ResourceType.COIN) >= 2) {
+                        val castle = new Castle(GameScene.king)
+                        castle.position = (GameScene.king.position.x, GameScene.king.position.y + GameScene.king.sprite.textureRect.height)
+                        castle.update()
+                        GameScene.add(castle)
+                        PersonalInventory.inventory.remove(ResourceType.STONE,10)
+                        PersonalInventory.inventory.remove(ResourceType.WOOD,4)
+                        PersonalInventory.inventory.remove(ResourceType.COIN,2)
+                        GameScene.king.has_castle = true
+                    }
+                    else println("not enough resources")
+                }
+                else println("you can only have one castle")
+            }
+
+            if (state == 2) {
+                if (PersonalInventory.inventory.amount(ResourceType.STONE) >= 15 && PersonalInventory.inventory.amount(ResourceType.WOOD) >= 4 && PersonalInventory.inventory.amount(ResourceType.COIN) >= 0) {
+                        val mine = new Mine(GameScene.king)
+                        mine.position = (GameScene.king.position.x, GameScene.king.position.y + GameScene.king.sprite.textureRect.height)
+                        GameScene.add(mine)
+                        PersonalInventory.inventory.remove(ResourceType.STONE,15)
+                        PersonalInventory.inventory.remove(ResourceType.WOOD,4)
+                        PersonalInventory.inventory.remove(ResourceType.COIN,0)
+                }
+                else println("not enough resources")
+            }
+        }
+    }
 
 }

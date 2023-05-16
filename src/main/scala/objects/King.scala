@@ -134,7 +134,7 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
         if (opt.isDefined){
           opt.get.asInstanceOf[Structure].interact()
           if (opt.get.isInstanceOf[Castle]){
-            interacting_castle = Some(opt.asInstanceOf[Castle])
+            interacting_castle = Some(opt.get.asInstanceOf[Castle])
           }
         }
         })
@@ -195,31 +195,11 @@ class King(context : Scene) extends AnimatedGameObject("game/king.png", 16, 17, 
   }
 
   def build(start : Boolean) : Unit = {
-    if (true){
       if (start) {
         BuildUI.uidisplay()
     }
       else{
         BuildUI.uiclose()
-    }
-  }
-    else{
-    if (start) {
-      if (!has_castle){
-        if (PersonalInventory.inventory.amount(ResourceType.STONE) >= 10 && PersonalInventory.inventory.amount(ResourceType.WOOD) >= 4 && PersonalInventory.inventory.amount(ResourceType.COIN) >= 2) {
-          val castle = new Castle(this)
-          castle.position = (this.position.x, this.position.y + sprite.textureRect.height)
-          castle.update()
-          context.add(castle)
-          PersonalInventory.inventory.remove(ResourceType.STONE,10)
-          PersonalInventory.inventory.remove(ResourceType.WOOD,4)
-          PersonalInventory.inventory.remove(ResourceType.COIN,2)
-          has_castle = true
-        }
-        else println("not enough resources")
-      }
-      else println("you can only have one castle")
-    }
     }
 }
 

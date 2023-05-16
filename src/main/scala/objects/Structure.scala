@@ -20,7 +20,7 @@ class Structure(owner: King, maxhp: Int, resource: String, width: Int, height: I
 
     override def id = 5
 
-    val build_time : Long = 1500L
+    val build_time : Long = 2500L
     val build_start : Long = System.currentTimeMillis()
     var built = false
 

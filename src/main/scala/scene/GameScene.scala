@@ -17,11 +17,12 @@ import javax.swing.Box
 
 object GameScene extends Scene {
   
+  var king : King = _
 
   def init() : Unit = {
 
 
-    val king = new King(this)
+    king = new King(this)
     val camera = new CenteredCamera(Game.window, Game.width, Game.height, 0.2f, king)
     val world = new World()  
     val w = world.sprite.textureRect.width
