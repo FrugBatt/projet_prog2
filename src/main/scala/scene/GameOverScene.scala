@@ -8,9 +8,14 @@ import objects.RectangleShapeGameObject
 import objects.TextGameObject
 import game.Game
 
+import objects.Camera
+import objects.Side
+
 object GameOverScene extends Scene {
 
   def init() : Unit = {
+    cameras = Vector(new Camera(Game.window, Game.width, Game.height, 1f, Side.Full))
+
     val gameover_msg = new TextGameObject("GAME OVER", characterSize = 50)
     gameover_msg.position = Vector2(300,150)
 
