@@ -25,6 +25,7 @@ object GameScene extends Scene {
   var north_wall : BoxGameObject = _
   var west_wall : BoxGameObject = _
   var south_wall : BoxGameObject = _
+  var spawner : Spawner = _
 
   def mouse_position() = {
     Game.window.mapPixelToCoords(Mouse.position,camera.v) - Vector2(24,22)
@@ -51,15 +52,13 @@ object GameScene extends Scene {
     val x = 0f
     val y = 0f
 
-    // val east_wall = new BoxGameObject(Rect[Float](x+w+1,y,1,h))
-
     val rand = new scala.util.Random
 
     def random() : Float = {
       (rand.between(15,85).toFloat)/100
     }
 
-    val spawner = new Spawner(this,6000L,12000L)
+    spawner = new Spawner(this,6000L,12000L)
 
     val ogre = new Ogre(this)
     ogre.position = Vector2(w*random(),h*random())

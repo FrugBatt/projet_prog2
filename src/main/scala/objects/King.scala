@@ -15,6 +15,7 @@ import events._
 import scene._
 import game.Game
 import objects._
+import sfml.graphics.Color
 
 
 enum PlayerState {
@@ -71,6 +72,7 @@ class King(context : Scene, p : PlayerState) extends AnimatedGameObject("game/ki
         Control.buildP2.addListener(build)
 
         Control.structureInteractP2.addListener(structureInteract)
+        sprite.color = Color(150, 150, 200)
     }
 
   }

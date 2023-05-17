@@ -259,8 +259,8 @@ enum Control(val keys : Vector[Keys]) {
   case rightClick extends Control(Vector(Keys.MouseRight))
 
   case uiConfirm extends Control(Vector(Keys.Enter))
-  case uiUp extends Control(Vector(Keys.MouseWheel1Up))
-  case uiDown extends Control(Vector(Keys.MouseWheel1Down))
+  case uiUp extends Control(Vector(Keys.PageUp, Keys.MouseWheel1Up))
+  case uiDown extends Control(Vector(Keys.PageDown, Keys.MouseWheel1Down))
   case uiLeft extends Control(Vector(Keys.MouseWheel2Up))
   case uiRight extends Control(Vector(Keys.MouseWheel2Down))
   

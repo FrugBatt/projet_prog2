@@ -54,6 +54,7 @@ class World() extends GameObject() {
   def update() : Unit = {
     if (GameScene.cameras.exists(cam => map_rect().width < cam.v.center.x + sprites(0).textureRect.width/2)) {
       expand_map()
+      GameScene.spawner.spawn_zone = Rect[Float](GameScene.spawner.spawn_zone.left, GameScene.spawner.spawn_zone.top, map_rect().width - GameScene.spawner.spawn_zone.left, map_rect().height - GameScene.spawner.spawn_zone.top)
       println("map expanded")
     }
   }
