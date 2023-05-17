@@ -18,8 +18,11 @@ import objects.ResourceType
 import objects.King
 import events._
 import scala.compiletime.ops.long
+import sfml.graphics.View
 
 class Soldier() extends PlayerControlledEntity(10,() => new Resource("game/coin.png", 2, ResourceType.COIN),"game/soldier.png",19,25,Array(16,6,6),120L){
+
+    var mouse_position = Vector2[Float](0,0)
 
     val target_id = 3
     val random = new scala.util.Random
@@ -99,9 +102,7 @@ class Soldier() extends PlayerControlledEntity(10,() => new Resource("game/coin.
     }
     override def order(start: Boolean) = {
         if(start && selected){
-            val x = GameScene.mouse_position().x
-            val y = GameScene.mouse_position().y
-            destination = Some(Vector2[Float](x + 4*random.nextGaussian().toFloat, y + 4*random.nextGaussian().toFloat))
+            destination = Some(Vector2[Float](mouse_position.x + 4*random.nextGaussian().toFloat, mouse_position.y + 4*random.nextGaussian().toFloat))
         }
     }
 
@@ -119,6 +120,15 @@ class Soldier() extends PlayerControlledEntity(10,() => new Resource("game/coin.
         state = animationState
         animationIteration = 0
         anim_time = Some(System.currentTimeMillis())
+    }
+
+    def getView(x : Int) : View = {
+      if (Game.single) GameScene.cameras(0).v
+      else if (x < Game.window.size.x/2) GameScene.cameras(0).v
+      else GameScene.cameras(1).v
+    }
+    override def onMouseMoved(e : Event.MouseMoved) = {
+      mouse_position = Game.window.mapPixelToCoords(Vector2(e.x, e.y), getView(e.x))
     }
 
 }
