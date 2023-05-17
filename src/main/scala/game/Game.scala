@@ -84,6 +84,7 @@ object Game {
         HudScene.del(HudScene.stone_amountP2)
         HudScene.del(HudScene.wood_amountP2)
         HudScene.del(HudScene.coin_amountP2)
+        HudScene.del(HudScene.separator)
       } else {
         GameScene.king2 = new King(GameScene, PlayerState.P2)
         GameScene.king2.position = Vector2(GameScene.king1.position.x,GameScene.king1.position.y + 50)
@@ -97,6 +98,7 @@ object Game {
         HudScene.add(HudScene.stone_amountP2)
         HudScene.add(HudScene.wood_amountP2)
         HudScene.add(HudScene.coin_amountP2)
+        HudScene.add(HudScene.separator)
       }
     }
   }

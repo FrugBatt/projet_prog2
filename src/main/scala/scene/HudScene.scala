@@ -4,6 +4,7 @@ package scene
 import sfml.graphics.RenderTarget
 import sfml.system.Vector2
 import scala.collection.mutable.ListBuffer
+import sfml.graphics.Color
 
 import objects._
 import game.Game
@@ -28,6 +29,7 @@ object HudScene extends Scene {
   val coin_amountP2 = new UpdatableTextGameObject(() => PersonalInventory.inventoryP2.amount(ResourceType.COIN))
   coin_amountP2.position = Vector2(Game.width - 100, 300)
 
+  val separator = new RectangleShapeGameObject(Color(0, 0, 0), Game.width / 2 - 3, 0, 6, Game.height)
 
   def init() : Unit = {
 
